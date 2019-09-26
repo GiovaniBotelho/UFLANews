@@ -12,7 +12,7 @@
 
 **Diagrama de casos de uso**:
 
-![Diagrama de casos de uso do aplicativo](https://i.imgur.com/dWuAWvv.png)
+![Diagrama de casos de uso do aplicativo](https://i.imgur.com/2SYBmue.png)
 
 **Links úteis**:
 * [Documento de requisitos](https://github.com/GiovaniBotelho/UFLANews/issues)
