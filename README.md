@@ -16,7 +16,7 @@
 
 **Links úteis**:
 * [Documento de requisitos](https://github.com/GiovaniBotelho/UFLANews/issues)
-* [Protótipo de interface gráfica](https://xd.adobe.com/view/807a2215-af36-4dad-676c-42f46e49d080-f64b/screen/9cff3798-4e41-433f-828b-9cd6e69e31db/Celular-Android-10).
+* [Protótipo de interface gráfica](https://xd.adobe.com/view/aa927ec6-b6cb-4357-5142-1fada5a80ae7-dca3/).
 
 ## Framework
 
