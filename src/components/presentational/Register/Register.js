@@ -9,14 +9,24 @@ import Logo from '../../../assets/logotipo.png';
 import Background from '../../../assets/background.png';
 
 const Register = props => {
+
+  handleCancel = () => {
+    props.navigation.navigate('Login');
+  };
+
   return (
     <>
       <StyledView>
-        <ImageBackground style={{width: '100%'}} source={BackgroundHeader}>
-          <Image style={{width: '100%'}} source={Logo} resizeMode={'contain'} />
-        </ImageBackground>
         <ImageBackground style={{width: '100%'}} source={Background}>
+          <ImageBackground style={{width: '100%'}} source={BackgroundHeader} >
+            <Image style={{width: '100%'}} source={Logo} resizeMode={'contain'} />
+          </ImageBackground>
           <StyledText>Cadastrar</StyledText>
+          <StyledContainer>
+            <StyledPicture>
+              <Icon name="user-circle" size={150} color="#000000" />
+            </StyledPicture>
+          </StyledContainer>
           <StyledContainer>
             <FormRow>
               <Input>
@@ -47,7 +57,7 @@ const Register = props => {
               <StyledIcon>
                 <Icon name="lock" size={25} color="#000000" />
               </StyledIcon>
-            <StyledInputText secureTextEntry={true} placeholder={'Confirmação da senha'}/>
+            <StyledInputText secureTextEntry={true} placeholder={'Confirmar senha'}/>
             </Input>
             </FormRow>
           </StyledContainer>
@@ -59,7 +69,7 @@ const Register = props => {
             </FormRow>
             <FormRow>
               <StyledButtonCancel>
-                <StyledButtonText>Cancelar</StyledButtonText>
+                <StyledButtonText onPress={handleCancel}>Cancelar</StyledButtonText>
               </StyledButtonCancel>
             </FormRow>
           </StyledContainer>
@@ -119,6 +129,12 @@ const StyledButtonText = styled.Text`
   color: white;
   textAlign: center;
   fontSize: 20px;
+`;
+
+const StyledPicture = styled.TouchableOpacity`
+  align-items: center;
+  justify-content: center;  
+  align-self: center;
 `;
 
 const StyledButtonConfirm = styled.TouchableOpacity`
