@@ -1,65 +1,71 @@
 import React from 'react';
-import {Text, Image} from 'react-native';
+import {Text, Image, ImageBackground} from 'react-native';
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
 
-import Logo from '../../../assets/uflaNews.png';
+import BackgroundHeader from '../../../assets/backgroundHeader.png';
+import Logo from '../../../assets/logotipo.png';
+import Background from '../../../assets/background.png';
 
 const Register = props => {
   return (
-    <FormContainer colors={['#93cae8', '#c4cccf']}>
+    <>
       <StyledView>
-        <Image style={{width: '100%'}} source={Logo} resizeMode={'contain'} />
-        <StyledText>Cadastrar</StyledText>
-        <StyledContainer>
-          <FormRow>
+        <ImageBackground style={{width: '100%'}} source={BackgroundHeader}>
+          <Image style={{width: '100%'}} source={Logo} resizeMode={'contain'} />
+        </ImageBackground>
+        <ImageBackground style={{width: '100%'}} source={Background}>
+          <StyledText>Cadastrar</StyledText>
+          <StyledContainer>
+            <FormRow>
+              <Input>
+                <StyledIcon>
+                  <Icon name="user" size={25} color="#000000" />
+                </StyledIcon>
+                <StyledInputText placeholder={'Nome'}/>
+              </Input>
+            </FormRow>
+            <FormRow>
             <Input>
               <StyledIcon>
-                <Icon name="user" size={25} color="#000000" />
+                  <Icon name="envelope" size={20} color="#000000" />
               </StyledIcon>
-              <StyledInputText placeholder={'Nome'}/>
+              <StyledInputText placeholder={'Email'}/>
             </Input>
-          </FormRow>
-          <FormRow>
-          <Input>
-            <StyledIcon>
-                <Icon name="envelope" size={20} color="#000000" />
-            </StyledIcon>
-            <StyledInputText placeholder={'Email'}/>
-          </Input>
-          </FormRow>
-          <FormRow>
+            </FormRow>
+            <FormRow>
+              <Input>
+                <StyledIcon>
+                  <Icon name="lock" size={25} color="#000000" />
+                </StyledIcon>
+              <StyledInputText secureTextEntry={true} placeholder={'Senha'}/>
+              </Input>
+            </FormRow>
+            <FormRow>
             <Input>
               <StyledIcon>
                 <Icon name="lock" size={25} color="#000000" />
               </StyledIcon>
-            <StyledInputText secureTextEntry={true} placeholder={'Senha'}/>
+            <StyledInputText secureTextEntry={true} placeholder={'Confirmação da senha'}/>
             </Input>
-          </FormRow>
-          <FormRow>
-          <Input>
-            <StyledIcon>
-              <Icon name="lock" size={25} color="#000000" />
-            </StyledIcon>
-          <StyledInputText secureTextEntry={true} placeholder={'Confirmação da senha'}/>
-          </Input>
-          </FormRow>
-        </StyledContainer>
-        <StyledContainer>
-          <FormRow>
-            <StyledButtonConfirm>
-              <StyledButtonText>Cadastrar</StyledButtonText>
-            </StyledButtonConfirm>
-          </FormRow>
-          <FormRow>
-            <StyledButtonCancel>
-              <StyledButtonText>Cancelar</StyledButtonText>
-            </StyledButtonCancel>
-          </FormRow>
-        </StyledContainer>
+            </FormRow>
+          </StyledContainer>
+          <StyledContainer>
+            <FormRow>
+              <StyledButtonConfirm>
+                <StyledButtonText>Cadastrar</StyledButtonText>
+              </StyledButtonConfirm>
+            </FormRow>
+            <FormRow>
+              <StyledButtonCancel>
+                <StyledButtonText>Cancelar</StyledButtonText>
+              </StyledButtonCancel>
+            </FormRow>
+          </StyledContainer>
+        </ImageBackground>
       </StyledView>
-    </FormContainer>
+    </>
   );
 };
 
@@ -86,6 +92,7 @@ const StyledText = styled.Text`
   textAlign: center;
   fontSize: 40px;
   padding: 20px;
+  color: grey;
 `;
 
 const Input = styled.View`
