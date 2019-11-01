@@ -28,7 +28,7 @@ const Login = props => {
     <>
       <FormContainer colors={['#93cae8', '#c4cccf']}>
         <Image
-          style={{width: '100%', height: '50px', paddingTop: 0, marginTop: 0}}
+          style={{width: '100%', paddingTop: 0, marginTop: 0}}
           source={Mapa}
           resizeMode={'contain'}
         />

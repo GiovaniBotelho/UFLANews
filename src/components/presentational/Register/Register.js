@@ -7,6 +7,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import BackgroundHeader from '../../../assets/backgroundHeader.png';
 import Logo from '../../../assets/logotipo.png';
 import Background from '../../../assets/background.png';
+import Background2 from '../../../assets/background2.png';
 
 const Register = props => {
 
@@ -18,61 +19,63 @@ const Register = props => {
     <>
       <StyledView>
         <ImageBackground style={{width: '100%'}} source={Background}>
-          <ImageBackground style={{width: '100%'}} source={BackgroundHeader} >
-            <Image style={{width: '100%'}} source={Logo} resizeMode={'contain'} />
-          </ImageBackground>
-          <StyledText>Cadastrar</StyledText>
-          <StyledContainer>
-            <StyledPicture>
-              <Icon name="user-circle" size={150} color="#000000" />
-            </StyledPicture>
-          </StyledContainer>
-          <StyledContainer>
-            <FormRow>
+          <ImageBackground style={{width: '100%'}} source={Background2}>
+            <ImageBackground style={{width: '100%'}} source={BackgroundHeader} >
+              <Image style={{width: '100%'}} source={Logo} resizeMode={'contain'} />
+            </ImageBackground>
+            <StyledText>Cadastrar</StyledText>
+            <StyledContainer>
+              <StyledPicture>
+                <Icon name="user-circle" size={150} color="#000000" />
+              </StyledPicture>
+            </StyledContainer>
+            <StyledContainer>
+              <FormRow>
+                <Input>
+                  <StyledIcon>
+                    <Icon name="user" size={25} color="#000000" />
+                  </StyledIcon>
+                  <StyledInputText placeholder={'Nome'}/>
+                </Input>
+              </FormRow>
+              <FormRow>
               <Input>
                 <StyledIcon>
-                  <Icon name="user" size={25} color="#000000" />
+                    <Icon name="envelope" size={20} color="#000000" />
                 </StyledIcon>
-                <StyledInputText placeholder={'Nome'}/>
+                <StyledInputText placeholder={'Email'}/>
               </Input>
-            </FormRow>
-            <FormRow>
-            <Input>
-              <StyledIcon>
-                  <Icon name="envelope" size={20} color="#000000" />
-              </StyledIcon>
-              <StyledInputText placeholder={'Email'}/>
-            </Input>
-            </FormRow>
-            <FormRow>
+              </FormRow>
+              <FormRow>
+                <Input>
+                  <StyledIcon>
+                    <Icon name="lock" size={25} color="#000000" />
+                  </StyledIcon>
+                <StyledInputText secureTextEntry={true} placeholder={'Senha'}/>
+                </Input>
+              </FormRow>
+              <FormRow>
               <Input>
                 <StyledIcon>
                   <Icon name="lock" size={25} color="#000000" />
                 </StyledIcon>
-              <StyledInputText secureTextEntry={true} placeholder={'Senha'}/>
+              <StyledInputText secureTextEntry={true} placeholder={'Confirmar senha'}/>
               </Input>
-            </FormRow>
-            <FormRow>
-            <Input>
-              <StyledIcon>
-                <Icon name="lock" size={25} color="#000000" />
-              </StyledIcon>
-            <StyledInputText secureTextEntry={true} placeholder={'Confirmar senha'}/>
-            </Input>
-            </FormRow>
-          </StyledContainer>
-          <StyledContainer>
-            <FormRow>
-              <StyledButtonConfirm>
-                <StyledButtonText>Cadastrar</StyledButtonText>
-              </StyledButtonConfirm>
-            </FormRow>
-            <FormRow>
-              <StyledButtonCancel>
-                <StyledButtonText onPress={handleCancel}>Cancelar</StyledButtonText>
-              </StyledButtonCancel>
-            </FormRow>
-          </StyledContainer>
+              </FormRow>
+            </StyledContainer>
+            <StyledContainer>
+              <FormRow>
+                <StyledButtonConfirm>
+                  <StyledButtonText>Cadastrar</StyledButtonText>
+                </StyledButtonConfirm>
+              </FormRow>
+              <FormRow>
+                <StyledButtonCancel>
+                  <StyledButtonText onPress={handleCancel}>Cancelar</StyledButtonText>
+                </StyledButtonCancel>
+              </FormRow>
+            </StyledContainer>
+          </ImageBackground>
         </ImageBackground>
       </StyledView>
     </>
