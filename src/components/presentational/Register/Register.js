@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
 
+/* Images */
 import BackgroundHeader from '../../../assets/backgroundHeader.png';
 import Logo from '../../../assets/logotipo.png';
 import Background from '../../../assets/background.png';
@@ -66,12 +67,12 @@ const Register = props => {
             <StyledContainer>
               <FormRow>
                 <StyledButtonConfirm>
-                  <StyledButtonText>Cadastrar</StyledButtonText>
+                  <StyledButtonText>CADASTRAR</StyledButtonText>
                 </StyledButtonConfirm>
               </FormRow>
               <FormRow>
                 <StyledButtonCancel>
-                  <StyledButtonText onPress={handleCancel}>Cancelar</StyledButtonText>
+                  <StyledButtonText onPress={handleCancel}>CANCELAR</StyledButtonText>
                 </StyledButtonCancel>
               </FormRow>
             </StyledContainer>
@@ -141,14 +142,14 @@ const StyledPicture = styled.TouchableOpacity`
 `;
 
 const StyledButtonConfirm = styled.TouchableOpacity`
-  backgroundColor: #87CEEB;
+  background: #1abef2;
   width: 50%;
   height: 40;
   align-items: center;
   justify-content: center;
   align-self: center;
-  margin-top: 5;
-  margin-bottom: 5;
+  margin-top: 15;
+  margin-bottom: 15;
   border-radius: 30;
 `;
 
@@ -159,8 +160,8 @@ const StyledButtonCancel = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
   align-self: center;
-  margin-top: 5;
-  margin-bottom: 5;
+  margin-top: 15;
+  margin-bottom: 15;
   border-radius: 30;
 `;
 
