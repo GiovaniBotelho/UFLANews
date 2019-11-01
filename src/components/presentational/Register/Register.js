@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Text, Image, ImageBackground} from 'react-native';
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -10,7 +10,13 @@ import Logo from '../../../assets/logotipo.png';
 import Background from '../../../assets/background.png';
 import Background2 from '../../../assets/background2.png';
 
+import TextInput from '../../config/TextInput';
+
 const Register = props => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
 
   handleCancel = () => {
     props.navigation.navigate('Login');
@@ -30,51 +36,47 @@ const Register = props => {
                 <Icon name="user-circle" size={150} color="#000000" />
               </StyledPicture>
             </StyledContainer>
+            <FormRow>
+              <TextInput
+                iconName={'user'}
+                iconSize={25}
+                iconColor={'#000'}
+                placeholder={'Nome'}
+                value={name}
+                onChangeText={setName}
+              />
+              <TextInput
+                iconName={'envelope'}
+                iconSize={25}
+                iconColor={'#000'}
+                placeholder={'E-mail'}
+                value={email}
+                onChangeText={setEmail}
+              />
+              <TextInput
+                iconName={'lock'}
+                iconSize={25}
+                iconColor={'#000'}
+                placeholder={'Senha'}
+                value={password}
+                onChangeText={setPassword}
+              />
+              <TextInput
+                iconName={'lock'}
+                iconSize={25}
+                iconColor={'#000'}
+                placeholder={'Confirmar senha'}
+                value={passwordConfirm}
+                onChangeText={setPasswordConfirm}
+              />
+            </FormRow>
             <StyledContainer>
-              <FormRow>
-                <Input>
-                  <StyledIcon>
-                    <Icon name="user" size={25} color="#000000" />
-                  </StyledIcon>
-                  <StyledInputText placeholder={'Nome'}/>
-                </Input>
-              </FormRow>
-              <FormRow>
-              <Input>
-                <StyledIcon>
-                    <Icon name="envelope" size={20} color="#000000" />
-                </StyledIcon>
-                <StyledInputText placeholder={'Email'}/>
-              </Input>
-              </FormRow>
-              <FormRow>
-                <Input>
-                  <StyledIcon>
-                    <Icon name="lock" size={25} color="#000000" />
-                  </StyledIcon>
-                <StyledInputText secureTextEntry={true} placeholder={'Senha'}/>
-                </Input>
-              </FormRow>
-              <FormRow>
-              <Input>
-                <StyledIcon>
-                  <Icon name="lock" size={25} color="#000000" />
-                </StyledIcon>
-              <StyledInputText secureTextEntry={true} placeholder={'Confirmar senha'}/>
-              </Input>
-              </FormRow>
-            </StyledContainer>
-            <StyledContainer>
-              <FormRow>
                 <StyledButtonConfirm>
                   <StyledButtonText>CADASTRAR</StyledButtonText>
                 </StyledButtonConfirm>
-              </FormRow>
-              <FormRow>
                 <StyledButtonCancel>
                   <StyledButtonText onPress={handleCancel}>CANCELAR</StyledButtonText>
                 </StyledButtonCancel>
-              </FormRow>
             </StyledContainer>
           </ImageBackground>
         </ImageBackground>
