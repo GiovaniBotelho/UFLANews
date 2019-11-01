@@ -9,7 +9,7 @@ const RootNavigator = createAppContainer(
   createStackNavigator(
     routes, 
     {
-      initialRouteName: 'Login',
+      initialRouteName: 'ForgotPassword',
       headerMode: 'none',
       mode: Platform.OS === 'ios' ? 'modal' : 'card',
     }
