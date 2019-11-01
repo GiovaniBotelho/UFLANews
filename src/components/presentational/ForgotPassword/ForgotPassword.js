@@ -7,11 +7,11 @@ import LinearGradient from 'react-native-linear-gradient';
 import Logo from '../../../assets/logo.png';
 
 /* Components - import */
-import Button from '../../config/Button';
-import TextInput from '../../config/TextInput';
-import BoxText from '../../config/BoxText';
+import Button from '../../core/Button';
+import TextInput from '../../core/TextInput';
+import BoxText from '../../core/BoxText';
 
-const Login = props => {
+const Login = ({navigation}) => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(true);
@@ -27,7 +27,8 @@ const Login = props => {
         <StyledImages>
           <Image
             source={Logo}
-            style={{width: '35%', height: 120, marginLeft: 120, marginTop: 18}}
+            style={{height: 100}}
+            resizeMode={'contain'}
           />
         </StyledImages>
         <BoxText value={'Por favor, digite o seu email para enviarmos um link para você mudar sua senha.'} />
@@ -45,6 +46,9 @@ const Login = props => {
           <Button title={'Enviar email'} onClick={handleLogin} />
           <Button color="#ff7144"
             title={'Cancelar'}
+            onClick={() => {
+              navigation.pop() 
+            }}
           />
         </StyledButtonContainer>
       </FormContainer>
@@ -58,7 +62,8 @@ const FormContainer = styled(LinearGradient)`
 `;
 const StyledImages = styled.View`
   width: 100%;
-  align-self: flex-start;
+  align-items: center;
+  padding-top: 15;
 `;
 
 const FormRow = styled.View`

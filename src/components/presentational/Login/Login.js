@@ -8,9 +8,9 @@ import Logo from '../../../assets/header-login.png';
 import Mapa from '../../../assets/mapView.jpeg';
 
 /* Components - import */
-import Button from '../../config/Button';
-import TextInput from '../../config/TextInput';
-import TouchableTextWithIcon from '../../config/TouchableTextWithIcon';
+import Button from '../../core/Button';
+import TextInput from '../../core/TextInput';
+import TouchableTextWithIcon from '../../core/TouchableTextWithIcon';
 
 const Login = props => {
   const [name, setName] = useState('');
@@ -21,6 +21,10 @@ const Login = props => {
     // Aqui manipulamos o login
     setLoading(!loading);
   };
+
+  handleForgotPassword = () => {
+    props.navigation.navigate('ForgotPassword');
+  }
 
   return (
     <>
@@ -54,7 +58,7 @@ const Login = props => {
             value={password}
             onChangeText={setPassword}
           />
-          <TouchableTextWithIcon text={'Esqueci a senha'} />
+          <TouchableTextWithIcon text={'Esqueci a senha'} onClick={handleForgotPassword}/>
         </FormRow>
         <StyledButtonContainer>
           <Button title={'ENTRAR'} onClick={handleLogin} />
