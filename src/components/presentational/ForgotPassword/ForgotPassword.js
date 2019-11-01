@@ -47,7 +47,7 @@ const Login = ({navigation}) => {
           <Button color="#ff7144"
             title={'Cancelar'}
             onClick={() => {
-              navigation.pop() 
+              navigation.pop()
             }}
           />
         </StyledButtonContainer>
