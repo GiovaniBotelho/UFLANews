@@ -3,14 +3,14 @@ import styled from 'styled-components';
 
 const Button = ({title, color, onClick}) => {
   return (
-    <StyledTouchableOpacity onPress={onClick}>
+    <StyledTouchableOpacity onPress={onClick} color={color}>
       <StyledText>{title}</StyledText>
     </StyledTouchableOpacity>
   );
 };
 
 const StyledTouchableOpacity = styled.TouchableOpacity`
-  background: #1abef2;
+  background: ${props => props.color?props.color:"#1abef2"};
   width: 50%;
   height: 40;
   align-items: center;
