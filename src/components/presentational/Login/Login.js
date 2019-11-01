@@ -71,11 +71,6 @@ const Login = props => {
           />
         </StyledButtonContainer>
 
-        <TouchableTextWithIcon
-          iconName={'user'}
-          iconSize={20}
-          text={'Minha conta'}
-        />
       </FormContainer>
     </>
   );
@@ -95,13 +90,13 @@ const FormRow = styled.View`
   padding-left: 10;
   padding-right: 10;
   padding-bottom: 20;
-  height: 50%;
+  height: 250;
 `;
 
 const StyledButtonContainer = styled.View`
   align-items: center;
   justify-content: space-around;
-  height: 40%;
+  height: 100;
 `;
 
 export default Login;

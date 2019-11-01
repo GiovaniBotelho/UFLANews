@@ -24,39 +24,45 @@ const Login = ({navigation}) => {
   return (
     <>
       <FormContainer colors={['#e4ecee', '#93cae8']}>
-        <StyledImages>
-          <Image
-            source={Logo}
-            style={{height: 100}}
-            resizeMode={'contain'}
-          />
-        </StyledImages>
-        <BoxText value={'Por favor, digite o seu email para enviarmos um link para você mudar sua senha.'} />
-        <FormRow>
-          <TextInput
-            iconName={'envelope'}
-            iconSize={25}
-            iconColor={'#000'}
-            placeholder={'E-mail'}
-            value={name}
-            onChangeText={setName}
-          />
-        </FormRow>
-        <StyledButtonContainer>
-          <Button title={'Enviar email'} onClick={handleLogin} />
-          <Button color="#ff7144"
-            title={'Cancelar'}
-            onClick={() => {
-              navigation.pop()
-            }}
-          />
-        </StyledButtonContainer>
+        <StyledView>
+          <StyledImages>
+            <Image
+              source={Logo}
+              style={{height: 100}}
+              resizeMode={'contain'}
+            />
+          </StyledImages>
+          <BoxText value={'Por favor, digite o seu email para enviarmos um link para você mudar sua senha.'} />
+          <FormRow>
+            <TextInput
+              iconName={'envelope'}
+              iconSize={25}
+              iconColor={'#000'}
+              placeholder={'E-mail'}
+              value={name}
+              onChangeText={setName}
+            />
+          </FormRow>
+          <StyledButtonContainer>
+            <Button title={'Enviar email'} onClick={handleLogin} />
+            <Button color="#ff7144"
+              title={'Cancelar'}
+              onClick={() => {
+                navigation.pop()
+              }}
+            />
+          </StyledButtonContainer>
+        </StyledView>
       </FormContainer>
     </>
   );
 };
 
 /* Componentes estilizados aqui */
+const StyledView = styled.ScrollView`
+  width: 100%;
+`;
+
 const FormContainer = styled(LinearGradient)`
   flex: 1;
 `;
