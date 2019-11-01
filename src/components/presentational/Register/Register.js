@@ -10,7 +10,7 @@ import Logo from '../../../assets/logotipo.png';
 import Background from '../../../assets/background.png';
 import Background2 from '../../../assets/background2.png';
 
-import TextInput from '../../config/TextInput';
+import TextInput from '../../core/TextInput';
 
 const Register = props => {
   const [name, setName] = useState('');
