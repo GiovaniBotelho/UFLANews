@@ -19,12 +19,13 @@ const Login = props => {
 
   handleLogin = () => {
     // Aqui manipulamos o login
-    setLoading(!loading);
+    // setLoading(!loading);
+    props.navigation.navigate('Home');
   };
 
   handleForgotPassword = () => {
     props.navigation.navigate('ForgotPassword');
-  }
+  };
 
   return (
     <>
@@ -59,7 +60,10 @@ const Login = props => {
             onChangeText={setPassword}
             secureTextEntry={true}
           />
-          <TouchableTextWithIcon text={'Esqueci a senha'} onClick={handleForgotPassword}/>
+          <TouchableTextWithIcon
+            text={'Esqueci a senha'}
+            onClick={handleForgotPassword}
+          />
         </FormRow>
         <StyledButtonContainer>
           <Button title={'ENTRAR'} onClick={handleLogin} />
