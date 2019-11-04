@@ -57,6 +57,7 @@ const Login = props => {
             placeholder={'Password'}
             value={password}
             onChangeText={setPassword}
+            secureTextEntry={true}
           />
           <TouchableTextWithIcon text={'Esqueci a senha'} onClick={handleForgotPassword}/>
         </FormRow>
@@ -70,7 +71,6 @@ const Login = props => {
             }}
           />
         </StyledButtonContainer>
-
       </FormContainer>
     </>
   );

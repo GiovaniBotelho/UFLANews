@@ -57,6 +57,7 @@ const Register = ({navigation}) => {
               placeholder={'Senha'}
               value={password}
               onChangeText={setPassword}
+              secureTextEntry={true}
             />
             <TextInput
               iconName={'lock'}
@@ -65,6 +66,7 @@ const Register = ({navigation}) => {
               placeholder={'Confirmar senha'}
               value={passwordConfirm}
               onChangeText={setPasswordConfirm}
+              secureTextEntry={true}
             />
           </FormRow>
           <StyledButtonContainer>
@@ -83,7 +85,8 @@ const Register = ({navigation}) => {
 };
 
 const StyledView = styled.ScrollView`
-  width: 100%;  
+  width: 100%;
+  margin-bottom: 20;
 `;
 
 const FormContainer = styled(LinearGradient)`
@@ -114,7 +117,6 @@ const StyledText = styled.Text`
   padding: 20px;
   color: grey;
 `;
-
 
 const StyledPicture = styled.TouchableOpacity`
   padding: 20px;
