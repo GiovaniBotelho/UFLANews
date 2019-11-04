@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const TouchableTextWithIcon = props => {
-  const {iconName, iconSize, iconColor, underline, text} = props;
+  const {iconName, iconSize, iconColor, underline, text, onClick} = props;
   return (
-    <StyledTextTouchableOpacity>
+    <StyledTextTouchableOpacity onPress={onClick}>
       {iconName ? (
         <StyledIcon>
           <Icon name={iconName} size={iconSize} color={iconColor} />

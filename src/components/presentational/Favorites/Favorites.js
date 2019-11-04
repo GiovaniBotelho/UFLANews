@@ -1,6 +1,7 @@
 import React from 'react';
-import {Image, ImageBackground} from 'react-native';
+import {Image, ImageBackground, View} from 'react-native';
 import styled from 'styled-components';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 /* Images */
 import BackgroundHeader from '../../../assets/backgroundHeader.png';
@@ -21,16 +22,20 @@ const Favorites = props => {
         <ImageBackground style={{width: '100%'}} source={Background}>
           <ImageBackground style={{width: '100%'}} source={Background2}>
             <ImageBackground style={{width: '100%'}} source={BackgroundHeader} >
-              <Image style={{width: '100%'}} source={Logo} resizeMode={'contain'} />
-              <TouchableTextWithIcon
+              <View style={{flexDirection: 'row', flex: 1, justifyContent: 'space-around', alignItems: 'center'}}>
+              <TouchableTextWithIcon onClick={handleCancel}
                 iconName={'chevron-left'}
                 iconSize={20}
                 text={'Voltar'}
               />
-              <TouchableTextWithIcon 
-                iconName={'user'}
-                iconSize={25}
+              <Image style={{width: '45%'}} source={Logo} resizeMode={'contain'} />
+              
+              <Icon
+                name={'user'}
+                size={20}
+                style={{paddingRight: 20, paddingLeft:50}}
               />
+              </View>
             </ImageBackground>
             <StyledText>Favoritos</StyledText>
             <StyledContainer>
@@ -41,7 +46,7 @@ const Favorites = props => {
               </FormRow>
               <FormRow>
                 <StyledButtonRegistrations>
-                  <StyledButtonText onPress={handleCancel}>Minhas Inscrições</StyledButtonText>
+                  <StyledButtonText>Minhas Inscrições</StyledButtonText>
                 </StyledButtonRegistrations>
               </FormRow>
             </StyledContainer>
