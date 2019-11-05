@@ -3,6 +3,7 @@ import React from 'react';
 /* Screens - import */
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
+import FavoritesScreen from '../screens/FavoritesScreen';
 import ForgotPasswordScreen from '../screens/ForgotPassowordScreen';
 
 const routes = {

@@ -62,7 +62,11 @@ const Login = props => {
           <TouchableTextWithIcon text={'Esqueci a senha'} onClick={handleForgotPassword}/>
         </FormRow>
         <StyledButtonContainer>
-          <Button title={'ENTRAR'} onClick={handleLogin} />
+          <Button title={'ENTRAR'} 
+            onClick={() => {
+            props.navigation.navigate('Favorites');
+          }}
+          />
           <Button
             title={'CADASTRAR'}
             onClick={() => {
