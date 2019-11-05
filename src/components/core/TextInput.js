@@ -9,7 +9,8 @@ const Button = ({
   placeholder,
   value,
   onChangeText,
-  secureTextEntry
+  secureTextEntry,
+  editable
 }) => {
   return (
     <Container>
@@ -21,6 +22,7 @@ const Button = ({
         value={value}
         onChangeText={texto => onChangeText(texto)}
         secureTextEntry={secureTextEntry}
+        editable={editable}
       />
     </Container>
   );
