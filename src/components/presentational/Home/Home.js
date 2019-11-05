@@ -22,7 +22,7 @@ const Home = props => {
     <Container colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
       <Header
         showLogo={
-          <Image source={Logo} resizeMode={'contain'} style={{height: 50}} />
+          <Image source={Logo} resizeMode={'contain'} style={{height: 60}} />
         }
         rightSide={<Icon name={'user'} size={25} />}
       />

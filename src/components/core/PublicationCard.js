@@ -45,6 +45,7 @@ const PublicationCard = ({publication}) => {
 
 const Container = styled.View`
   height: 200;
+  border-width: 1;
   background: white;
   margin-right: ${SPACING.medium};
   margin-left: ${SPACING.medium};

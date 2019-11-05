@@ -20,6 +20,7 @@ const StyledTouchableOpacity = styled.TouchableOpacity`
   justify-content: center;
   margin-top: 15;
   margin-bottom: 15;
+  border-width: 0.5;
   border-radius: ${props =>
     props.borderRadius
       ? props.borderRadius
