@@ -14,7 +14,6 @@ const Button = ({title, color, onClick, radius}) => {
 
 const StyledTouchableOpacity = styled.TouchableOpacity`
   background: ${props => (props.color ? props.color : '#1abef2')};
-  width: 50%;
   height: 40;
   align-items: center;
   justify-content: center;
@@ -30,7 +29,7 @@ const StyledTouchableOpacity = styled.TouchableOpacity`
 `;
 
 const StyledText = styled.Text`
-  font-size: 20;
+  font-size: 18;
   color: #ffffff;
 `;
 
