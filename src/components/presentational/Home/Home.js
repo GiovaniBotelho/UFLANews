@@ -8,6 +8,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Header from '../../core/Header';
 import SearchBar from '../../core/SearchBar';
 import Button from '../../core/Button';
+import PublicationCard from '../../core/PublicationCard';
 
 /* Constatns */
 import COLORS from '../../../config/colors';
@@ -30,6 +31,8 @@ const Home = props => {
         <Button radius={0} title={'Favoritos'} />
         <Button radius={0} title={'Publicadores'} />
       </OptionsBar>
+      <PublicationCard />
+      <PublicationCard />
     </Container>
   );
 };
