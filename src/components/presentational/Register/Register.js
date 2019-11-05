@@ -1,94 +1,108 @@
-import React from 'react';
-import {Text, Image, ImageBackground} from 'react-native';
+import React, {useState} from 'react';
+import {Image, ImageBackground} from 'react-native';
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
 
 /* Images */
-import BackgroundHeader from '../../../assets/backgroundHeader.png';
-import Logo from '../../../assets/logotipo.png';
-import Background from '../../../assets/background.png';
-import Background2 from '../../../assets/background2.png';
+import Logo from '../../../assets/logo.png';
 
-const Register = props => {
 
-  handleCancel = () => {
-    props.navigation.navigate('Login');
-  };
+/* Components - import */
+import TextInput from '../../core/TextInput';
+import Button from '../../core/Button';
+
+const Register = ({navigation}) => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
 
   return (
     <>
-      <StyledView>
-        <ImageBackground style={{width: '100%'}} source={Background}>
-          <ImageBackground style={{width: '100%'}} source={Background2}>
-            <ImageBackground style={{width: '100%'}} source={BackgroundHeader} >
-              <Image style={{width: '100%'}} source={Logo} resizeMode={'contain'} />
-            </ImageBackground>
-            <StyledText>Cadastrar</StyledText>
-            <StyledContainer>
-              <StyledPicture>
-                <Icon name="user-circle" size={150} color="#000000" />
-              </StyledPicture>
-            </StyledContainer>
-            <StyledContainer>
-              <FormRow>
-                <Input>
-                  <StyledIcon>
-                    <Icon name="user" size={25} color="#000000" />
-                  </StyledIcon>
-                  <StyledInputText placeholder={'Nome'}/>
-                </Input>
-              </FormRow>
-              <FormRow>
-              <Input>
-                <StyledIcon>
-                    <Icon name="envelope" size={20} color="#000000" />
-                </StyledIcon>
-                <StyledInputText placeholder={'Email'}/>
-              </Input>
-              </FormRow>
-              <FormRow>
-                <Input>
-                  <StyledIcon>
-                    <Icon name="lock" size={25} color="#000000" />
-                  </StyledIcon>
-                <StyledInputText secureTextEntry={true} placeholder={'Senha'}/>
-                </Input>
-              </FormRow>
-              <FormRow>
-              <Input>
-                <StyledIcon>
-                  <Icon name="lock" size={25} color="#000000" />
-                </StyledIcon>
-              <StyledInputText secureTextEntry={true} placeholder={'Confirmar senha'}/>
-              </Input>
-              </FormRow>
-            </StyledContainer>
-            <StyledContainer>
-              <FormRow>
-                <StyledButtonConfirm>
-                  <StyledButtonText>CADASTRAR</StyledButtonText>
-                </StyledButtonConfirm>
-              </FormRow>
-              <FormRow>
-                <StyledButtonCancel>
-                  <StyledButtonText onPress={handleCancel}>CANCELAR</StyledButtonText>
-                </StyledButtonCancel>
-              </FormRow>
-            </StyledContainer>
-          </ImageBackground>
-        </ImageBackground>
-      </StyledView>
+      <FormContainer colors={['#e4ecee', '#93cae8']}>
+        <StyledView>
+          <StyledImages>
+            <Image
+              source={Logo}
+              style={{height: 100}}
+              resizeMode={'contain'}
+            />
+          </StyledImages>
+          <StyledText>Cadastrar</StyledText>
+          <StyledPicture>
+            <Icon name="user-circle" size={150} color="#000000" />
+          </StyledPicture>
+          <FormRow>
+            <TextInput
+              iconName={'user'}
+              iconSize={25}
+              iconColor={'#000'}
+              placeholder={'Nome'}
+              value={name}
+              onChangeText={setName}
+            />
+            <TextInput
+              iconName={'envelope'}
+              iconSize={25}
+              iconColor={'#000'}
+              placeholder={'E-mail'}
+              value={email}
+              onChangeText={setEmail}
+            />
+            <TextInput
+              iconName={'lock'}
+              iconSize={25}
+              iconColor={'#000'}
+              placeholder={'Senha'}
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry={true}
+            />
+            <TextInput
+              iconName={'lock'}
+              iconSize={25}
+              iconColor={'#000'}
+              placeholder={'Confirmar senha'}
+              value={passwordConfirm}
+              onChangeText={setPasswordConfirm}
+              secureTextEntry={true}
+            />
+          </FormRow>
+          <StyledButtonContainer>
+            <Button title={'CADASTRAR'} />
+            <Button color="#ff7144"
+              title={'CANCELAR'}
+              onClick={() => {
+                navigation.pop()
+              }}
+            />
+          </StyledButtonContainer>
+        </StyledView>
+      </FormContainer>
     </>
   );
 };
 
 const StyledView = styled.ScrollView`
   width: 100%;
+  margin-bottom: 20;
 `;
 
-const StyledContainer = styled.View`
-  padding: 20px;
+const FormContainer = styled(LinearGradient)`
+  flex: 1;
+`;
+
+const StyledImages = styled.View`
+  width: 100%;
+  align-items: center;
+  padding-top: 15;
+`;
+
+const StyledButtonContainer = styled.View`
+  align-items: center;
+  justify-content: space-around;
+  height: 100;
 `;
 
 const FormRow = styled.View`
@@ -97,72 +111,18 @@ const FormRow = styled.View`
   padding-bottom: 20;
 `;
 
-const FormContainer = styled(LinearGradient)`
-  flex: 1;
-  justify-content: center;
-`;
-
 const StyledText = styled.Text`
   textAlign: center;
-  fontSize: 40px;
+  fontSize: 30px;
   padding: 20px;
   color: grey;
 `;
 
-const Input = styled.View`
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-`;
-
-const StyledIcon = styled.View`
-  width: 15%;
-  align-items: center;
-`;
-
-const StyledInputText = styled.TextInput`
-  backgroundColor: #ffff
-  padding-left: 15
-  border-width: 0.5;
-  border-color: #a9a9a9;
-  border-radius: 30;
-  flex: 1;
-`;
-
-const StyledButtonText = styled.Text`
-  color: white;
-  textAlign: center;
-  fontSize: 20px;
-`;
-
 const StyledPicture = styled.TouchableOpacity`
+  padding: 20px;
   align-items: center;
   justify-content: center;  
   align-self: center;
-`;
-
-const StyledButtonConfirm = styled.TouchableOpacity`
-  background: #1abef2;
-  width: 50%;
-  height: 40;
-  align-items: center;
-  justify-content: center;
-  align-self: center;
-  margin-top: 15;
-  margin-bottom: 15;
-  border-radius: 30;
-`;
-
-const StyledButtonCancel = styled.TouchableOpacity`
-  backgroundColor: #FF6347;
-  width: 50%;
-  height: 40;
-  align-items: center;
-  justify-content: center;
-  align-self: center;
-  margin-top: 15;
-  margin-bottom: 15;
-  border-radius: 30;
 `;
 
 export default Register;

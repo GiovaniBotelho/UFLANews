@@ -8,9 +8,9 @@ import Logo from '../../../assets/header-login.png';
 import Mapa from '../../../assets/mapView.jpeg';
 
 /* Components - import */
-import Button from '../../config/Button';
-import TextInput from '../../config/TextInput';
-import TouchableTextWithIcon from '../../config/TouchableTextWithIcon';
+import Button from '../../core/Button';
+import TextInput from '../../core/TextInput';
+import TouchableTextWithIcon from '../../core/TouchableTextWithIcon';
 
 const Login = props => {
   const [name, setName] = useState('');
@@ -21,6 +21,10 @@ const Login = props => {
     // Aqui manipulamos o login
     setLoading(!loading);
   };
+
+  handleForgotPassword = () => {
+    props.navigation.navigate('ForgotPassword');
+  }
 
   return (
     <>
@@ -53,8 +57,9 @@ const Login = props => {
             placeholder={'Password'}
             value={password}
             onChangeText={setPassword}
+            secureTextEntry={true}
           />
-          <TouchableTextWithIcon text={'Esqueci a senha'} />
+          <TouchableTextWithIcon text={'Esqueci a senha'} onClick={handleForgotPassword}/>
         </FormRow>
         <StyledButtonContainer>
           <Button title={'ENTRAR'} 
@@ -70,12 +75,6 @@ const Login = props => {
             }}
           />
         </StyledButtonContainer>
-
-        <TouchableTextWithIcon
-          iconName={'user'}
-          iconSize={20}
-          text={'Minha conta'}
-        />
       </FormContainer>
     </>
   );
@@ -95,13 +94,13 @@ const FormRow = styled.View`
   padding-left: 10;
   padding-right: 10;
   padding-bottom: 20;
-  height: 50%;
+  height: 250;
 `;
 
 const StyledButtonContainer = styled.View`
   align-items: center;
   justify-content: space-around;
-  height: 40%;
+  height: 100;
 `;
 
 export default Login;

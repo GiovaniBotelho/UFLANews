@@ -9,6 +9,7 @@ const Button = ({
   placeholder,
   value,
   onChangeText,
+  secureTextEntry
 }) => {
   return (
     <Container>
@@ -19,6 +20,7 @@ const Button = ({
         placeholder={placeholder}
         value={value}
         onChangeText={texto => onChangeText(texto)}
+        secureTextEntry={secureTextEntry}
       />
     </Container>
   );
@@ -47,6 +49,7 @@ const StyledInputText = styled.TextInput`
   border-color: #a9a9a9;
   border-radius: 30;
   flex: 1;
+  height: 50;
 `;
 
 export default Button;
