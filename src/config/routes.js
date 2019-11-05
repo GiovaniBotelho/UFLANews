@@ -8,7 +8,8 @@ import ForgotPasswordScreen from '../screens/ForgotPassowordScreen';
 const routes = {
   Login: LoginScreen,
   Register: RegisterScreen,
-  ForgotPassword: ForgotPasswordScreen
+  Favorites: FavoritesScreen,
+  ForgotPassword: ForgotPasswordScreen,
 };
 
 export default routes;
