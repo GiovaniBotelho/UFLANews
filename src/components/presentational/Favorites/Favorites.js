@@ -17,9 +17,10 @@ import SPACING from '../../../config/spacing';
 import Logo from '../../../assets/logo.png';
 
 const Favorites = props => {
-  handleCancel = () => {
-    props.navigation.navigate('Login');
-  };
+  
+  const _renderItem = ({item, index}) => (
+    <PublicationCard publicacao={item} navigation={props.navigation} />
+  );
 
   return (
     <Container colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
@@ -27,7 +28,7 @@ const Favorites = props => {
         showLogo={
           <Image source={Logo} resizeMode={'contain'} style={{height: 50}} />
         }
-        rightSide={<Icon name={'user'} size={25} />}
+        rightSide={<Icon name={'user'} size={25} onPress={() => props.navigation.navigate('MyAccount')}/>}
         leftSide={
           <Icon
             name={'chevron-left'}
