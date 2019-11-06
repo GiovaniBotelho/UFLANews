@@ -21,7 +21,15 @@ const Publication = props => {
         showLogo={
           <Image source={Logo} resizeMode={'contain'} style={{height: 50}} />
         }
-        rightSide={<Icon name={'user'} size={25} />}
+        rightSide={
+          <Icon 
+            name={'user'}
+            size={25}
+            onPress={
+              () => props.navigation.navigate('MyAccount')
+            }
+          />
+        }
         leftSide={
           <Icon
             name={'chevron-left'}
