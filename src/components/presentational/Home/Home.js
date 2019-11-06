@@ -78,7 +78,7 @@ const Home = ({navigation}) => {
         showLogo={
           <Image source={Logo} resizeMode={'contain'} style={{height: 50}} />
         }
-        rightSide={<Icon name={'user'} size={25} />}
+        rightSide={<Icon name={'user'} size={25} onPress={() => navigation.navigate('MyAccount')}/>}
       />
       <SearchBar />
       <OptionsBar>

@@ -4,17 +4,21 @@ import React from 'react';
 import HomeScreen from '../screens/HomeScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
+import ForgotPasswordScreen from '../screens/ForgotPassowordScreen';
+import MyAccountScreen from '../screens/MyAccountScreen';
+import EditScreen from '../screens/EditScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import PublicationScreen from '../screens/PublicationScreen';
-import ForgotPasswordScreen from '../screens/ForgotPassowordScreen';
 
 const routes = {
   Login: LoginScreen,
   Register: RegisterScreen,
-  ForgotPassword: ForgotPasswordScreen,
-  Home: HomeScreen,
   Favorites: FavoritesScreen,
+  ForgotPassword: ForgotPasswordScreen,
+  MyAccount: MyAccountScreen,
+  Edit: EditScreen,
   Publication: PublicationScreen,
+  Home: HomeScreen
 };
 
 export default routes;

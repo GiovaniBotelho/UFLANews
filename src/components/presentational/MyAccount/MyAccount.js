@@ -17,12 +17,9 @@ import Button from '../../core/Button';
 import COLORS from '../../../config/colors';
 import SPACING from '../../../config/spacing';
 
-
-const Register = ({navigation}) => {
+const MyAccount = props => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
 
   return (
     <>
@@ -32,17 +29,17 @@ const Register = ({navigation}) => {
             leftSide={
             <Icon name={'chevron-left'} size={25} 
               onPress={() => {
-                navigation.pop()
+                props.navigation.pop()
               }}/>
             }
             showLogo={
               <Image source={Logo} resizeMode={'contain'} style={{height: 50}} />
             }
           />
-          <StyledText>Cadastrar</StyledText>
-          <StyledPicture>
+          <StyledText>Minha Conta</StyledText>
+          <StyledImages>
             <Icon name="user-circle" size={150} color="#000000" />
-          </StyledPicture>
+          </StyledImages>
           <FormRow>
             <TextInput
               iconName={'user'}
@@ -50,7 +47,7 @@ const Register = ({navigation}) => {
               iconColor={'#000'}
               placeholder={'Nome'}
               value={name}
-              onChangeText={setName}
+              editable={false}
             />
             <TextInput
               iconName={'envelope'}
@@ -58,29 +55,16 @@ const Register = ({navigation}) => {
               iconColor={'#000'}
               placeholder={'E-mail'}
               value={email}
-              onChangeText={setEmail}
-            />
-            <TextInput
-              iconName={'lock'}
-              iconSize={25}
-              iconColor={'#000'}
-              placeholder={'Senha'}
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry={true}
-            />
-            <TextInput
-              iconName={'lock'}
-              iconSize={25}
-              iconColor={'#000'}
-              placeholder={'Confirmar senha'}
-              value={passwordConfirm}
-              onChangeText={setPasswordConfirm}
-              secureTextEntry={true}
+              editable={false}
             />
           </FormRow>
           <StyledButtonContainer>
-            <Button title={'CADASTRAR'} />
+            <Button 
+              title={'EDITAR'}
+              onClick={() => {
+                props.navigation.navigate('Edit');
+              }}
+            />
           </StyledButtonContainer>
         </StyledView>
       </FormContainer>
@@ -88,9 +72,8 @@ const Register = ({navigation}) => {
   );
 };
 
-const StyledView = styled.ScrollView`
+const StyledView = styled.View`
   width: 100%;
-  margin-bottom: 20;
 `;
 
 const FormContainer = styled(LinearGradient)`
@@ -112,7 +95,8 @@ const StyledButtonContainer = styled.View`
 const FormRow = styled.View`
   padding-left: 10;
   padding-right: 10;
-  padding-bottom: 20;
+  padding-bottom: 10;
+  padding-top: 10;
 `;
 
 const StyledText = styled.Text`
@@ -122,11 +106,5 @@ const StyledText = styled.Text`
   color: grey;
 `;
 
-const StyledPicture = styled.TouchableOpacity`
-  padding: 20px;
-  align-items: center;
-  justify-content: center;  
-  align-self: center;
-`;
 
-export default Register;
+export default MyAccount;
