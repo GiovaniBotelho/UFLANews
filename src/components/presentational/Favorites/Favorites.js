@@ -8,7 +8,7 @@ import BackgroundHeader from '../../../assets/backgroundHeader.png';
 import Logo from '../../../assets/logotipo.png';
 import Background from '../../../assets/background.png';
 import Background2 from '../../../assets/background2.png';
-import TouchableTextWithIcon from '../../config/TouchableTextWithIcon';
+import TouchableTextWithIcon from '../../core/TouchableTextWithIcon';
 
 const Favorites = props => {
 
