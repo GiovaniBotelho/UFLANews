@@ -60,12 +60,14 @@ const Container = styled(LinearGradient)`
   flex: 1;
 `;
 
-const StyledView = styled.ScrollView`
+const StyledView = styled.View`
   width: 100%;
+  justify-content: flex-end;
 `;
 
 const StyledContainer = styled.View`
   padding: 20px;
+
 `;
 
 const FormRow = styled.View`
