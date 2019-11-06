@@ -31,7 +31,7 @@ const StyledTextTouchableOpacity = styled.TouchableOpacity`
 
 const StyledIcon = styled.View`
   width: 15%;
-  align-items: center
+  align-items: center;
 `;
 
 export default TouchableTextWithIcon;
