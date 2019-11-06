@@ -21,17 +21,17 @@ const CommentCard = () => {
           <Icon name={'times'} size={15} />
         </User>
         <Comment>
-          <BoxText value={'aaaaaaaaaaa a dawda dwd aaaaaaad aaaaaaaaaaaaaaaaaaaaaaaaaaaaa'}></BoxText>
+          <BoxText value={'aaaaaaaaaaa a dawda dwd aaaaaadadaa d a daw d awd a wd awdawd ad a wda wd aw da wd a wda d awd a wd awd a wdaad aaaaaaaaaaaaaaaaaaaaaaaaaaaaa'}></BoxText>
         </Comment>
       </UserComment>
       <Infos>
-        <Text>Tempo de envio</Text>
-        <NumberLike>
-          <Text>Nº de likes</Text>
-        </NumberLike>
-        <Like>
-          <Icon name="thumbs-o-up" size={30} color={'#000000'} type="regular" />
-        </Like>
+        <Text style={{fontSize: 11}}>Tempo de envio</Text>
+        <LikeAll>
+            <Text style={{fontSize: 8}}>Nº de likes</Text>
+            <Like>
+              <Icon name="thumbs-o-up" size={30} color={'#000000'} type="regular" />
+            </Like>
+        </LikeAll>
       </Infos>
     </Container>
   );
@@ -47,18 +47,29 @@ const Container = styled.View`
 `;
 
 const UserComment = styled.View`
-  padding-top: 10;
+  padding-top: ${SPACING.default};
 `;
 
 const User = styled.View`
   justify-content: space-between;
-  padding-left: 30;
-  padding-right: 10;
-  flex-direction: row;
+  padding-left: ${SPACING.large};
+  padding-right: ${SPACING.default};
+  flex-direction: row;  
 `;
 
 const Comment = styled.View`
 `;
+
+const Like = styled.View`
+  padding-left: ${SPACING.small};
+`;
+
+const LikeAll = styled.View`
+  flex-direction: row;
+  align-items: flex-end;
+  padding-right: ${SPACING.medium};
+`;
+
 
 const IconName = styled.View`
   flex-direction: row;
@@ -67,19 +78,10 @@ const IconName = styled.View`
 const Infos = styled.View`
   flex-direction: row;
   align-items: baseline;
-  justify-content: space-around;
-  padding-bottom: 15;
-  padding-top: 20;
-  padding-left: 20;
-`;
-
-const Like = styled.View`
-  flex: 1;
-`;
-const NumberLike = styled.View`
-  flex: 3;
-  align-items: baseline;
-  padding-left: 30;
+  justify-content: space-between;
+  padding-bottom: ${SPACING.medium};
+  padding-top: ${SPACING.large};
+  padding-left: ${SPACING.large};
 `;
 
 

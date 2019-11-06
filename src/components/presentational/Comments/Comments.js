@@ -21,7 +21,7 @@ const Comments = props => {
     <Container colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
       <Header
         showLogo={
-          <Text styled={{fontSize: 200}}>
+          <Text style={{fontSize: 28}}>
             Comentários
           </Text>
         }
