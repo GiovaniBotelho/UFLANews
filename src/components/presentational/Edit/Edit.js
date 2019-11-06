@@ -9,8 +9,13 @@ import Logo from '../../../assets/logo.png';
 
 
 /* Components - import */
+import Header from '../../core/Header';
 import TextInput from '../../core/TextInput';
 import Button from '../../core/Button';
+
+/* Constants - imports */
+import COLORS from '../../../config/colors';
+import SPACING from '../../../config/spacing';
 
 const Edit = ({navigation}) => {
   const [name, setName] = useState('');
@@ -20,15 +25,19 @@ const Edit = ({navigation}) => {
 
   return (
     <>
-      <FormContainer colors={['#e4ecee', '#93cae8']}>
+      <FormContainer colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
         <StyledView>
-          <StyledImages>
-            <Image
-              source={Logo}
-              style={{height: 100}}
-              resizeMode={'contain'}
-            />
-          </StyledImages>
+          <Header
+            leftSide={
+            <Icon name={'chevron-left'} size={25} 
+              onPress={() => {
+                navigation.pop()
+              }}/>
+            }
+            showLogo={
+              <Image source={Logo} resizeMode={'contain'} style={{height: 50}} />
+            }
+          />
           <StyledText>Editar Perfil</StyledText>
           <StyledPicture>
             <Icon name="user-circle" size={150} color="#000000" />
@@ -85,7 +94,6 @@ const Edit = ({navigation}) => {
 
 const StyledView = styled.ScrollView`
   width: 100%;
-  margin-bottom: 20;
 `;
 
 const FormContainer = styled(LinearGradient)`

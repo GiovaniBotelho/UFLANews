@@ -1,20 +1,24 @@
 import React, {useState} from 'react';
 import {Image} from 'react-native';
 import styled from 'styled-components';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
 
 /* Images */
 import Logo from '../../../assets/logo.png';
 
 /* Components - import */
+import Header from '../../core/Header';
 import Button from '../../core/Button';
 import TextInput from '../../core/TextInput';
 import BoxText from '../../core/BoxText';
 
+/* Constants - imports */
+import COLORS from '../../../config/colors';
+import SPACING from '../../../config/spacing';
+
 const Login = ({navigation}) => {
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [email, setEmail] = useState('');
 
   handleLogin = () => {
     // Aqui manipulamos o login
@@ -23,15 +27,19 @@ const Login = ({navigation}) => {
 
   return (
     <>
-      <FormContainer colors={['#e4ecee', '#93cae8']}>
+      <FormContainer colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
         <StyledView>
-          <StyledImages>
-            <Image
-              source={Logo}
-              style={{height: 100}}
-              resizeMode={'contain'}
-            />
-          </StyledImages>
+          <Header
+            leftSide={
+            <Icon name={'chevron-left'} size={25} 
+              onPress={() => {
+                navigation.pop()
+              }}/>
+            }
+            showLogo={
+              <Image source={Logo} resizeMode={'contain'} style={{height: 50}} />
+            }
+          />
           <BoxText value={'Por favor, digite o seu email para enviarmos um link para você mudar sua senha.'} />
           <FormRow>
             <TextInput
@@ -39,18 +47,12 @@ const Login = ({navigation}) => {
               iconSize={25}
               iconColor={'#000'}
               placeholder={'E-mail'}
-              value={name}
-              onChangeText={setName}
+              value={email}
+              onChangeText={setEmail}
             />
           </FormRow>
           <StyledButtonContainer>
             <Button title={'Enviar email'} onClick={handleLogin} />
-            <Button color="#ff7144"
-              title={'Cancelar'}
-              onClick={() => {
-                navigation.pop()
-              }}
-            />
           </StyledButtonContainer>
         </StyledView>
       </FormContainer>

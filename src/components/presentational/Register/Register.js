@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Image, ImageBackground} from 'react-native';
+import {Image} from 'react-native';
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
@@ -9,8 +9,14 @@ import Logo from '../../../assets/logo.png';
 
 
 /* Components - import */
+import Header from '../../core/Header';
 import TextInput from '../../core/TextInput';
 import Button from '../../core/Button';
+
+/* Constants - imports */
+import COLORS from '../../../config/colors';
+import SPACING from '../../../config/spacing';
+
 
 const Register = ({navigation}) => {
   const [name, setName] = useState('');
@@ -20,15 +26,19 @@ const Register = ({navigation}) => {
 
   return (
     <>
-      <FormContainer colors={['#e4ecee', '#93cae8']}>
+      <FormContainer colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
         <StyledView>
-          <StyledImages>
-            <Image
-              source={Logo}
-              style={{height: 100}}
-              resizeMode={'contain'}
-            />
-          </StyledImages>
+          <Header
+            leftSide={
+            <Icon name={'chevron-left'} size={25} 
+              onPress={() => {
+                navigation.pop()
+              }}/>
+            }
+            showLogo={
+              <Image source={Logo} resizeMode={'contain'} style={{height: 50}} />
+            }
+          />
           <StyledText>Cadastrar</StyledText>
           <StyledPicture>
             <Icon name="user-circle" size={150} color="#000000" />
@@ -71,12 +81,6 @@ const Register = ({navigation}) => {
           </FormRow>
           <StyledButtonContainer>
             <Button title={'CADASTRAR'} />
-            <Button color="#ff7144"
-              title={'CANCELAR'}
-              onClick={() => {
-                navigation.pop()
-              }}
-            />
           </StyledButtonContainer>
         </StyledView>
       </FormContainer>
