@@ -4,7 +4,6 @@ import React from 'react';
 import ForgotPassword from '../components/presentational/ForgotPassword';
 
 const ForgotPasswordScreen = props => {
-  console.log(props);
   return (
     <>
       <ForgotPassword navigation={props.navigation} />
