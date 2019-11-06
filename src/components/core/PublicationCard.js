@@ -9,10 +9,10 @@ import SPACING from '../../config/spacing';
 
 import pug from '../../assets/mike.jpg';
 
-const PublicationCard = ({publicacao}) => {
+const PublicationCard = ({publicacao, navigation}) => {
   return (
     <Container>
-      <Capa>
+      <Capa onPress={() => navigation.navigate('Publication')}>
         <Image
           source={pug}
           aspectRation={1}

@@ -32,7 +32,7 @@ const Favorites = props => {
           <Icon
             name={'chevron-left'}
             size={25}
-            onPress={() => props.navigation.navigate('Login')}
+            onPress={() => props.navigation.pop()}
           />
         }
       />

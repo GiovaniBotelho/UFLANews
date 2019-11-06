@@ -65,11 +65,13 @@ const Publicacoes = [
 
 const _keyExtractor = publicacao => publicacao.id;
 
-const _renderItem = ({item, index}) => <PublicationCard publicacao={item} />;
+const _renderItem = ({item, index}) => (
+  <PublicationCard publicacao={item} navigation={props.navigation} />
+);
 
-const Home = props => {
-  const [loading, setLoading] = useState(true);
-
+const Home = ({navigation}) => {
+  const [loading, setLoading] = useState(false);
+  console.log(navigation);
   return (
     <Container colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
       <Header
@@ -80,7 +82,11 @@ const Home = props => {
       />
       <SearchBar />
       <OptionsBar>
-        <Button radius={0} title={'Favoritos'} />
+        <Button
+          radius={0}
+          title={'Favoritos'}
+          onClick={() => navigation.navigate('Favorites')}
+        />
         <Button radius={0} title={'Publicadores'} />
       </OptionsBar>
       {loading ? (
@@ -93,7 +99,9 @@ const Home = props => {
       ) : (
         <FlatList
           data={Publicacoes}
-          renderItem={_renderItem}
+          renderItem={({item, index}) => (
+            <PublicationCard publicacao={item} navigation={navigation} />
+          )}
           keyExtractor={_keyExtractor}
           ListFooterComponent={props => <FooterStyled />}
         />
