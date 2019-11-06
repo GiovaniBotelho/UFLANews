@@ -66,10 +66,11 @@ const Login = props => {
           />
         </FormRow>
         <StyledButtonContainer>
-          <Button title={'ENTRAR'} 
+          <Button
+            title={'ENTRAR'}
             onClick={() => {
-            props.navigation.navigate('Favorites');
-          }}
+              props.navigation.navigate('Home');
+            }}
           />
           <Button
             title={'CADASTRAR'}

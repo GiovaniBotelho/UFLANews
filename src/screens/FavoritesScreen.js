@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Favorites from '../components/presentational/Favorites/';
+import Favorites from '../components/presentational/Favorites';
 
 const FavoritesScreen = props => {
   return (
