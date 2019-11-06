@@ -30,7 +30,7 @@ const Publication = props => {
           />
         }
       />
-      <FullPublication>
+      <FullPublication showsVerticalScrollIndicator={false}>
         <PublicationTitle>Titulo da Publicacao</PublicationTitle>
         <PublicationAuthor>Autor da Publicacao</PublicationAuthor>
         <Content>
