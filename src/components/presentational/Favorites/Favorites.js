@@ -2,63 +2,64 @@ import React from 'react';
 import {Image, ImageBackground, View} from 'react-native';
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import LinearGradient from 'react-native-linear-gradient';
+
+/* Core - imports */
+import TouchableTextWithIcon from '../../core/TouchableTextWithIcon';
+import Header from '../../core/Header';
+import Button from '../../core/Button';
+
+/* Constants */
+import COLORS from '../../../config/colors';
+import SPACING from '../../../config/spacing';
 
 /* Images */
-import BackgroundHeader from '../../../assets/backgroundHeader.png';
-import Logo from '../../../assets/logotipo.png';
-import Background from '../../../assets/background.png';
-import Background2 from '../../../assets/background2.png';
-import TouchableTextWithIcon from '../../config/TouchableTextWithIcon';
+import Logo from '../../../assets/logo.png';
 
 const Favorites = props => {
-
   handleCancel = () => {
     props.navigation.navigate('Login');
   };
 
   return (
-    <>
+    <Container colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
+      <Header
+        showLogo={
+          <Image source={Logo} resizeMode={'contain'} style={{height: 50}} />
+        }
+        rightSide={<Icon name={'user'} size={25} />}
+        leftSide={
+          <Icon
+            name={'chevron-left'}
+            size={25}
+            onPress={() => props.navigation.navigate('Login')}
+          />
+        }
+      />
+      <StyledText>Favoritos</StyledText>
       <StyledView>
-        <ImageBackground style={{width: '100%'}} source={Background}>
-          <ImageBackground style={{width: '100%'}} source={Background2}>
-            <ImageBackground style={{width: '100%'}} source={BackgroundHeader} >
-              <View style={{flexDirection: 'row', flex: 1, justifyContent: 'space-around', alignItems: 'center'}}>
-              <TouchableTextWithIcon onClick={handleCancel}
-                iconName={'chevron-left'}
-                iconSize={20}
-                text={'Voltar'}
-              />
-              <Image style={{width: '45%'}} source={Logo} resizeMode={'contain'} />
-              
-              <Icon
-                name={'user'}
-                size={20}
-                style={{paddingRight: 20, paddingLeft:50}}
-              />
-              </View>
-            </ImageBackground>
-            <StyledText>Favoritos</StyledText>
-            <StyledContainer>
-              <FormRow>
-                <StyledButtonFavoritePublications>
-                  <StyledButtonText>Publicações Favoritas</StyledButtonText>
-                </StyledButtonFavoritePublications>
-              </FormRow>
-              <FormRow>
-                <StyledButtonRegistrations>
-                  <StyledButtonText>Minhas Inscrições</StyledButtonText>
-                </StyledButtonRegistrations>
-              </FormRow>
-            </StyledContainer>
-          </ImageBackground>
-        </ImageBackground>
+        <StyledContainer>
+          <FormRow>
+            <StyledButtonFavoritePublications>
+              <StyledButtonText>Publicações Favoritas</StyledButtonText>
+            </StyledButtonFavoritePublications>
+          </FormRow>
+          <FormRow>
+            <StyledButtonRegistrations>
+              <StyledButtonText>Minhas Inscrições</StyledButtonText>
+            </StyledButtonRegistrations>
+          </FormRow>
+        </StyledContainer>
       </StyledView>
-    </>
+    </Container>
   );
 };
 
-
 /* Componentes estilizados aqui */
+const Container = styled(LinearGradient)`
+  flex: 1;
+`;
+
 const StyledView = styled.ScrollView`
   width: 100%;
 `;
@@ -74,8 +75,8 @@ const FormRow = styled.View`
 `;
 
 const StyledText = styled.Text`
-  textAlign: center;
-  fontSize: 40px;
+  text-align: center;
+  font-size: 40px;
   padding: 20px;
   color: grey;
   margin-top: 40;
@@ -83,13 +84,13 @@ const StyledText = styled.Text`
 
 const StyledButtonText = styled.Text`
   color: white;
-  textAlign: center;
-  fontSize: 25px;
-  width: 1000%;
+  text-align: center;
+  font-size: 25px;
+  width: 100%;
 `;
 
 const StyledButtonFavoritePublications = styled.TouchableOpacity`
-  backgroundColor: #1abef2;
+  background-color: #1abef2;
   width: 90%;
   height: 70;
   align-items: center;
@@ -101,7 +102,7 @@ const StyledButtonFavoritePublications = styled.TouchableOpacity`
 `;
 
 const StyledButtonRegistrations = styled.TouchableOpacity`
-  backgroundColor: #1abef2;
+  background-color: #1abef2;
   width: 90%;
   height: 70;
   align-items: center;
