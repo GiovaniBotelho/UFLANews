@@ -6,6 +6,7 @@ import HomeScreen from '../screens/HomeScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import MyAccountScreen from '../screens/MyAccountScreen';
+import PublisherScreen from '../screens/PublisherScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import PublishersScreen from '../screens/PublishersScreen';
 import PublicationScreen from '../screens/PublicationScreen';
@@ -20,7 +21,8 @@ const routes = {
   Edit: EditScreen,
   Publication: PublicationScreen,
   Home: HomeScreen,
-  Publisher: PublishersScreen,
+  Publishers: PublishersScreen,
+  Publisher: PublisherScreen,
 };
 
 export default routes;

@@ -1,9 +1,9 @@
 import React from 'react';
 
-import Publisher from '../components/presentational/Publisher';
+import Publishers from '../components/presentational/Publishers';
 
-const PublisherScreen = props => {
-  return <Publisher navigation={props.navigation} />;
+const PublishersScreen = props => {
+  return <Publishers navigation={props.navigation} />;
 };
 
-export default PublisherScreen;
+export default PublishersScreen;

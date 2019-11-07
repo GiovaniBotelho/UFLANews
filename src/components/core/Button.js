@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import SPACING from '../../config/spacing';
+
 const Button = ({title, color, onClick, radius, height}) => {
   return (
     <StyledTouchableOpacity
@@ -19,8 +21,8 @@ const StyledTouchableOpacity = styled.TouchableOpacity`
   height: 40;
   align-items: center;
   justify-content: center;
-  margin-top: 15;
-  margin-bottom: 15;
+  margin-top: ${SPACING.medium};
+  margin-bottom: ${SPACING.medium};
   border-radius: ${props =>
     props.borderRadius
       ? props.borderRadius
