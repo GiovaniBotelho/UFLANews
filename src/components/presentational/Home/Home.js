@@ -78,16 +78,26 @@ const Home = ({navigation}) => {
         showLogo={
           <Image source={Logo} resizeMode={'contain'} style={{height: 50}} />
         }
-        rightSide={<Icon name={'user'} size={25} onPress={() => navigation.navigate('MyAccount')}/>}
+        rightSide={
+          <Icon
+            name={'user'}
+            size={25}
+            onPress={() => navigation.navigate('MyAccount')}
+          />
+        }
       />
       <SearchBar />
       <OptionsBar>
         <Button
           radius={0}
-          title={'Favoritos'}
+          title={'Favoritos'} 
           onClick={() => navigation.navigate('Favorites')}
         />
-        <Button radius={0} title={'Publicadores'} />
+        <Button
+          radius={0}
+          title={'Publicadores'}
+          onClick={() => navigation.navigate('Publisher')}
+        />
       </OptionsBar>
       {loading ? (
         <LottieView
@@ -103,6 +113,7 @@ const Home = ({navigation}) => {
             <PublicationCard publicacao={item} navigation={navigation} />
           )}
           keyExtractor={_keyExtractor}
+          ListHeaderComponent={props => <HeaderStyled />}
           ListFooterComponent={props => <FooterStyled />}
         />
       )}
@@ -112,6 +123,10 @@ const Home = ({navigation}) => {
 
 const Container = styled(LinearGradient)`
   flex: 1;
+`;
+
+const HeaderStyled = styled.View`
+  margin-top: ${SPACING.huge};
 `;
 
 const FooterStyled = styled.View`
