@@ -40,11 +40,8 @@ const Register = props => {
                 props.navigation.pop()
               }}/>
             }
-            showLogo={
-              <Image source={Logo} resizeMode={'contain'} style={{height: 50}} />
-            }
+            title={'Cadastrar'}
           />
-          <StyledText>Cadastrar</StyledText>
           <StyledPicture>
             <Icon name="user-circle" size={150} color="#000000" />
           </StyledPicture>
@@ -119,13 +116,6 @@ const FormRow = styled.View`
   padding-left: 10;
   padding-right: 10;
   padding-bottom: 20;
-`;
-
-const StyledText = styled.Text`
-  textAlign: center;
-  fontSize: 30px;
-  padding: 20px;
-  color: grey;
 `;
 
 const StyledPicture = styled.TouchableOpacity`

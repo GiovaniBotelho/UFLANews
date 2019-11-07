@@ -18,9 +18,7 @@ const Publication = props => {
   return (
     <Container colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
       <Header
-        showLogo={
-          <Image source={Logo} resizeMode={'contain'} style={{height: 50}} />
-        }
+        title={'Publicação'}
         rightSide={
           <Icon 
             name={'user'}

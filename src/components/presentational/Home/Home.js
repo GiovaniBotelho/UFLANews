@@ -75,9 +75,7 @@ const Home = ({navigation}) => {
   return (
     <Container colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
       <Header
-        showLogo={
-          <Image source={Logo} resizeMode={'contain'} style={{height: 50}} />
-        }
+        title={'Principal'}
         rightSide={
           <Icon
             name={'user'}

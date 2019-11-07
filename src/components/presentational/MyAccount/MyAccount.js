@@ -32,11 +32,8 @@ const MyAccount = props => {
                 props.navigation.pop()
               }}/>
             }
-            showLogo={
-              <Image source={Logo} resizeMode={'contain'} style={{height: 50}} />
-            }
+            title={'Minha Conta'}
           />
-          <StyledText>Minha Conta</StyledText>
           <StyledImages>
             <Icon name="user-circle" size={150} color="#000000" />
           </StyledImages>
