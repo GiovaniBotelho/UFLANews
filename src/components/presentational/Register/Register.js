@@ -18,11 +18,16 @@ import COLORS from '../../../config/colors';
 import SPACING from '../../../config/spacing';
 
 
-const Register = ({navigation}) => {
+const Register = props => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
+
+  const register = () => {
+    const {register} = props;
+    register(name, email, () => props.navigation.replace('Login'));
+  };
 
   return (
     <>
@@ -32,14 +37,11 @@ const Register = ({navigation}) => {
             leftSide={
             <Icon name={'chevron-left'} size={25} 
               onPress={() => {
-                navigation.pop()
+                props.navigation.pop()
               }}/>
             }
-            showLogo={
-              <Image source={Logo} resizeMode={'contain'} style={{height: 50}} />
-            }
+            title={'Cadastrar'}
           />
-          <StyledText>Cadastrar</StyledText>
           <StyledPicture>
             <Icon name="user-circle" size={150} color="#000000" />
           </StyledPicture>
@@ -80,7 +82,9 @@ const Register = ({navigation}) => {
             />
           </FormRow>
           <StyledButtonContainer>
-            <Button title={'CADASTRAR'} />
+            <Button title={'CADASTRAR'} 
+              onClick={() => register()}
+            />
           </StyledButtonContainer>
         </StyledView>
       </FormContainer>
@@ -90,7 +94,6 @@ const Register = ({navigation}) => {
 
 const StyledView = styled.ScrollView`
   width: 100%;
-  margin-bottom: 20;
 `;
 
 const FormContainer = styled(LinearGradient)`
@@ -113,13 +116,6 @@ const FormRow = styled.View`
   padding-left: 10;
   padding-right: 10;
   padding-bottom: 20;
-`;
-
-const StyledText = styled.Text`
-  textAlign: center;
-  fontSize: 30px;
-  padding: 20px;
-  color: grey;
 `;
 
 const StyledPicture = styled.TouchableOpacity`

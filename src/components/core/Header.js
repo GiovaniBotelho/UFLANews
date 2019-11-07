@@ -9,7 +9,7 @@ import CONSTANTS from '../../config/constants';
 
 const Header = props => {
   function handleTitle() {
-    if (props.title) return <Text>{props.title}</Text>;
+    if (props.title) return <StyledText>{props.title}</StyledText>;
     return props.showLogo;
   }
 
@@ -44,6 +44,11 @@ const EmptyIcon = styled.View`
   padding-right: ${SPACING.default};
   padding-bottom: ${SPACING.default};
   padding-left: ${SPACING.default};
+`;
+
+const StyledText = styled.Text`
+  textAlign: center;
+  fontSize: 25px;
 `;
 
 export default Header;

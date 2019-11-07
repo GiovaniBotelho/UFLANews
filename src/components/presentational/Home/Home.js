@@ -90,13 +90,13 @@ const Home = ({navigation}) => {
       <OptionsBar>
         <Button
           radius={0}
-          title={'Favoritos'} 
+          title={'Favoritos'}
           onClick={() => navigation.navigate('Favorites')}
         />
         <Button
           radius={0}
           title={'Publicadores'}
-          onClick={() => navigation.navigate('Publisher')}
+          onClick={() => navigation.navigate('Publishers')}
         />
       </OptionsBar>
       {loading ? (
@@ -113,7 +113,6 @@ const Home = ({navigation}) => {
             <PublicationCard publicacao={item} navigation={navigation} />
           )}
           keyExtractor={_keyExtractor}
-          ListHeaderComponent={props => <HeaderStyled />}
           ListFooterComponent={props => <FooterStyled />}
         />
       )}
@@ -124,11 +123,6 @@ const Home = ({navigation}) => {
 const Container = styled(LinearGradient)`
   flex: 1;
 `;
-
-const HeaderStyled = styled.View`
-  margin-top: ${SPACING.huge};
-`;
-
 const FooterStyled = styled.View`
   padding-bottom: ${SPACING.medium};
 `;

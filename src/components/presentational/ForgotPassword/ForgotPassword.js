@@ -36,9 +36,7 @@ const Login = ({navigation}) => {
                 navigation.pop()
               }}/>
             }
-            showLogo={
-              <Image source={Logo} resizeMode={'contain'} style={{height: 50}} />
-            }
+            title={'Recuperar Senha'}
           />
           <BoxText value={'Por favor, digite o seu email para enviarmos um link para você mudar sua senha.'} />
           <FormRow>

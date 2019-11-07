@@ -8,10 +8,17 @@ import SPACING from '../../config/spacing';
 
 import pug from '../../assets/pug.jpg';
 
-const PublisherCard = ({publisher}) => {
+const PublisherCard = ({publisher, navigation}) => {
+  console.log('Publisher');
+  console.log(publisher);
   return (
     <Container>
-      <Capa>
+      <Capa
+        onPress={() =>
+          navigation.navigate('Publisher', {
+            publisher: publisher,
+          })
+        }>
         <Image
           source={pug}
           aspectRation={1}
@@ -24,7 +31,7 @@ const PublisherCard = ({publisher}) => {
             <PublicationsNumber>
               {publisher.publicacoes} publicações
             </PublicationsNumber>
-            <Subscribers>{publisher.incritos} inscritos</Subscribers>
+            <Subscribers>{publisher.inscritos} inscritos</Subscribers>
           </Footer>
         </Info>
       </Capa>

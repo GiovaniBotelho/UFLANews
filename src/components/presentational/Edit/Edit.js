@@ -34,11 +34,8 @@ const Edit = ({navigation}) => {
                 navigation.pop()
               }}/>
             }
-            showLogo={
-              <Image source={Logo} resizeMode={'contain'} style={{height: 50}} />
-            }
+            title={'Editar Perfil'}
           />
-          <StyledText>Editar Perfil</StyledText>
           <StyledPicture>
             <Icon name="user-circle" size={150} color="#000000" />
           </StyledPicture>
