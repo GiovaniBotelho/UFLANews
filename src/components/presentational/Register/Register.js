@@ -18,11 +18,16 @@ import COLORS from '../../../config/colors';
 import SPACING from '../../../config/spacing';
 
 
-const Register = ({navigation}) => {
+const Register = props => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
+
+  const register = () => {
+    const {register} = props;
+    register(name, email, () => props.navigation.replace('Login'));
+  };
 
   return (
     <>
@@ -32,7 +37,7 @@ const Register = ({navigation}) => {
             leftSide={
             <Icon name={'chevron-left'} size={25} 
               onPress={() => {
-                navigation.pop()
+                props.navigation.pop()
               }}/>
             }
             showLogo={
@@ -80,7 +85,9 @@ const Register = ({navigation}) => {
             />
           </FormRow>
           <StyledButtonContainer>
-            <Button title={'CADASTRAR'} />
+            <Button title={'CADASTRAR'} 
+              onClick={() => register()}
+            />
           </StyledButtonContainer>
         </StyledView>
       </FormContainer>
@@ -90,7 +97,6 @@ const Register = ({navigation}) => {
 
 const StyledView = styled.ScrollView`
   width: 100%;
-  margin-bottom: 20;
 `;
 
 const FormContainer = styled(LinearGradient)`
