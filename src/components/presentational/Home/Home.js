@@ -134,6 +134,7 @@ const FooterStyled = styled.View`
 `;
 const OptionsBar = styled.View`
   flex-direction: row;
+  justify-content: space-around;
   margin-left: ${SPACING.medium};
   margin-right: ${SPACING.medium};
 `;

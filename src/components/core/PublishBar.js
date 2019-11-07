@@ -11,7 +11,7 @@ const PublishBar = props => {
     <Container>
       <TextInput placeholder={'Adicione um comentário...'} multiline />
       <ContainerButtom>
-        <Button radius={0} title={'Publicar'}/>
+        <Button width={'100%'} radius={0} title={'Publicar'}/>
       </ContainerButtom>
     </Container>
   );
