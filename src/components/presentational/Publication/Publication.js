@@ -85,7 +85,7 @@ const Publication = props => {
         <Options>
           <Option>
             <NumberOption>3</NumberOption>
-            <Icon name="comments-o" size={30} color={'#000'} />
+            <Icon name="comments-o" size={30} color={'#000'}  onPress={() => props.navigation.navigate('Comments')} />
           </Option>
           <Option>
             <Icon name="star-o" size={30} color={'#000'} />

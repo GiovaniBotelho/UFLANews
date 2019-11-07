@@ -33,7 +33,7 @@ const PublicationCard = ({publicacao, navigation}) => {
           <Icon name="star-o" size={30} color={'#000'} />
         </Option>
         <Option>
-          <Icon name="comments-o" size={30} color={'#000'} />
+          <Icon name="comments-o" size={30} color={'#000'} onPress={() => navigation.navigate('Comments')} />
         </Option>
         <Option>
           <Icon name="thumbs-o-up" size={30} color={'#000'} />

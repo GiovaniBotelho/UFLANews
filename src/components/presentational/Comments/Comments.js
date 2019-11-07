@@ -1,8 +1,7 @@
 import React from 'react';
-import {Text} from 'react-native';
 import styled from 'styled-components';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 /* Core - imports */
 import Header from '../../core/Header';
@@ -11,36 +10,60 @@ import CommentCard from '../../core/CommentCard';
 
 /* Constatns */
 import COLORS from '../../../config/colors';
-import SPACING from '../../../config/spacing';
-
-/* Images */
-import Logo from '../../../assets/logo.png';
 
 const Comments = props => {
   return (
     <Container colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
       <Header
+        leftSide={
+          <Icon name={'chevron-left'} size={25} 
+            onPress={() => {
+              props.navigation.pop()
+          }}/>
+        }
         showLogo={
-          <Text style={{fontSize: 28}}>
+          <TextComment>
             Comentários
-          </Text>
+          </TextComment>
         }
       />
+      <StyledView>
+        <CommentCard />
+        <CommentCard />
+        <CommentCard />
+        <CommentCard />
+        <CommentCard />
+        <CommentCard />        
+        <CommentCard />
+        <CommentCard />
+        <CommentCard />
+        <CommentCard />        
+        <CommentCard />
+        <CommentCard />
+        <CommentCard />
+        <CommentCard />        
+        <CommentCard />
+        <CommentCard />
+        <CommentCard />
+        <CommentCard />
+        <CommentCard />
+        <CommentCard />
+      </StyledView>
       <PublishBar />
-      <CommentCard />
-      <CommentCard />
     </Container>
   );
 };
+
+const TextComment = styled.Text`
+  font-size: 28}
+`;
 
 const Container = styled(LinearGradient)`
   flex: 1;
 `;
 
-const OptionsBar = styled.View`
-  flex-direction: row;
-  margin-left: ${SPACING.medium};
-  margin-right: ${SPACING.medium};
+const StyledView = styled.ScrollView`
+  width: 100%;
 `;
 
 export default Comments;

@@ -7,7 +7,6 @@ import {Text} from 'react-native'
 /* Config - imports */
 //import COLORS from '@config/colors';
 import SPACING from '../../config/spacing';
-import BoxText from './BoxText';
 
 const CommentCard = () => {
   return (
@@ -21,13 +20,13 @@ const CommentCard = () => {
           <Icon name={'times'} size={15} />
         </User>
         <Comment>
-          <BoxText value={'aaaaaaaaaaa a dawda dwd aaaaaadadaa d a daw d awd a wd awdawd ad a wda wd aw da wd a wda d awd a wd awd a wdaad aaaaaaaaaaaaaaaaaaaaaaaaaaaaa'}></BoxText>
+          <TextComment>aaaaaaaaaaa a dawda dwd aaaaaadadaa d a daw d awd a wd awdawd ad a wda wd aw da wd a wda d awd a wd awd a wdaad aaaaaaaaaaaaaaaaaaaaaaaaaaaaa</TextComment>
         </Comment>
       </UserComment>
       <Infos>
-        <Text style={{fontSize: 11}}>Tempo de envio</Text>
+        <TextTime>Tempo de envio</TextTime>
         <LikeAll>
-            <Text style={{fontSize: 8}}>Nº de likes</Text>
+            <TextLike>Nº de likes</TextLike>
             <Like>
               <Icon name="thumbs-o-up" size={30} color={'#000000'} type="regular" />
             </Like>
@@ -36,6 +35,14 @@ const CommentCard = () => {
     </Container>
   );
 };
+
+const TextTime = styled.Text`
+  font-size: 11;
+`
+
+const TextLike = styled.Text`
+  font-size: 8;
+`
 
 const Container = styled.View`
   border-width: 1;
@@ -58,7 +65,12 @@ const User = styled.View`
 `;
 
 const Comment = styled.View`
+  padding-top: ${SPACING.small};
+  padding-left: ${SPACING.large};
 `;
+
+const TextComment = styled.Text`
+`
 
 const Like = styled.View`
   padding-left: ${SPACING.small};
@@ -80,7 +92,7 @@ const Infos = styled.View`
   align-items: baseline;
   justify-content: space-between;
   padding-bottom: ${SPACING.medium};
-  padding-top: ${SPACING.large};
+  padding-top: ${SPACING.small};
   padding-left: ${SPACING.large};
 `;
 

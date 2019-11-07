@@ -7,7 +7,7 @@ import routes from '../config/routes';
 
 const RootNavigator = createAppContainer(
   createStackNavigator(routes, {
-    initialRouteName: 'Comments',
+    initialRouteName: 'Login',
     headerMode: 'none',
     mode: Platform.OS === 'ios' ? 'modal' : 'card',
   }),
