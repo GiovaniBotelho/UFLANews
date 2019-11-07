@@ -1,14 +1,15 @@
 import React from 'react';
 
 /* Screens - import */
+import EditScreen from '../screens/EditScreen';
 import HomeScreen from '../screens/HomeScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
-import ForgotPasswordScreen from '../screens/ForgotPassowordScreen';
 import MyAccountScreen from '../screens/MyAccountScreen';
-import EditScreen from '../screens/EditScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
+import PublishersScreen from '../screens/PublishersScreen';
 import PublicationScreen from '../screens/PublicationScreen';
+import ForgotPasswordScreen from '../screens/ForgotPassowordScreen';
 
 const routes = {
   Login: LoginScreen,
@@ -18,7 +19,8 @@ const routes = {
   MyAccount: MyAccountScreen,
   Edit: EditScreen,
   Publication: PublicationScreen,
-  Home: HomeScreen
+  Home: HomeScreen,
+  Publisher: PublishersScreen,
 };
 
 export default routes;
