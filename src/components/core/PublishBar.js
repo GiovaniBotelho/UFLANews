@@ -24,8 +24,7 @@ const Container = styled.View`
   padding-right: ${SPACING.medium};
   margin-left: ${SPACING.small};
   margin-right: ${SPACING.small};
-  margin-top: ${SPACING.medium};
-  margin-bottom: ${SPACING.medium};
+  margin-bottom: ${SPACING.small};
 `;
 
 const ContainerButtom = styled.View
