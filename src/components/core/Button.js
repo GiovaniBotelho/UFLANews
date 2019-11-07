@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Button = ({title, color, onClick, radius}) => {
+const Button = ({title, color, onClick, radius, height}) => {
   return (
     <StyledTouchableOpacity
       onPress={onClick}
       color={color}
-      borderRadius={radius}>
+      borderRadius={radius}
+      height={height}>
       <StyledText>{title}</StyledText>
     </StyledTouchableOpacity>
   );

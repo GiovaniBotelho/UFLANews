@@ -17,8 +17,7 @@ import Button from '../../core/Button';
 import COLORS from '../../../config/colors';
 import SPACING from '../../../config/spacing';
 
-
-const Register = ({navigation}) => {
+const Edit = ({navigation}) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -39,7 +38,7 @@ const Register = ({navigation}) => {
               <Image source={Logo} resizeMode={'contain'} style={{height: 50}} />
             }
           />
-          <StyledText>Cadastrar</StyledText>
+          <StyledText>Editar Perfil</StyledText>
           <StyledPicture>
             <Icon name="user-circle" size={150} color="#000000" />
           </StyledPicture>
@@ -80,7 +79,12 @@ const Register = ({navigation}) => {
             />
           </FormRow>
           <StyledButtonContainer>
-            <Button title={'CADASTRAR'} />
+            <Button 
+              title={'SALVAR'}
+              onClick={() => {
+                submit()
+              }}
+            />
           </StyledButtonContainer>
         </StyledView>
       </FormContainer>
@@ -90,7 +94,6 @@ const Register = ({navigation}) => {
 
 const StyledView = styled.ScrollView`
   width: 100%;
-  margin-bottom: 20;
 `;
 
 const FormContainer = styled(LinearGradient)`
@@ -129,4 +132,4 @@ const StyledPicture = styled.TouchableOpacity`
   align-self: center;
 `;
 
-export default Register;
+export default Edit;

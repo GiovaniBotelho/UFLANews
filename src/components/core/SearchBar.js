@@ -24,7 +24,7 @@ const Container = styled.View`
   margin-left: ${SPACING.medium};
   margin-right: ${SPACING.medium};
   margin-top: ${SPACING.medium};
-  margin-bottom: ${SPACING.medium};
+  margin-bottom: ${SPACING.small};
 `;
 
 const TextInput = styled.TextInput`

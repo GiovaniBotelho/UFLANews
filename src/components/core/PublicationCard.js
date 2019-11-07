@@ -7,36 +7,36 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 //import COLORS from '@config/colors';
 import SPACING from '../../config/spacing';
 
-import pug from '../../assets/pug.jpg';
+import pug from '../../assets/mike.jpg';
 
-const PublicationCard = ({publication}) => {
+const PublicationCard = ({publicacao, navigation}) => {
   return (
     <Container>
-      <Capa>
+      <Capa onPress={() => navigation.navigate('Publication')}>
         <Image
           source={pug}
           aspectRation={1}
           resizeMode={'cover'}
           style={{height: '100%', width: '100%'}}
         />
+        <Info>
+          <Titulo>{publicacao.titulo}</Titulo>
+          <Autor>{publicacao.autor}</Autor>
+          <DataHora>{publicacao.data}</DataHora>
+        </Info>
       </Capa>
       <Options>
         <Option first>
-          <Icon
-            name="share-square"
-            size={25}
-            color={'#000000'}
-            type="regular"
-          />
+          <Icon name="share-square-o" size={25} color={'#000'} />
         </Option>
         <Option>
-          <Icon name="star" size={30} color={'#000000'} type="regular" />
+          <Icon name="star-o" size={30} color={'#000'} />
         </Option>
         <Option>
-          <Icon name="comments" size={30} color={'#000000'} type="regular" />
+          <Icon name="comments-o" size={30} color={'#000'} />
         </Option>
         <Option>
-          <Icon name="thumbs-up" size={30} color={'#000000'} type="regular" />
+          <Icon name="thumbs-o-up" size={30} color={'#000'} />
         </Option>
       </Options>
     </Container>
@@ -54,12 +54,34 @@ const Container = styled.View`
   flex-direction: row;
 `;
 
-const Capa = styled.View`
+const Capa = styled.TouchableOpacity`
   flex: 5;
 `;
+
+const Info = styled.View`
+  background-color: white;
+  height: auto;
+  position: absolute;
+  bottom: 0;
+  opacity: 0.7;
+  width: 100%;
+  padding-top: ${SPACING.small};
+  padding-bottom: ${SPACING.small};
+  padding-left: ${SPACING.medium};
+  padding-right: ${SPACING.small};
+`;
+const Titulo = styled.Text`
+  font-size: 17;
+`;
+const Autor = styled.Text`
+  font-size: 13;
+`;
+const DataHora = styled.Text`
+  font-size: 11;
+`;
+
 const Options = styled.View`
   flex: 1;
-  border-left-width: 1;
   align-items: center;
 `;
 
