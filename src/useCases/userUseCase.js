@@ -30,7 +30,7 @@ export const register = (name, email, callback = () => {}) => {
     }
     axios({
         method: 'POST',
-        url: `http://localhost:3000/usuarios`,
+        url: `https://uflanews-17d5b.firebaseio.com/usuarios.json`,
         data: dataForm
     }).then(response => {
         callback();
