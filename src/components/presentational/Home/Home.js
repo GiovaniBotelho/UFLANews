@@ -90,7 +90,7 @@ const Home = ({navigation}) => {
       <OptionsBar>
         <Button
           radius={0}
-          title={'Favoritos'}
+          title={'Favoritos'} 
           onClick={() => navigation.navigate('Favorites')}
         />
         <Button
