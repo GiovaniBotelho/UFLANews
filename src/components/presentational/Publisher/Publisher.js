@@ -1,65 +1,86 @@
-import React from 'react';
-import {FlatList} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import React, {useState} from 'react';
+import {ActivityIndicator, FlatList, Image} from 'react-native';
+import styled from 'styled-components/native';
 import LinearGradient from 'react-native-linear-gradient';
-import styled from 'styled-components';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 /* Core - imports */
 import Header from '../../core/Header';
-import SearchBar from '../../core/SearchBar';
-import PublisherCard from '../../core/PublisherCard';
+import Button from '../../core/Button';
+import PublicationCard from '../../core/PublicationCard';
 
 /* Constants - imports */
 import COLORS from '../../../config/colors';
 import SPACING from '../../../config/spacing';
 
-const Publishers = [
+/* Images - imports */
+import Logo from '../../../assets/logo.png';
+
+const Publicacoes = [
   {
     id: '1',
-    name: 'Antonio Maria',
-    publicacoes: 15,
-    incritos: 123,
+    titulo: 'Titulo A',
+    autor: 'Autor A',
+    data: 'Data A',
+    capa: 'C:UsersMauricio VieiraDesktopUFLANewssrcassetsmike.jpg',
   },
   {
     id: '2',
-    name: 'Paulo Afonso',
-    publicacoes: 15,
-    incritos: 15,
+    titulo: 'Titulo B',
+    autor: 'Autor B',
+    data: 'Data B',
+    capa: 'C:UsersMauricio VieiraDesktopUFLANewssrcassetspug.jpg',
   },
   {
     id: '3',
-    name: 'Denilson Pereira',
-    publicacoes: 45,
-    incritos: 10.938,
+    titulo: 'Titulo C',
+    autor: 'Autor C',
+    data: 'Data C',
+    capa: 'C:UsersMauricio VieiraDesktopUFLANewssrcassetspug.jpg',
   },
   {
     id: '4',
-    name: 'Sanderson BitBox',
-    publicacoes: 123,
-    incritos: 1.234,
+    titulo: 'Titulo D',
+    autor: 'Autor D',
+    data: 'Data D',
+    capa: 'C:UsersMauricio VieiraDesktopUFLANewssrcassetspug.jpg',
   },
   {
     id: '5',
-    name: 'Juliana Galvani',
-    publicacoes: 99,
-    incritos: 0,
+    titulo: 'Titulo E',
+    autor: 'Autor E',
+    data: 'Data E',
+    capa: 'C:UsersMauricio VieiraDesktopUFLANewssrcassetspug.jpg',
   },
   {
     id: '6',
-    name: 'Joaquim Morde Língua',
-    publicacoes: 55,
-    incritos: 1,
+    titulo: 'Titulo F',
+    autor: 'Autor F',
+    data: 'Data F',
+    capa: 'C:UsersMauricio VieiraDesktopUFLANewssrcassetspug.jpg',
   },
 ];
 
-const _keyExtractor = publisher => publisher.id;
+const _keyExtractor = publicacao => publicacao.id;
 
 const Publisher = ({navigation}) => {
+  const [inscrito, setInscrito] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const publisher = navigation.getParam('publisher', undefined);
+
   return (
     <Container colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
       <Header
-        title={'Publicadores'}
-        rightSide={<Icon name={'user'} size={25} />}
+        showLogo={
+          <Image source={Logo} resizeMode={'contain'} style={{height: 50}} />
+        }
+        rightSide={
+          <Icon
+            name={'user'}
+            size={25}
+            onPress={() => navigation.navigate('MyAccount')}
+          />
+        }
         leftSide={
           <Icon
             name={'chevron-left'}
@@ -68,11 +89,31 @@ const Publisher = ({navigation}) => {
           />
         }
       />
-      <SearchBar />
+      <Info>
+        <PublisherName>{publisher.name}</PublisherName>
+        <FooterInfo>
+          <PublisherSubscribers>
+            {publisher.inscritos} inscritos
+          </PublisherSubscribers>
+          {loading ? (
+            <ActivityIndicator />
+          ) : (
+            <Button
+              title={inscrito ? 'INSCRITO' : 'INSCREVER-SE'}
+              color={inscrito ? COLORS.red : undefined}
+              onClick={() => {
+                setInscrito(!inscrito);
+              }}
+            />
+          )}
+        </FooterInfo>
+      </Info>
+      <Label>Publicações</Label>
       <FlatList
-        style={{marginTop: SPACING.medium}}
-        data={Publishers}
-        renderItem={({item, index}) => <PublisherCard publisher={item} />}
+        data={Publicacoes}
+        renderItem={({item, index}) => (
+          <PublicationCard publicacao={item} navigation={navigation} />
+        )}
         keyExtractor={_keyExtractor}
         ListFooterComponent={props => <FooterStyled />}
       />
@@ -82,6 +123,43 @@ const Publisher = ({navigation}) => {
 
 const Container = styled(LinearGradient)`
   flex: 1;
+`;
+
+const Info = styled.View`
+  background-color: white;
+  height: auto;
+  border-radius: 20;
+  margin-top: ${SPACING.medium};
+  margin-left: ${SPACING.small};
+  margin-right: ${SPACING.small};
+  padding-left: ${SPACING.medium};
+  padding-top: ${SPACING.large};
+  padding-bottom: ${SPACING.medium};
+  padding-right: ${SPACING.medium};
+`;
+
+const PublisherName = styled.Text`
+  margin-left: ${SPACING.medium};
+  margin-right: ${SPACING.medium};
+  align-self: center;
+  font-size: 20;
+  height: 70;
+`;
+const FooterInfo = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const PublisherSubscribers = styled.Text`
+  font-size: 15;
+`;
+
+const Label = styled.Text`
+margin-top: ${SPACING.medium}
+margin-bottom: ${SPACING.medium}
+margin-left: ${SPACING.medium}
+  font-size: 20;
 `;
 
 const FooterStyled = styled.View`

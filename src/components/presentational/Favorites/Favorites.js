@@ -17,7 +17,6 @@ import SPACING from '../../../config/spacing';
 import Logo from '../../../assets/logo.png';
 
 const Favorites = props => {
-  
   const _renderItem = ({item, index}) => (
     <PublicationCard publicacao={item} navigation={props.navigation} />
   );
@@ -26,7 +25,13 @@ const Favorites = props => {
     <Container colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
       <Header
         title={'Favoritos'}
-        rightSide={<Icon name={'user'} size={25} onPress={() => props.navigation.navigate('MyAccount')}/>}
+        rightSide={
+          <Icon
+            name={'user'}
+            size={25}
+            onPress={() => props.navigation.navigate('MyAccount')}
+          />
+        }
         leftSide={
           <Icon
             name={'chevron-left'}
@@ -43,7 +48,8 @@ const Favorites = props => {
             </StyledButtonFavoritePublications>
           </FormRow>
           <FormRow>
-            <StyledButtonRegistrations>
+            <StyledButtonRegistrations
+              onPress={() => props.navigation.navigate('Publishers')}>
               <StyledButtonText>Minhas Inscrições</StyledButtonText>
             </StyledButtonRegistrations>
           </FormRow>
@@ -65,7 +71,6 @@ const StyledView = styled.View`
 
 const StyledContainer = styled.View`
   padding: 20px;
-
 `;
 
 const FormRow = styled.View`
