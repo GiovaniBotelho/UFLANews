@@ -32,7 +32,7 @@ const PublicationCard = ({publicacao, navigation}) => {
         <Option>
           <Icon name="star-o" size={30} color={'#000'} />
         </Option>
-        <Option>
+        <Option onPress={() => navigation.navigate('Comments')}>
           <Icon name="comments-o" size={30} color={'#000'} />
         </Option>
         <Option>
@@ -45,6 +45,7 @@ const PublicationCard = ({publicacao, navigation}) => {
 
 const Container = styled.View`
   height: 200;
+  border-width: 1;
   background: white;
   margin-right: ${SPACING.medium};
   margin-left: ${SPACING.medium};

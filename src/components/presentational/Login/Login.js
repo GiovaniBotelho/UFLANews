@@ -69,7 +69,7 @@ const Login = props => {
           <Button
             title={'ENTRAR'}
             onClick={() => {
-              props.navigation.navigate('Home');
+              props.navigation.replace('Home');
             }}
           />
           <Button
