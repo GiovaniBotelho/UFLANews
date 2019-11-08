@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {signIn} from '../useCases/userUseCase';
 
 /* Presentational - imports */
 import Login from '../components/presentational/Login/';
@@ -7,7 +7,7 @@ import Login from '../components/presentational/Login/';
 const LoginScreen = props => {
   return (
     <>
-      <Login navigation={props.navigation} />
+      <Login navigation={props.navigation} signIn={signIn} />
     </>
   );
 };

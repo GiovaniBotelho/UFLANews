@@ -13,14 +13,14 @@ import TextInput from '../../core/TextInput';
 import TouchableTextWithIcon from '../../core/TouchableTextWithIcon';
 
 const Login = props => {
-  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(true);
 
   handleLogin = () => {
-    // Aqui manipulamos o login
-    // setLoading(!loading);
-    props.navigation.navigate('Home');
+    const {signIn} = props;
+    signIn(email, password, () => props.navigation.navigate('Home'));
+    // props.navigation.navigate('Home');
   };
 
   handleForgotPassword = () => {
@@ -48,8 +48,8 @@ const Login = props => {
             iconSize={25}
             iconColor={'#000'}
             placeholder={'E-mail'}
-            value={name}
-            onChangeText={setName}
+            value={email}
+            onChangeText={setEmail}
           />
           <TextInput
             iconName={'lock'}
@@ -69,13 +69,12 @@ const Login = props => {
           <Button
             title={'ENTRAR'}
             onClick={() => {
-              props.navigation.replace('Home');
+              handleLogin();
             }}
           />
           <Button
             title={'CADASTRAR'}
             onClick={() => {
-              console.log('Cliquei');
               props.navigation.navigate('Register');
             }}
           />

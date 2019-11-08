@@ -26,7 +26,7 @@ const Register = props => {
 
   const register = () => {
     const {register} = props;
-    register(name, email, () => props.navigation.replace('Login'));
+    register(name, email, password, passwordConfirm, () => props.navigation.replace('Login'));
   };
 
   return (
