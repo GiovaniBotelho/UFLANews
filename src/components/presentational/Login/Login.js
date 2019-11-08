@@ -19,7 +19,7 @@ const Login = props => {
 
   handleLogin = () => {
     const {signIn} = props;
-    signIn(email, password, () => props.navigation.navigate('Home'));
+    signIn(email, password, () => props.navigation.replace('Home'));
     // props.navigation.navigate('Home');
   };
 
@@ -50,6 +50,8 @@ const Login = props => {
             placeholder={'E-mail'}
             value={email}
             onChangeText={setEmail}
+            keyboardType={'email-address'}
+            autoCapitalize={'none'}
           />
           <TextInput
             iconName={'lock'}

@@ -7,7 +7,6 @@ import LinearGradient from 'react-native-linear-gradient';
 /* Images */
 import Logo from '../../../assets/logo.png';
 
-
 /* Components - import */
 import Header from '../../core/Header';
 import TextInput from '../../core/TextInput';
@@ -17,7 +16,6 @@ import Button from '../../core/Button';
 import COLORS from '../../../config/colors';
 import SPACING from '../../../config/spacing';
 
-
 const Register = props => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -26,7 +24,9 @@ const Register = props => {
 
   const register = () => {
     const {register} = props;
-    register(name, email, password, passwordConfirm, () => props.navigation.replace('Login'));
+    register(name, email, password, passwordConfirm, () =>
+      props.navigation.replace('Login'),
+    );
   };
 
   return (
@@ -35,10 +35,13 @@ const Register = props => {
         <StyledView>
           <Header
             leftSide={
-            <Icon name={'chevron-left'} size={25} 
-              onPress={() => {
-                props.navigation.pop()
-              }}/>
+              <Icon
+                name={'chevron-left'}
+                size={25}
+                onPress={() => {
+                  props.navigation.pop();
+                }}
+              />
             }
             title={'Cadastrar'}
           />
@@ -61,6 +64,8 @@ const Register = props => {
               placeholder={'E-mail'}
               value={email}
               onChangeText={setEmail}
+              keyboardType={'email-address'}
+              autoCapitalize={'none'}
             />
             <TextInput
               iconName={'lock'}
@@ -82,9 +87,7 @@ const Register = props => {
             />
           </FormRow>
           <StyledButtonContainer>
-            <Button title={'CADASTRAR'} 
-              onClick={() => register()}
-            />
+            <Button title={'CADASTRAR'} onClick={() => register()} />
           </StyledButtonContainer>
         </StyledView>
       </FormContainer>
@@ -121,7 +124,7 @@ const FormRow = styled.View`
 const StyledPicture = styled.TouchableOpacity`
   padding: 20px;
   align-items: center;
-  justify-content: center;  
+  justify-content: center;
   align-self: center;
 `;
 

@@ -34,7 +34,7 @@ const Publishers = [
   },
   {
     id: '4',
-    name: 'Sanderson BitBox',
+    name: 'Sanderson',
     publicacoes: 123,
     inscritos: 1.234,
   },
@@ -46,7 +46,7 @@ const Publishers = [
   },
   {
     id: '6',
-    name: 'Joaquim Morde Língua',
+    name: 'Joaquim Uchoa',
     publicacoes: 55,
     inscritos: 1,
   },

@@ -10,7 +10,9 @@ const Button = ({
   value,
   onChangeText,
   secureTextEntry,
-  editable
+  keyboardType,
+  editable,
+  autoCapitalize,
 }) => {
   return (
     <Container>
@@ -23,6 +25,8 @@ const Button = ({
         onChangeText={texto => onChangeText(texto)}
         secureTextEntry={secureTextEntry}
         editable={editable}
+        keyboardType={keyboardType}
+        autoCapitalize={autoCapitalize}
       />
     </Container>
   );

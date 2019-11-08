@@ -23,7 +23,7 @@ const Comentarios = [
     id: '1',
   },
   {
-    usuario: 'Pedro Viadão',
+    usuario: 'Vinicius Spinelli',
     comentario:
       'aaaaaaaaaaa a dawda dwd aaaaaadadaa d a daw d awd a wd awdawd ad a wda wd aw da wd a wda d awd a wd awd a wdaad aaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
     tempoEnvio: '2 minutos atrás',
@@ -31,7 +31,7 @@ const Comentarios = [
     id: '2',
   },
   {
-    usuario: 'Giovani Gay',
+    usuario: 'Giovani Botelho',
     comentario:
       'aaaaaaaaaaa a dawda dwd aaaaaadadaa d a daw d awd a wd awdawd ad a wda wd aw da wd a wda d awd a wd awd a wdaad aaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
     tempoEnvio: '2 dias atrás',
@@ -47,7 +47,7 @@ const Comentarios = [
     id: '4',
   },
   {
-    usuario: 'Vinicius',
+    usuario: 'Brenex',
     comentario:
       'aaaaaaaaaaa a dawda dwd aaaaaadadaa d a daw d awd a wd awdawd ad a wda wd aw da wd a wda d awd a wd awd a wdaad aaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
     tempoEnvio: '1 hora atrás',

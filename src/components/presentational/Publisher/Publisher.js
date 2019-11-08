@@ -142,7 +142,7 @@ const PublisherName = styled.Text`
   margin-left: ${SPACING.medium};
   margin-right: ${SPACING.medium};
   align-self: center;
-  font-size: 20;
+  font-size: 25;
   height: 70;
 `;
 const FooterInfo = styled.View`
