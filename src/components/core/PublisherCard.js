@@ -62,7 +62,7 @@ const Info = styled.View`
   padding-top: ${SPACING.small};
   padding-bottom: ${SPACING.small};
   padding-left: ${SPACING.medium};
-  padding-right: ${SPACING.small};
+  padding-right: ${SPACING.medium};
 `;
 
 const Footer = styled.View`

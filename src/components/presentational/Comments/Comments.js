@@ -2,54 +2,92 @@ import React from 'react';
 import styled from 'styled-components';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {FlatList} from 'react-native';
 
 /* Core - imports */
 import Header from '../../core/Header';
-import PublishBar from '../../core/PublishBar';
+import CommentBar from '../../core/CommentBar';
 import CommentCard from '../../core/CommentCard';
 
 /* Constatns */
 import COLORS from '../../../config/colors';
+import SPACING from '../../../config/spacing';
+
+const Comentarios = [
+  {
+    usuario: 'Pedro Pereke 007',
+    comentario:
+      'aaaaaaaaaaa a dawda dwd aaaaaadadaa d a daw d awd a wd awdawd ad a wda wd aw da wd a wda d awd a wd awd a wdaad aaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    tempoEnvio: '2 meses atrás',
+    curtidas: 280,
+    id: '1',
+  },
+  {
+    usuario: 'Pedro Viadão',
+    comentario:
+      'aaaaaaaaaaa a dawda dwd aaaaaadadaa d a daw d awd a wd awdawd ad a wda wd aw da wd a wda d awd a wd awd a wdaad aaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    tempoEnvio: '2 minutos atrás',
+    curtidas: 1,
+    id: '2',
+  },
+  {
+    usuario: 'Giovani Gay',
+    comentario:
+      'aaaaaaaaaaa a dawda dwd aaaaaadadaa d a daw d awd a wd awdawd ad a wda wd aw da wd a wda d awd a wd awd a wdaad aaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    tempoEnvio: '2 dias atrás',
+    curtidas: 29,
+    id: '3',
+  },
+  {
+    usuario: 'Rodrigão',
+    comentario:
+      'aaaaaaaaaaa a dawda dwd aaaaaadadaa d a daw d awd a wd awdawd ad a wda wd aw da wd a wda d awd a wd awd a wdaad aaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    tempoEnvio: 'poucos segundos',
+    curtidas: 0,
+    id: '4',
+  },
+  {
+    usuario: 'Vinicius',
+    comentario:
+      'aaaaaaaaaaa a dawda dwd aaaaaadadaa d a daw d awd a wd awdawd ad a wda wd aw da wd a wda d awd a wd awd a wdaad aaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    tempoEnvio: '1 hora atrás',
+    curtidas: 150,
+    id: '5',
+  },
+  {
+    usuario: 'Paulo Afonso',
+    comentario:
+      'aaaaaaaaaaa a dawda dwd aaaaaadadaa d a daw d awd a wd awdawd ad a wda wd aw da wd a wda d awd a wd awd a wdaad aaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    tempoEnvio: '15 minutos atrás',
+    curtidas: 2,
+    id: '6',
+  },
+];
+
+const _keyExtractor = comment => comment.id;
 
 const Comments = props => {
   return (
     <Container colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
       <Header
         leftSide={
-          <Icon name={'chevron-left'} size={25} 
+          <Icon
+            name={'chevron-left'}
+            size={25}
             onPress={() => {
-              props.navigation.pop()
-          }}/>
+              props.navigation.pop();
+            }}
+          />
         }
-        showLogo={
-          <TextComment>
-            Comentários
-          </TextComment>
-        }
+        showLogo={<TextComment>Comentários</TextComment>}
       />
-      <StyledView>
-        <CommentCard />
-        <CommentCard />
-        <CommentCard />
-        <CommentCard />
-        <CommentCard />
-        <CommentCard />        
-        <CommentCard />
-        <CommentCard />
-        <CommentCard />
-        <CommentCard />        
-        <CommentCard />
-        <CommentCard />
-        <CommentCard />
-        <CommentCard />        
-        <CommentCard />
-        <CommentCard />
-        <CommentCard />
-        <CommentCard />
-        <CommentCard />
-        <CommentCard />
-      </StyledView>
-      <PublishBar />
+      <FlatList
+        data={Comentarios}
+        renderItem={({item, index}) => <CommentCard comment={item} />}
+        keyExtractor={_keyExtractor}
+        ListFooterComponent={props => <FooterStyled />}
+      />
+      <CommentBar />
     </Container>
   );
 };
@@ -64,6 +102,10 @@ const Container = styled(LinearGradient)`
 
 const StyledView = styled.ScrollView`
   width: 100%;
+`;
+
+const FooterStyled = styled.View`
+  padding-bottom: ${SPACING.medium};
 `;
 
 export default Comments;
