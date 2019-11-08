@@ -3,6 +3,8 @@ const COLORS = {
   gradientBottom: '#93cae8',
   backLogo: '#eef5ef',
   red: '#FF0000',
+  white: '#ffffff',
+  blueButton: '#1abef2',
 };
 
 export default COLORS;

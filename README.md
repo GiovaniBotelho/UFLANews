@@ -31,6 +31,11 @@ Você precisa seguir os seguintes passos para rodar o projeto:
   ```
   yarn install
   ```
+- Criar chave para o apk:
+  ```
+  cd android/app/
+  keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000
+  ```
 - Rodar o aplicativo em dispositivos Android: 
   ```
   react-native run-android

@@ -31,6 +31,7 @@ const TextInput = styled.TextInput`
   flex: 10;
   border-left-width: 1;
   padding-left: ${SPACING.medium};
+  margin-left: ${SPACING.medium};
 `;
 
 export default SearchBar;

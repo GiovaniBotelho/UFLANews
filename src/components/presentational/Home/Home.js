@@ -75,7 +75,9 @@ const Home = ({navigation}) => {
   return (
     <Container colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
       <Header
-        title={'Principal'}
+        showLogo={
+          <Image source={Logo} resizeMode={'contain'} style={{height: 60}} />
+        }
         rightSide={
           <Icon
             name={'user'}
@@ -126,6 +128,7 @@ const FooterStyled = styled.View`
 `;
 const OptionsBar = styled.View`
   flex-direction: row;
+  justify-content: space-around;
   margin-left: ${SPACING.medium};
   margin-right: ${SPACING.medium};
 `;
