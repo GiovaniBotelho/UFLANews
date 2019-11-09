@@ -22,7 +22,6 @@ export const signIn = async (email, password, callback = () => {}) => {
         } catch (erro) {
           console.log('Erro');
         }
-
         callback();
       })
       .catch(error => {
@@ -33,6 +32,7 @@ export const signIn = async (email, password, callback = () => {}) => {
   }
 };
 
+
 export const register = (
   name,
   email,
@@ -41,48 +41,53 @@ export const register = (
   callback = () => {},
 ) => {
   if (name && email && password && passwordConfirm) {
-    if (password == passwordConfirm) {
-      dataFormRegister = {
-        email: email,
-        password: password,
-      };
+    let reg = /^[a-zA-Z0-9_.]+@[a-zA-Z0-9]+\.[a-zA-Z0-9.]+$/;
+    if(reg.test(email) === true) {
+      if (password == passwordConfirm) {
+        dataFormRegister = {
+          email: email,
+          password: password,
+        };
 
-      axios({
-        method: 'POST',
-        url: `http://localhost:8000/auth/register`,
-        data: dataFormRegister,
-      })
-        .then(response => {
-          const headers = {
-            Authorization: 'Bearer ' + response.data.access_token,
-          };
-
-          data = {
-            nome: name,
-            email: email,
-            foto: null,
-          };
-
-          axios({
-            method: 'POST',
-            url: `http://localhost:8000/usuarios`,
-            data: data,
-            headers: headers,
-          })
-            .then(response => {
-              callback();
-            })
-            .catch(e => {
-              Alert.alert('Erro ao cadastrar');
-            });
-
-          callback();
+        axios({
+          method: 'POST',
+          url: `http://localhost:8000/auth/register`,
+          data: dataFormRegister,
         })
-        .catch(error => {
-          console.error(error);
-        });
+          .then(response => {
+            const headers = {
+              Authorization: 'Bearer ' + response.data.access_token,
+            };
+
+            data = {
+              nome: name,
+              email: email,
+              foto: null,
+            };
+
+            axios({
+              method: 'POST',
+              url: `http://localhost:8000/usuarios`,
+              data: data,
+              headers: headers,
+            })
+              .then(response => {
+                callback();
+              })
+              .catch(e => {
+                Alert.alert('Erro ao cadastrar');
+              });
+
+            callback();
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      } else {
+        Alert.alert('As senhas informadas não conferem!');
+      }
     } else {
-      Alert.alert('As senhas informadas não conferem!');
+      Alert.alert('Por favor, informe um endereço de email válido!');
     }
   } else {
     Alert.alert('Por favor, preencha todos os campos do formulário!');
