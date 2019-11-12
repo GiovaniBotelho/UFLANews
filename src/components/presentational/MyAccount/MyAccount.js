@@ -3,6 +3,8 @@ import {Image} from 'react-native';
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
+import { StackActions, NavigationActions } from 'react-navigation';
+import AsyncStorage from '@react-native-community/async-storage';
 
 /* Images */
 import Logo from '../../../assets/logo.png';
@@ -21,6 +23,11 @@ const MyAccount = props => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
 
+  const resetAction = StackActions.reset({
+    index: 0,
+    actions: [NavigationActions.navigate({ routeName: 'Login' })],
+  });
+
   return (
     <>
       <FormContainer colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
@@ -33,6 +40,12 @@ const MyAccount = props => {
               }}/>
             }
             title={'Minha Conta'}
+            rightSide={<Icon name={'sign-out'} size={25} 
+              onPress={() => {
+                console.log(AsyncStorage.getItem('access-token'))
+                props.navigation.dispatch(resetAction);
+              }}/>
+            }
           />
           <StyledImages>
             <Icon name="user-circle" size={150} color="#000000" />
