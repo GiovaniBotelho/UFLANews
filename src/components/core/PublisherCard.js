@@ -8,9 +8,7 @@ import SPACING from '../../config/spacing';
 
 import pug from '../../assets/pug.jpg';
 
-const PublisherCard = ({publisher, navigation}) => {
-  console.log('Publisher');
-  console.log(publisher);
+const PublisherCard = ({publisher, navigation}) => {  
   return (
     <Container>
       <Capa
@@ -20,18 +18,18 @@ const PublisherCard = ({publisher, navigation}) => {
           })
         }>
         <Image
-          source={pug}
+          source={{
+            uri: publisher.imageCapa,
+          }}
           aspectRation={1}
           resizeMode={'cover'}
           style={{height: '100%', width: '100%'}}
         />
         <Info>
-          <PublisherName>{publisher.name}</PublisherName>
+          <PublisherName>{publisher.nome}</PublisherName>
           <Footer>
-            <PublicationsNumber>
-              {publisher.publicacoes} publicações
-            </PublicationsNumber>
-            <Subscribers>{publisher.inscritos} inscritos</Subscribers>
+            <PublicationsNumber>15 publicações</PublicationsNumber>
+            <Subscribers>19 inscritos</Subscribers>
           </Footer>
         </Info>
       </Capa>

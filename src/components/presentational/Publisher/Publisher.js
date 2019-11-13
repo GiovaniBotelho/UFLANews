@@ -15,6 +15,7 @@ import SPACING from '../../../config/spacing';
 
 /* Images - imports */
 import Logo from '../../../assets/logo.png';
+import pug from '../../../assets/pug.jpg';
 
 const Publicacoes = [
   {
@@ -22,42 +23,42 @@ const Publicacoes = [
     titulo: 'Titulo A',
     autor: 'Autor A',
     data: 'Data A',
-    capa: 'C:UsersMauricio VieiraDesktopUFLANewssrcassetsmike.jpg',
+    imageCapa: pug,
   },
   {
     id: '2',
     titulo: 'Titulo B',
     autor: 'Autor B',
     data: 'Data B',
-    capa: 'C:UsersMauricio VieiraDesktopUFLANewssrcassetspug.jpg',
+    imageCapa: pug,
   },
   {
     id: '3',
     titulo: 'Titulo C',
     autor: 'Autor C',
     data: 'Data C',
-    capa: 'C:UsersMauricio VieiraDesktopUFLANewssrcassetspug.jpg',
+    imageCapa: pug,
   },
   {
     id: '4',
     titulo: 'Titulo D',
     autor: 'Autor D',
     data: 'Data D',
-    capa: 'C:UsersMauricio VieiraDesktopUFLANewssrcassetspug.jpg',
+    imageCapa: pug,
   },
   {
     id: '5',
     titulo: 'Titulo E',
     autor: 'Autor E',
     data: 'Data E',
-    capa: 'C:UsersMauricio VieiraDesktopUFLANewssrcassetspug.jpg',
+    imageCapa: pug,
   },
   {
     id: '6',
     titulo: 'Titulo F',
     autor: 'Autor F',
     data: 'Data F',
-    capa: 'C:UsersMauricio VieiraDesktopUFLANewssrcassetspug.jpg',
+    imageCapa: pug,
   },
 ];
 
@@ -90,11 +91,9 @@ const Publisher = ({navigation}) => {
         }
       />
       <Info>
-        <PublisherName>{publisher.name}</PublisherName>
+        <PublisherName>{publisher.nome}</PublisherName>
         <FooterInfo>
-          <PublisherSubscribers>
-            {publisher.inscritos} inscritos
-          </PublisherSubscribers>
+          <PublisherSubscribers>198 inscritos</PublisherSubscribers>
           {loading ? (
             <ActivityIndicator />
           ) : (

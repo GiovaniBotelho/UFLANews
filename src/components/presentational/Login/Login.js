@@ -13,8 +13,8 @@ import TextInput from '../../core/TextInput';
 import TouchableTextWithIcon from '../../core/TouchableTextWithIcon';
 
 const Login = props => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('giova');
+  const [password, setPassword] = useState('123');
   const [loading, setLoading] = useState(true);
 
   handleLogin = () => {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {FlatList} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
@@ -52,9 +52,14 @@ const Publishers = [
   },
 ];
 
-const _keyExtractor = publisher => publisher.id;
+const _keyExtractor = publisher => publisher.id.toString();
 
-const Publisher = ({navigation}) => {
+const Publisher = ({navigation, getPublishers}) => {
+  const [publishers, setPublishers] = useState([]);
+  useEffect(() => {
+    getPublishers(setPublishers);
+  }, []);
+  
   return (
     <Container colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
       <Header
@@ -77,7 +82,7 @@ const Publisher = ({navigation}) => {
       <SearchBar />
       <FlatList
         style={{marginTop: SPACING.medium}}
-        data={Publishers}
+        data={publishers}
         renderItem={({item, index}) => (
           <PublisherCard publisher={item} navigation={navigation} />
         )}

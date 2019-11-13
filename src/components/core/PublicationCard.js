@@ -10,18 +10,25 @@ import SPACING from '../../config/spacing';
 import pug from '../../assets/mike.jpg';
 
 const PublicationCard = ({publicacao, navigation}) => {
+  console.log(typeof publicacao.imageCapa);
   return (
     <Container>
       <Capa onPress={() => navigation.navigate('Publication')}>
         <Image
-          source={pug}
+          source={
+            typeof publicacao.imageCapa != 'string'
+              ? pug
+              : {
+                  uri: publicacao.imageCapa,
+                }
+          }
           aspectRation={1}
           resizeMode={'cover'}
           style={{height: '100%', width: '100%'}}
         />
         <Info>
           <Titulo>{publicacao.titulo}</Titulo>
-          <Autor>{publicacao.autor}</Autor>
+          <Autor>{publicacao.publicadorId}</Autor>
           <DataHora>{publicacao.data}</DataHora>
         </Info>
       </Capa>

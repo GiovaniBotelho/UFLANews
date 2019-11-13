@@ -20,12 +20,10 @@ const Publication = props => {
       <Header
         title={'Publicação'}
         rightSide={
-          <Icon 
+          <Icon
             name={'user'}
             size={25}
-            onPress={
-              () => props.navigation.navigate('MyAccount')
-            }
+            onPress={() => props.navigation.navigate('MyAccount')}
           />
         }
         leftSide={
@@ -83,7 +81,12 @@ const Publication = props => {
         <Options>
           <Option>
             <NumberOption>3</NumberOption>
-            <Icon name="comments-o" size={30} color={'#000'}  onPress={() => props.navigation.navigate('Comments')} />
+            <Icon
+              name="comments-o"
+              size={30}
+              color={'#000'}
+              onPress={() => props.navigation.navigate('Comments')}
+            />
           </Option>
           <Option>
             <Icon name="star-o" size={30} color={'#000'} />
