@@ -10,16 +10,15 @@ import SPACING from '../../config/spacing';
 import pug from '../../assets/mike.jpg';
 
 const PublicationCard = ({publicacao, navigation}) => {
-  console.log(typeof publicacao.imageCapa);
   return (
     <Container>
       <Capa onPress={() => navigation.navigate('Publication')}>
         <Image
           source={
-            typeof publicacao.imageCapa != 'string'
+            typeof publicacao.cover != 'string'
               ? pug
               : {
-                  uri: publicacao.imageCapa,
+                  uri: publicacao.cover,
                 }
           }
           aspectRation={1}
@@ -27,9 +26,11 @@ const PublicationCard = ({publicacao, navigation}) => {
           style={{height: '100%', width: '100%'}}
         />
         <Info>
-          <Titulo>{publicacao.titulo}</Titulo>
-          <Autor>{publicacao.publicadorId}</Autor>
-          <DataHora>{publicacao.data}</DataHora>
+          <Titulo>{publicacao.title}</Titulo>
+          {publicacao?.publisher?.nome ? (
+            <Autor>{publicacao.publisher.nome}</Autor>
+          ) : null}
+          <DataHora>{publicacao.date}</DataHora>
         </Info>
       </Capa>
       <Options>
@@ -43,6 +44,7 @@ const PublicationCard = ({publicacao, navigation}) => {
           <Icon name="comments-o" size={30} color={'#000'} />
         </Option>
         <Option>
+          <NumberOption>{publicacao?.likes?.length}</NumberOption>
           <Icon name="thumbs-o-up" size={30} color={'#000'} />
         </Option>
       </Options>
@@ -98,6 +100,11 @@ const Option = styled.TouchableOpacity`
   height: 25%;
   width: 100%
   border-top-width: ${props => (props.first ? 0 : 1)};
+  flex-direction: row;
+`;
+
+const NumberOption = styled.Text`
+  padding-right: ${SPACING.small};
 `;
 
 export default PublicationCard;

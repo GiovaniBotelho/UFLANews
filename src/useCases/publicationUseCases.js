@@ -9,17 +9,18 @@ export const getPublications = async (
   callback = () => {},
   loading = () => {},
 ) => {
-  const token = await AsyncStorage.getItem('acces-token', undefined);
-  
+  const token = await AsyncStorage.getItem('accesToken', undefined);
+
   await axios({
     method: 'GET',
-    url: `${CONSTANTS.HOST}/publicacoes`,
+    url: `${CONSTANTS.HOST}/news?_expand=publisher&_embed=likes`,
     headers: {
       Authorization: 'Bearer ' + token,
     },
   })
     .then(response => {
-      
+      console.log(response.data);
+      console.log(response.data?.likes);
       callback(response.data);
       loading(false);
     })

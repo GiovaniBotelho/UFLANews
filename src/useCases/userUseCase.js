@@ -6,27 +6,30 @@ import axios from 'axios';
 import CONSTANTS from '../config/constants';
 
 export const signIn = async (email, password, callback = () => {}) => {
-  if (!email || !password) return Alert.alert('Por favor, preencha todos os campos do formulário!');    
+  if (!email || !password)
+    return Alert.alert('Por favor, preencha todos os campos do formulário!');
   await axios({
     method: 'POST',
-    url: `${CONSTANTS.HOST}/auth/login`,
+    url: `${CONSTANTS.HOST}/login`,
     data: {
       email: email,
       password: password,
     },
   })
     .then(async response => {
-      const {access_token} = response.data;
+      console.log(response);
+      const {accessToken} = response.data;
       try {
-        const value = await AsyncStorage.setItem('acces-token', access_token);
+        const value = await AsyncStorage.setItem('accesToken', accessToken);
+        console.log(value);
       } catch (erro) {
-        console.log('Erro');
+        console.log('Erro ao salvar o token de acesso na memoria do dispositivo');
       }
       callback();
     })
     .catch(error => {
       Alert.alert('Verifique a senha e/ou usuário informado(s). ' + error);
-    });  
+    });
 };
 
 export const register = (
@@ -47,7 +50,7 @@ export const register = (
 
         axios({
           method: 'POST',
-          url: `${CONSTANTS.HOST}/auth/register`,
+          url: `${CONSTANTS.HOST}/register`,
           data: dataFormRegister,
         })
           .then(response => {

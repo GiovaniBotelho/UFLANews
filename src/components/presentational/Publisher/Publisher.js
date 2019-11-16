@@ -62,7 +62,7 @@ const Publicacoes = [
   },
 ];
 
-const _keyExtractor = publicacao => publicacao.id;
+const _keyExtractor = publicacao => publicacao.id.toString();
 
 const Publisher = ({navigation}) => {
   const [inscrito, setInscrito] = useState(true);
@@ -76,24 +76,30 @@ const Publisher = ({navigation}) => {
           <Image source={Logo} resizeMode={'contain'} style={{height: 50}} />
         }
         rightSide={
-          <Icon
-            name={'user'}
-            size={25}
-            onPress={() => navigation.navigate('MyAccount')}
-          />
+          <StyledTouchableOpacity>
+            <Icon
+              name={'user'}
+              size={25}
+              onPress={() => navigation.navigate('MyAccount')}
+            />
+          </StyledTouchableOpacity>
         }
         leftSide={
-          <Icon
-            name={'chevron-left'}
-            size={25}
-            onPress={() => navigation.pop()}
-          />
+          <StyledTouchableOpacity>
+            <Icon
+              name={'chevron-left'}
+              size={25}
+              onPress={() => navigation.pop()}
+            />
+          </StyledTouchableOpacity>
         }
       />
       <Info>
-        <PublisherName>{publisher.nome}</PublisherName>
+        <PublisherName>{publisher?.nome}</PublisherName>
         <FooterInfo>
-          <PublisherSubscribers>198 inscritos</PublisherSubscribers>
+          <PublisherSubscribers>
+            {publisher?.subscriptions} inscritos
+          </PublisherSubscribers>
           {loading ? (
             <ActivityIndicator />
           ) : (
@@ -102,6 +108,8 @@ const Publisher = ({navigation}) => {
               color={inscrito ? COLORS.red : undefined}
               onClick={() => {
                 setInscrito(!inscrito);
+                if (inscrito) publisher.subscriptions += 1;
+                else publisher.subscriptions -= 1;
               }}
             />
           )}
@@ -109,7 +117,7 @@ const Publisher = ({navigation}) => {
       </Info>
       <Label>Publicações</Label>
       <FlatList
-        data={Publicacoes}
+        data={publisher?.news}
         renderItem={({item, index}) => (
           <PublicationCard publicacao={item} navigation={navigation} />
         )}
@@ -122,6 +130,14 @@ const Publisher = ({navigation}) => {
 
 const Container = styled(LinearGradient)`
   flex: 1;
+`;
+
+const StyledTouchableOpacity = styled.TouchableOpacity`
+  border-radius: 80;
+  padding-left: ${SPACING.default};
+  padding-right: ${SPACING.default};
+  padding-top: ${SPACING.default};
+  padding-bottom: ${SPACING.default};
 `;
 
 const Info = styled.View`

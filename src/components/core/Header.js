@@ -14,7 +14,10 @@ const Header = props => {
   }
 
   return (
-    <HeaderBar backgroundColor={props.backgroundColor}>
+    <HeaderBar
+      backgroundColor={props.backgroundColor}
+      leftSide={props.leftSide}
+      rightSide={props.rightSide}>
       {props.leftSide ? props.leftSide : <EmptyIcon />}
       {handleTitle()}
       {props.rightSide ? props.rightSide : <EmptyIcon />}
@@ -29,8 +32,8 @@ const HeaderBar = styled.View`
 
   background-color: transparent;
 
-  padding-left: ${SPACING.large};
-  padding-right: ${SPACING.large};
+  padding-left: ${props => (props.leftSide ? '' : SPACING.large)};
+  padding-right: ${props => (props.leftSide ? '' : SPACING.large)};
 
   display: flex;
   flex-direction: row;
@@ -47,8 +50,8 @@ const EmptyIcon = styled.View`
 `;
 
 const StyledText = styled.Text`
-  textAlign: center;
-  fontSize: 25px;
+  textalign: center;
+  fontsize: 25px;
 `;
 
 export default Header;
