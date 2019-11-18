@@ -28,3 +28,20 @@ export const getPublications = async (
       console.log(error);
     });
 };
+
+export const getNewsByPublisher = async (publisher, callback = () => {}) => {
+  const token = await AsyncStorage.getItem('accesToken', undefined);
+
+  await axios({
+    method: 'GET',
+    url: `${CONSTANTS.HOST}/news?publicationId=${publisher}`,
+    headers: {
+      Authorization: 'Bearer ' + token,
+    },
+  }).then(response => {
+    console.log(response)
+    
+  }).catch(error => {
+    console.log(error);
+  })
+}

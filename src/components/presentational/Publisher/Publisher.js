@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {ActivityIndicator, FlatList, Image} from 'react-native';
 import styled from 'styled-components/native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -15,59 +15,19 @@ import SPACING from '../../../config/spacing';
 
 /* Images - imports */
 import Logo from '../../../assets/logo.png';
-import pug from '../../../assets/pug.jpg';
-
-const Publicacoes = [
-  {
-    id: '1',
-    titulo: 'Titulo A',
-    autor: 'Autor A',
-    data: 'Data A',
-    imageCapa: pug,
-  },
-  {
-    id: '2',
-    titulo: 'Titulo B',
-    autor: 'Autor B',
-    data: 'Data B',
-    imageCapa: pug,
-  },
-  {
-    id: '3',
-    titulo: 'Titulo C',
-    autor: 'Autor C',
-    data: 'Data C',
-    imageCapa: pug,
-  },
-  {
-    id: '4',
-    titulo: 'Titulo D',
-    autor: 'Autor D',
-    data: 'Data D',
-    imageCapa: pug,
-  },
-  {
-    id: '5',
-    titulo: 'Titulo E',
-    autor: 'Autor E',
-    data: 'Data E',
-    imageCapa: pug,
-  },
-  {
-    id: '6',
-    titulo: 'Titulo F',
-    autor: 'Autor F',
-    data: 'Data F',
-    imageCapa: pug,
-  },
-];
 
 const _keyExtractor = publicacao => publicacao.id.toString();
 
 const Publisher = ({navigation}) => {
   const [inscrito, setInscrito] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [news, setNews] = useState([]);
   const publisher = navigation.getParam('publisher', undefined);
+
+  useEffect(() => {
+    //props.getNewsByPublisher(publisher.id, setNews);
+    // Aqui ficara a chamada para uma função que recupera as publicações de um publisher especifico
+  }, []);
 
   return (
     <Container colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
