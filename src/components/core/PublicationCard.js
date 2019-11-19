@@ -10,7 +10,6 @@ import SPACING from '../../config/spacing';
 
 import pug from '../../assets/mike.jpg';
 
-moment.locale('pt-BR')
 const PublicationCard = ({publicacao, navigation}) => {
   const date = moment(publicacao.date,'DD-MM-YYYY hh:mm:ss', 'pt-BR')
   return (
