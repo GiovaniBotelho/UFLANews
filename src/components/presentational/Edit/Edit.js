@@ -7,7 +7,6 @@ import LinearGradient from 'react-native-linear-gradient';
 /* Images */
 import Logo from '../../../assets/logo.png';
 
-
 /* Components - import */
 import Header from '../../core/Header';
 import TextInput from '../../core/TextInput';
@@ -29,10 +28,9 @@ const Edit = ({navigation}) => {
         <StyledView>
           <Header
             leftSide={
-            <Icon name={'chevron-left'} size={25} 
-              onPress={() => {
-                navigation.pop()
-              }}/>
+              <StyledTouchableOpacity onPress={() => navigation.pop()}>
+                <Icon name={'chevron-left'} size={25} />
+              </StyledTouchableOpacity>
             }
             title={'Editar Perfil'}
           />
@@ -76,10 +74,10 @@ const Edit = ({navigation}) => {
             />
           </FormRow>
           <StyledButtonContainer>
-            <Button 
+            <Button
               title={'SALVAR'}
               onClick={() => {
-                submit()
+                submit();
               }}
             />
           </StyledButtonContainer>
@@ -116,8 +114,8 @@ const FormRow = styled.View`
 `;
 
 const StyledText = styled.Text`
-  textAlign: center;
-  fontSize: 30px;
+  textalign: center;
+  fontsize: 30px;
   padding: 20px;
   color: grey;
 `;
@@ -125,8 +123,16 @@ const StyledText = styled.Text`
 const StyledPicture = styled.TouchableOpacity`
   padding: 20px;
   align-items: center;
-  justify-content: center;  
+  justify-content: center;
   align-self: center;
+`;
+
+const StyledTouchableOpacity = styled.TouchableOpacity`
+  border-radius: 80;
+  padding-left: ${SPACING.default};
+  padding-right: ${SPACING.default};
+  padding-top: ${SPACING.default};
+  padding-bottom: ${SPACING.default};
 `;
 
 export default Edit;

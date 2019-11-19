@@ -31,14 +31,17 @@ const Login = ({navigation}) => {
         <StyledView>
           <Header
             leftSide={
-            <Icon name={'chevron-left'} size={25} 
-              onPress={() => {
-                navigation.pop()
-              }}/>
+              <StyledTouchableOpacity onPress={() => navigation.pop()}>
+                <Icon name={'chevron-left'} size={25} />
+              </StyledTouchableOpacity>
             }
             title={'Recuperar Senha'}
           />
-          <BoxText value={'Por favor, digite o seu email para enviarmos um link para você mudar sua senha.'} />
+          <BoxText
+            value={
+              'Por favor, digite o seu email para enviarmos um link para você mudar sua senha.'
+            }
+          />
           <FormRow>
             <TextInput
               iconName={'envelope'}
@@ -83,6 +86,14 @@ const StyledButtonContainer = styled.View`
   align-items: center;
   justify-content: space-around;
   height: 100;
+`;
+
+const StyledTouchableOpacity = styled.TouchableOpacity`
+  border-radius: 80;
+  padding-left: ${SPACING.default};
+  padding-right: ${SPACING.default};
+  padding-top: ${SPACING.default};
+  padding-bottom: ${SPACING.default};
 `;
 
 export default Login;

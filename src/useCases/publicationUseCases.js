@@ -31,17 +31,19 @@ export const getPublications = async (
 
 export const getNewsByPublisher = async (publisher, callback = () => {}) => {
   const token = await AsyncStorage.getItem('accesToken', undefined);
-
+  console.log(publisher);
   await axios({
     method: 'GET',
-    url: `${CONSTANTS.HOST}/news?publicationId=${publisher}`,
+    url: `${CONSTANTS.HOST}/news?publisherId=${publisher}`,
     headers: {
       Authorization: 'Bearer ' + token,
     },
-  }).then(response => {
-    console.log(response)
-    
-  }).catch(error => {
-    console.log(error);
   })
-}
+    .then(response => {
+      console.log(response);
+      callback(response.data);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+};

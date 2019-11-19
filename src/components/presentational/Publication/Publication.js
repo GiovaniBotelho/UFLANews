@@ -20,18 +20,22 @@ const Publication = props => {
       <Header
         title={'Publicação'}
         rightSide={
-          <Icon
-            name={'user'}
-            size={25}
-            onPress={() => props.navigation.navigate('MyAccount')}
-          />
+          <StyledTouchableOpacity onPress={() => props.navigation.navigate('MyAccount')}>
+            <Icon
+              name={'user'}
+              size={25}
+              
+            />
+          </StyledTouchableOpacity>
         }
         leftSide={
-          <Icon
-            name={'chevron-left'}
-            size={25}
-            onPress={() => props.navigation.pop()}
-          />
+          <StyledTouchableOpacity onPress={() => props.navigation.pop()}>
+            <Icon
+              name={'chevron-left'}
+              size={25}
+              
+            />
+          </StyledTouchableOpacity>
         }
       />
       <FullPublication showsVerticalScrollIndicator={false}>
@@ -174,6 +178,14 @@ const Option = styled.TouchableOpacity`
 
 const NumberOption = styled.Text`
   padding-right: ${SPACING.small};
+`;
+
+const StyledTouchableOpacity = styled.TouchableOpacity`
+  border-radius: 80;
+  padding-left: ${SPACING.default};
+  padding-right: ${SPACING.default};
+  padding-top: ${SPACING.default};
+  padding-bottom: ${SPACING.default};
 `;
 
 export default Publication;

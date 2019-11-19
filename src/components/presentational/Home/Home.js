@@ -86,11 +86,12 @@ const Home = ({navigation, getPublications}) => {
           <Image source={Logo} resizeMode={'contain'} style={{height: 60}} />
         }
         rightSide={
-          <Icon
-            name={'user'}
-            size={25}
-            onPress={() => navigation.navigate('MyAccount')}
-          />
+          <StyledTouchableOpacity onPress={() => navigation.navigate('MyAccount')}>
+            <Icon
+              name={'user'}
+              size={25}              
+            />
+          </StyledTouchableOpacity>
         }
       />
       <SearchBar />
@@ -140,6 +141,14 @@ const StyledView = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
+`;
+
+const StyledTouchableOpacity = styled.TouchableOpacity`
+  border-radius: 80;
+  padding-left: ${SPACING.default};
+  padding-right: ${SPACING.default};
+  padding-top: ${SPACING.default};
+  padding-bottom: ${SPACING.default};
 `;
 
 const OptionsBar = styled.View`

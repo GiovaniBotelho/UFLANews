@@ -18,15 +18,14 @@ import Logo from '../../../assets/logo.png';
 
 const _keyExtractor = publicacao => publicacao.id.toString();
 
-const Publisher = ({navigation}) => {
+const Publisher = ({navigation, getNewsByPublisher}) => {
   const [inscrito, setInscrito] = useState(true);
   const [loading, setLoading] = useState(false);
   const [news, setNews] = useState([]);
   const publisher = navigation.getParam('publisher', undefined);
 
   useEffect(() => {
-    //props.getNewsByPublisher(publisher.id, setNews);
-    // Aqui ficara a chamada para uma função que recupera as publicações de um publisher especifico
+    getNewsByPublisher(publisher.id, setNews);
   }, []);
 
   return (
@@ -36,21 +35,14 @@ const Publisher = ({navigation}) => {
           <Image source={Logo} resizeMode={'contain'} style={{height: 50}} />
         }
         rightSide={
-          <StyledTouchableOpacity>
-            <Icon
-              name={'user'}
-              size={25}
-              onPress={() => navigation.navigate('MyAccount')}
-            />
+          <StyledTouchableOpacity
+            onPress={() => navigation.navigate('MyAccount')}>
+            <Icon name={'user'} size={25} />
           </StyledTouchableOpacity>
         }
         leftSide={
-          <StyledTouchableOpacity>
-            <Icon
-              name={'chevron-left'}
-              size={25}
-              onPress={() => navigation.pop()}
-            />
+          <StyledTouchableOpacity onPress={() => navigation.pop()}>
+            <Icon name={'chevron-left'} size={25} />
           </StyledTouchableOpacity>
         }
       />
@@ -68,8 +60,8 @@ const Publisher = ({navigation}) => {
               color={inscrito ? COLORS.red : undefined}
               onClick={() => {
                 setInscrito(!inscrito);
-                if (inscrito) publisher.subscriptions += 1;
-                else publisher.subscriptions -= 1;
+                if (inscrito) publisher.subscriptions -= 1;
+                else publisher.subscriptions += 1;
               }}
             />
           )}
@@ -77,7 +69,7 @@ const Publisher = ({navigation}) => {
       </Info>
       <Label>Publicações</Label>
       <FlatList
-        data={publisher?.news}
+        data={news}
         renderItem={({item, index}) => (
           <PublicationCard publicacao={item} navigation={navigation} />
         )}
