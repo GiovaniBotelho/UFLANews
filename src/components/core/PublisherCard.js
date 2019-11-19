@@ -9,8 +9,11 @@ import SPACING from '../../config/spacing';
 import pug from '../../assets/pug.jpg';
 
 const PublisherCard = ({publisher, navigation}) => {
-  console.log('Publisher');
-  console.log(publisher);
+  checkQuantitySubs = () => {
+    if (publisher.subscriptions > 1) return true;
+    return false;
+  };
+
   return (
     <Container>
       <Capa
@@ -20,18 +23,24 @@ const PublisherCard = ({publisher, navigation}) => {
           })
         }>
         <Image
-          source={pug}
+          source={{
+            uri: publisher.cover,
+          }}
           aspectRation={1}
           resizeMode={'cover'}
           style={{height: '100%', width: '100%'}}
         />
         <Info>
-          <PublisherName>{publisher.name}</PublisherName>
+          <PublisherName>{publisher.nome}</PublisherName>
           <Footer>
             <PublicationsNumber>
-              {publisher.publicacoes} publicações
+              {publisher.news.length} publicações
             </PublicationsNumber>
-            <Subscribers>{publisher.inscritos} inscritos</Subscribers>
+            <Subscribers>
+              {checkQuantitySubs()
+                ? `${publisher.subscriptions} incritos`
+                : `${publisher.subscriptions} inscrito`}
+            </Subscribers>
           </Footer>
         </Info>
       </Capa>

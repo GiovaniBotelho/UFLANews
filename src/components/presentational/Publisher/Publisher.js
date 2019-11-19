@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {ActivityIndicator, FlatList, Image} from 'react-native';
 import styled from 'styled-components/native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -16,57 +16,17 @@ import SPACING from '../../../config/spacing';
 /* Images - imports */
 import Logo from '../../../assets/logo.png';
 
-const Publicacoes = [
-  {
-    id: '1',
-    titulo: 'Titulo A',
-    autor: 'Autor A',
-    data: 'Data A',
-    capa: 'C:UsersMauricio VieiraDesktopUFLANewssrcassetsmike.jpg',
-  },
-  {
-    id: '2',
-    titulo: 'Titulo B',
-    autor: 'Autor B',
-    data: 'Data B',
-    capa: 'C:UsersMauricio VieiraDesktopUFLANewssrcassetspug.jpg',
-  },
-  {
-    id: '3',
-    titulo: 'Titulo C',
-    autor: 'Autor C',
-    data: 'Data C',
-    capa: 'C:UsersMauricio VieiraDesktopUFLANewssrcassetspug.jpg',
-  },
-  {
-    id: '4',
-    titulo: 'Titulo D',
-    autor: 'Autor D',
-    data: 'Data D',
-    capa: 'C:UsersMauricio VieiraDesktopUFLANewssrcassetspug.jpg',
-  },
-  {
-    id: '5',
-    titulo: 'Titulo E',
-    autor: 'Autor E',
-    data: 'Data E',
-    capa: 'C:UsersMauricio VieiraDesktopUFLANewssrcassetspug.jpg',
-  },
-  {
-    id: '6',
-    titulo: 'Titulo F',
-    autor: 'Autor F',
-    data: 'Data F',
-    capa: 'C:UsersMauricio VieiraDesktopUFLANewssrcassetspug.jpg',
-  },
-];
+const _keyExtractor = publicacao => publicacao.id.toString();
 
-const _keyExtractor = publicacao => publicacao.id;
-
-const Publisher = ({navigation}) => {
+const Publisher = ({navigation, getNewsByPublisher}) => {
   const [inscrito, setInscrito] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [news, setNews] = useState([]);
   const publisher = navigation.getParam('publisher', undefined);
+
+  useEffect(() => {
+    getNewsByPublisher(publisher.id, setNews);
+  }, []);
 
   return (
     <Container colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
@@ -75,25 +35,22 @@ const Publisher = ({navigation}) => {
           <Image source={Logo} resizeMode={'contain'} style={{height: 50}} />
         }
         rightSide={
-          <Icon
-            name={'user'}
-            size={25}
-            onPress={() => navigation.navigate('MyAccount')}
-          />
+          <StyledTouchableOpacity
+            onPress={() => navigation.navigate('MyAccount')}>
+            <Icon name={'user'} size={25} />
+          </StyledTouchableOpacity>
         }
         leftSide={
-          <Icon
-            name={'chevron-left'}
-            size={25}
-            onPress={() => navigation.pop()}
-          />
+          <StyledTouchableOpacity onPress={() => navigation.pop()}>
+            <Icon name={'chevron-left'} size={25} />
+          </StyledTouchableOpacity>
         }
       />
       <Info>
-        <PublisherName>{publisher.name}</PublisherName>
+        <PublisherName>{publisher?.nome}</PublisherName>
         <FooterInfo>
           <PublisherSubscribers>
-            {publisher.inscritos} inscritos
+            {publisher?.subscriptions} inscritos
           </PublisherSubscribers>
           {loading ? (
             <ActivityIndicator />
@@ -103,6 +60,8 @@ const Publisher = ({navigation}) => {
               color={inscrito ? COLORS.red : undefined}
               onClick={() => {
                 setInscrito(!inscrito);
+                if (inscrito) publisher.subscriptions -= 1;
+                else publisher.subscriptions += 1;
               }}
             />
           )}
@@ -110,7 +69,7 @@ const Publisher = ({navigation}) => {
       </Info>
       <Label>Publicações</Label>
       <FlatList
-        data={Publicacoes}
+        data={news}
         renderItem={({item, index}) => (
           <PublicationCard publicacao={item} navigation={navigation} />
         )}
@@ -123,6 +82,14 @@ const Publisher = ({navigation}) => {
 
 const Container = styled(LinearGradient)`
   flex: 1;
+`;
+
+const StyledTouchableOpacity = styled.TouchableOpacity`
+  border-radius: 80;
+  padding-left: ${SPACING.default};
+  padding-right: ${SPACING.default};
+  padding-top: ${SPACING.default};
+  padding-bottom: ${SPACING.default};
 `;
 
 const Info = styled.View`

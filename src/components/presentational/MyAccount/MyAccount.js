@@ -3,12 +3,11 @@ import {Image} from 'react-native';
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
-import { StackActions, NavigationActions } from 'react-navigation';
+import {StackActions, NavigationActions} from 'react-navigation';
 import AsyncStorage from '@react-native-community/async-storage';
 
 /* Images */
 import Logo from '../../../assets/logo.png';
-
 
 /* Components - import */
 import Header from '../../core/Header';
@@ -25,7 +24,7 @@ const MyAccount = props => {
 
   const resetAction = StackActions.reset({
     index: 0,
-    actions: [NavigationActions.navigate({ routeName: 'Login' })],
+    actions: [NavigationActions.navigate({routeName: 'Login'})],
   });
 
   return (
@@ -34,17 +33,19 @@ const MyAccount = props => {
         <StyledView>
           <Header
             leftSide={
-            <Icon name={'chevron-left'} size={25} 
-              onPress={() => {
-                props.navigation.pop()
-              }}/>
+              <StyledTouchableOpacity onPress={() => props.navigation.pop()}>
+                <Icon name={'chevron-left'} size={25} />
+              </StyledTouchableOpacity>
             }
             title={'Minha Conta'}
-            rightSide={<Icon name={'sign-out'} size={25} 
-              onPress={() => {
-                console.log(AsyncStorage.getItem('access-token'))
-                props.navigation.dispatch(resetAction);
-              }}/>
+            rightSide={
+              <StyledTouchableOpacity
+                onPress={() => {
+                  console.log(AsyncStorage.getItem('access-token'));
+                  props.navigation.dispatch(resetAction);
+                }}>
+                <Icon name={'sign-out'} size={25} />
+              </StyledTouchableOpacity>
             }
           />
           <StyledImages>
@@ -69,7 +70,7 @@ const MyAccount = props => {
             />
           </FormRow>
           <StyledButtonContainer>
-            <Button 
+            <Button
               title={'EDITAR'}
               onClick={() => {
                 props.navigation.navigate('Edit');
@@ -110,11 +111,18 @@ const FormRow = styled.View`
 `;
 
 const StyledText = styled.Text`
-  textAlign: center;
-  fontSize: 30px;
+  textalign: center;
+  fontsize: 30px;
   padding: 20px;
   color: grey;
 `;
 
+const StyledTouchableOpacity = styled.TouchableOpacity`
+  border-radius: 80;
+  padding-left: ${SPACING.default};
+  padding-right: ${SPACING.default};
+  padding-top: ${SPACING.default};
+  padding-bottom: ${SPACING.default};
+`;
 
 export default MyAccount;

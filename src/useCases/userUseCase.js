@@ -1,37 +1,39 @@
 import {Alert} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
+import jwt_decode from 'jwt-decode';
+
+/* Constants */
+import CONSTANTS from '../config/constants';
 
 export const signIn = async (email, password, callback = () => {}) => {
-  if (email && password) {
-    console.log(email, password);
-    await axios({
-      method: 'POST',
-      url: `http://localhost:8000/auth/login`,
-      data: {
-        email: email,
-        password: password,
-      },
+  if (!email || !password)
+    return Alert.alert('Por favor, preencha todos os campos do formulário!');
+  await axios({
+    method: 'POST',
+    url: `${CONSTANTS.HOST}/login`,
+    data: {
+      email: email,
+      password: password,
+    },
+  })
+    .then(async response => {
+      const {accessToken} = response.data;
+      try {
+        await AsyncStorage.setItem('accesToken', accessToken);
+        const user = jwt_decode(accessToken);
+        await AsyncStorage.setItem('user', user);
+      } catch (erro) {
+        console.log(
+          'Erro ao salvar o token de acesso na memoria do dispositivo',
+        );
+      }
+      callback();
     })
-      .then(async response => {
-        console.log('PASSANDO AQUI');
-        console.log(response);
-        const {access_token} = response.data;
-        try {
-          const value = await AsyncStorage.setItem('acces-token', access_token);
-        } catch (erro) {
-          console.log('Erro');
-        }
-        callback();
-      })
-      .catch(error => {
-        Alert.alert('Verifique a senha e/ou usuário informado(s). ' + error);
-      });
-  } else {
-    Alert.alert('Por favor, preencha todos os campos do formulário!');
-  }
+    .catch(error => {
+      Alert.alert('Verifique a senha e/ou usuário informado(s). ' + error);
+    });
 };
-
 
 export const register = (
   name,
@@ -42,7 +44,7 @@ export const register = (
 ) => {
   if (name && email && password && passwordConfirm) {
     let reg = /^[a-zA-Z0-9_.]+@[a-zA-Z0-9]+\.[a-zA-Z0-9.]+$/;
-    if(reg.test(email) === true) {
+    if (reg.test(email) === true) {
       if (password == passwordConfirm) {
         dataFormRegister = {
           email: email,
@@ -51,7 +53,7 @@ export const register = (
 
         axios({
           method: 'POST',
-          url: `http://localhost:8000/auth/register`,
+          url: `${CONSTANTS.HOST}/register`,
           data: dataFormRegister,
         })
           .then(response => {

@@ -35,13 +35,9 @@ const Register = props => {
         <StyledView>
           <Header
             leftSide={
-              <Icon
-                name={'chevron-left'}
-                size={25}
-                onPress={() => {
-                  props.navigation.pop();
-                }}
-              />
+              <StyledTouchableOpacity onPress={() => props.navigation.pop()}>
+                <Icon name={'chevron-left'} size={25} />
+              </StyledTouchableOpacity>
             }
             title={'Cadastrar'}
           />
@@ -126,6 +122,14 @@ const StyledPicture = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
   align-self: center;
+`;
+
+const StyledTouchableOpacity = styled.TouchableOpacity`
+  border-radius: 80;
+  padding-left: ${SPACING.default};
+  padding-right: ${SPACING.default};
+  padding-top: ${SPACING.default};
+  padding-bottom: ${SPACING.default};
 `;
 
 export default Register;

@@ -1,11 +1,9 @@
 import React from 'react';
-import {Text} from 'react-native';
 import styled from 'styled-components';
 
 /* Config - imports */
 //import COLORS from '@config/colors';
 import SPACING from '../../config/spacing';
-import CONSTANTS from '../../config/constants';
 
 const Header = props => {
   function handleTitle() {
@@ -14,7 +12,10 @@ const Header = props => {
   }
 
   return (
-    <HeaderBar backgroundColor={props.backgroundColor}>
+    <HeaderBar
+      backgroundColor={props.backgroundColor}
+      leftSide={props.leftSide}
+      rightSide={props.rightSide}>
       {props.leftSide ? props.leftSide : <EmptyIcon />}
       {handleTitle()}
       {props.rightSide ? props.rightSide : <EmptyIcon />}
@@ -29,8 +30,8 @@ const HeaderBar = styled.View`
 
   background-color: transparent;
 
-  padding-left: ${SPACING.large};
-  padding-right: ${SPACING.large};
+  padding-left: ${props => (props.leftSide ? 0 : SPACING.large)};
+  padding-right: ${props => (props.rightSide ? 0 : SPACING.large)};
 
   display: flex;
   flex-direction: row;
@@ -47,8 +48,8 @@ const EmptyIcon = styled.View`
 `;
 
 const StyledText = styled.Text`
-  textAlign: center;
-  fontSize: 25px;
+  text-align: center;
+  font-size: 25px;
 `;
 
 export default Header;

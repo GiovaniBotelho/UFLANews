@@ -1,11 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import {View, Text, Image} from 'react-native';
+import {Image} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 /* Config - imports */
-//import COLORS from '@config/colors';
+// import COLORS from '@config/colors';
 import SPACING from '../../config/spacing';
+
+/* Utils - import */
+import {beautifulDate} from '../../utils/help';
 
 import pug from '../../assets/mike.jpg';
 
@@ -14,15 +17,23 @@ const PublicationCard = ({publicacao, navigation}) => {
     <Container>
       <Capa onPress={() => navigation.navigate('Publication')}>
         <Image
-          source={pug}
+          source={
+            typeof publicacao.cover != 'string'
+              ? pug
+              : {
+                  uri: publicacao.cover,
+                }
+          }
           aspectRation={1}
           resizeMode={'cover'}
           style={{height: '100%', width: '100%'}}
         />
         <Info>
-          <Titulo>{publicacao.titulo}</Titulo>
-          <Autor>{publicacao.autor}</Autor>
-          <DataHora>{publicacao.data}</DataHora>
+          <Titulo>{publicacao.title}</Titulo>
+          {publicacao?.publisher?.nome ? (
+            <Autor>{publicacao.publisher.nome}</Autor>
+          ) : null}
+          <DataHora>{beautifulDate(publicacao.date)}</DataHora>
         </Info>
       </Capa>
       <Options>
@@ -36,6 +47,7 @@ const PublicationCard = ({publicacao, navigation}) => {
           <Icon name="comments-o" size={30} color={'#000'} />
         </Option>
         <Option>
+          <NumberOption>{publicacao?.likes?.length}</NumberOption>
           <Icon name="thumbs-o-up" size={30} color={'#000'} />
         </Option>
       </Options>
@@ -91,6 +103,11 @@ const Option = styled.TouchableOpacity`
   height: 25%;
   width: 100%
   border-top-width: ${props => (props.first ? 0 : 1)};
+  flex-direction: row;
+`;
+
+const NumberOption = styled.Text`
+  padding-right: ${SPACING.small};
 `;
 
 export default PublicationCard;

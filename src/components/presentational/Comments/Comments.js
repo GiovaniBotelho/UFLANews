@@ -71,13 +71,9 @@ const Comments = props => {
     <Container colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
       <Header
         leftSide={
-          <Icon
-            name={'chevron-left'}
-            size={25}
-            onPress={() => {
-              props.navigation.pop();
-            }}
-          />
+          <StyledTouchableOpacity onPress={() => props.navigation.pop()}>
+            <Icon name={'chevron-left'} size={25} />
+          </StyledTouchableOpacity>
         }
         showLogo={<TextComment>Comentários</TextComment>}
       />
@@ -106,6 +102,14 @@ const StyledView = styled.ScrollView`
 
 const FooterStyled = styled.View`
   padding-bottom: ${SPACING.medium};
+`;
+
+const StyledTouchableOpacity = styled.TouchableOpacity`
+  border-radius: 80;
+  padding-left: ${SPACING.default};
+  padding-right: ${SPACING.default};
+  padding-top: ${SPACING.default};
+  padding-bottom: ${SPACING.default};
 `;
 
 export default Comments;
