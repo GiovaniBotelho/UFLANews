@@ -31,7 +31,7 @@ const HeaderBar = styled.View`
   background-color: transparent;
 
   padding-left: ${props => (props.leftSide ? 0 : SPACING.large)};
-  padding-right: ${props => (props.leftSide ? 0 : SPACING.large)};
+  padding-right: ${props => (props.rightSide ? 0 : SPACING.large)};
 
   display: flex;
   flex-direction: row;
