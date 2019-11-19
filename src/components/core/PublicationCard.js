@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import {View, Text, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import moment from 'moment';
 
 /* Config - imports */
 //import COLORS from '@config/colors';
@@ -9,7 +10,9 @@ import SPACING from '../../config/spacing';
 
 import pug from '../../assets/mike.jpg';
 
+moment.locale('pt-BR')
 const PublicationCard = ({publicacao, navigation}) => {
+  const date = moment(publicacao.date,'DD-MM-YYYY hh:mm:ss', 'pt-BR')
   return (
     <Container>
       <Capa onPress={() => navigation.navigate('Publication')}>
@@ -30,7 +33,7 @@ const PublicationCard = ({publicacao, navigation}) => {
           {publicacao?.publisher?.nome ? (
             <Autor>{publicacao.publisher.nome}</Autor>
           ) : null}
-          <DataHora>{publicacao.date}</DataHora>
+          <DataHora>{date.startOf('day').fromNow()}</DataHora>
         </Info>
       </Capa>
       <Options>
