@@ -1,6 +1,7 @@
 import {Alert} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 
 /* Constants */
 import CONSTANTS from '../config/constants';
@@ -17,13 +18,15 @@ export const signIn = async (email, password, callback = () => {}) => {
     },
   })
     .then(async response => {
-      console.log(response);
       const {accessToken} = response.data;
       try {
-        const value = await AsyncStorage.setItem('accesToken', accessToken);
-        console.log(value);
+        await AsyncStorage.setItem('accesToken', accessToken);
+        const user = jwt_decode(accessToken);
+        await AsyncStorage.setItem('user', user);
       } catch (erro) {
-        console.log('Erro ao salvar o token de acesso na memoria do dispositivo');
+        console.log(
+          'Erro ao salvar o token de acesso na memoria do dispositivo',
+        );
       }
       callback();
     })
