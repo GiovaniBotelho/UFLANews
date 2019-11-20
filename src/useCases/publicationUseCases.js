@@ -47,13 +47,17 @@ export const getNewsByPublisher = async (publisher, callback = () => {}) => {
     });
 };
 
-export const likeNew = async (news, callback = () => {}) => {
+export const likeNew = async (
+  publicationId,
+  setIconLike = () => {},
+  setIdLike = () => {},
+) => {
   const token = await AsyncStorage.getItem('accesToken', undefined);
   const user_id = await AsyncStorage.getItem('user_id', undefined);
 
   const data = {
-    "newsId": news,
-    "userId": user_id
+    newsId: publicationId,
+    userId: user_id,
   };
 
   await axios({
@@ -66,39 +70,32 @@ export const likeNew = async (news, callback = () => {}) => {
   })
     .then(response => {
       console.log(response);
-      callback(response.data);
+      setIconLike('thumbs-up');
+      setIdLike(response.data.id);
     })
     .catch(error => {
       console.log(error);
     });
 };
 
-export const unlikeNew = async (news, callback = () => {}) => {
+export const unlikeNew = async (
+  idLike,
+  setIconLike = () => {},
+  setIdLike = () => {},
+) => {
   const token = await AsyncStorage.getItem('accesToken', undefined);
-  const user_id = await AsyncStorage.getItem('user_id', undefined);
 
   await axios({
-    method: 'GET',
-    url: `${CONSTANTS.HOST}/likes?newsId=${news}&userId=${user_id}`,
+    method: 'DELETE',
+    url: `${CONSTANTS.HOST}/likes/${idLike}`,
     headers: {
       Authorization: 'Bearer ' + token,
     },
   })
     .then(response => {
-      axios({
-        method: 'DELETE',
-        url: `${CONSTANTS.HOST}/likes/${response.data.id}`,
-        headers: {
-          Authorization: 'Bearer ' + token,
-        }
-      })
-        .then(response => {
-          console.log(response);
-          callback(response.data);
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      console.log(response);
+      setIconLike('thumbs-o-up');
+      setIdLike(null);
     })
     .catch(error => {
       console.log(error);

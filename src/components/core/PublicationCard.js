@@ -1,21 +1,31 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import {Image} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import AsyncStorage from '@react-native-community/async-storage';
+import {likeNew, unlikeNew} from '../../useCases/publicationUseCases';
 
 /* Config - imports */
 // import COLORS from '@config/colors';
 import SPACING from '../../config/spacing';
 
 /* Utils - import */
-import {beautifulDate} from '../../utils/help';
+import {beautifulDate, get_user_id} from '../../utils/help';
 
 import pug from '../../assets/mike.jpg';
 
-const user_id = AsyncStorage.getItem('user', undefined);
-
 const PublicationCard = ({publicacao, navigation}) => {
+  const [iconLike, setIconLike] = useState('thumbs-o-up');
+  const [idLike, setIdLike] = useState(null);
+
+  useEffect(() => {
+    const userId = get_user_id();
+    const like = publicacao.likes.filter(like => userId == like.userId);
+    if (like.length) {
+      setIconLike('thumbs-up');
+      setIdLike(like.id);
+    }
+  }, []);
+
   return (
     <Container>
       <Capa onPress={() => navigation.navigate('Publication')}>
@@ -44,21 +54,21 @@ const PublicationCard = ({publicacao, navigation}) => {
           <Icon name="share-square-o" size={25} color={'#000'} />
         </Option>
         <Option>
-        <NumberOption>{publicacao?.favorites?.length}</NumberOption>
+          <NumberOption>{publicacao?.favorites?.length}</NumberOption>
           <Icon name="star-o" size={30} color={'#000'} />
         </Option>
         <Option onPress={() => navigation.navigate('Comments')}>
           <NumberOption>{publicacao?.comments?.length}</NumberOption>
           <Icon name="comments-o" size={30} color={'#000'} />
         </Option>
-        <Option>
+        <Option
+          onPress={() =>
+            idLike
+              ? unlikeNew(idLike, setIconLike, setIdLike)
+              : likeNew(publicacao.id, setIconLike, setIdLike)
+          }>
           <NumberOption>{publicacao?.likes?.length}</NumberOption>
-          <Icon
-            name={
-              (false) ? 'thumbs-up' : 'thumbs-o-up'
-            }
-            size={30}
-            color={'#000'} />
+          <Icon name={iconLike} size={30} color={'#000'} />
         </Option>
       </Options>
     </Container>
