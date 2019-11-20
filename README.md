@@ -16,7 +16,7 @@
 
 **Links úteis**:
 * [Documento de requisitos](https://github.com/GiovaniBotelho/UFLANews/issues)
-* [Protótipo de interface gráfica](https://xd.adobe.com/view/aa927ec6-b6cb-4357-5142-1fada5a80ae7-dca3/).
+* [Protótipo de interface gráfica](https://xd.adobe.com/spec/65353875-2f7a-44a8-7527-9e1c9037238c-1304/).
 
 ## Framework
 
