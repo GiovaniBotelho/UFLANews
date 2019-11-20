@@ -89,7 +89,7 @@ const Home = ({navigation, getPublications}) => {
           <StyledTouchableOpacity onPress={() => navigation.navigate('MyAccount')}>
             <Icon
               name={'user'}
-              size={25}              
+              size={25}
             />
           </StyledTouchableOpacity>
         }

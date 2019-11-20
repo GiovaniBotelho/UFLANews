@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import {Image} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import AsyncStorage from '@react-native-community/async-storage';
 
 /* Config - imports */
 // import COLORS from '@config/colors';
@@ -11,6 +12,8 @@ import SPACING from '../../config/spacing';
 import {beautifulDate} from '../../utils/help';
 
 import pug from '../../assets/mike.jpg';
+
+const user_id = AsyncStorage.getItem('user', undefined);
 
 const PublicationCard = ({publicacao, navigation}) => {
   return (
@@ -41,14 +44,21 @@ const PublicationCard = ({publicacao, navigation}) => {
           <Icon name="share-square-o" size={25} color={'#000'} />
         </Option>
         <Option>
+        <NumberOption>{publicacao?.favorites?.length}</NumberOption>
           <Icon name="star-o" size={30} color={'#000'} />
         </Option>
         <Option onPress={() => navigation.navigate('Comments')}>
+          <NumberOption>{publicacao?.comments?.length}</NumberOption>
           <Icon name="comments-o" size={30} color={'#000'} />
         </Option>
         <Option>
           <NumberOption>{publicacao?.likes?.length}</NumberOption>
-          <Icon name="thumbs-o-up" size={30} color={'#000'} />
+          <Icon
+            name={
+              (false) ? 'thumbs-up' : 'thumbs-o-up'
+            }
+            size={30}
+            color={'#000'} />
         </Option>
       </Options>
     </Container>
