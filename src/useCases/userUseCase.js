@@ -20,17 +20,18 @@ export const signIn = async (email, password, callback = () => {}) => {
     .then(async response => {
       const {accessToken} = response.data;
       try {
-        await AsyncStorage.setItem('accesToken', accessToken);
+        await AsyncStorage.setItem('accessToken', accessToken);
         const user = jwt_decode(accessToken);
-        await AsyncStorage.setItem('user', user);
+        await AsyncStorage.setItem('user', user.sub);
+        callback();
       } catch (erro) {
         console.log(
           'Erro ao salvar o token de acesso na memoria do dispositivo',
         );
       }
-      callback();
     })
     .catch(error => {
+      Alert.alert(email + ' ' + password);
       Alert.alert('Verifique a senha e/ou usuário informado(s). ' + error);
     });
 };
