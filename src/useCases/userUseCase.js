@@ -20,17 +20,18 @@ export const signIn = async (email, password, callback = () => {}) => {
     .then(async response => {
       const {accessToken} = response.data;
       try {
-        await AsyncStorage.setItem('accesToken', accessToken);
+        await AsyncStorage.setItem('accessToken', accessToken);
         const user = jwt_decode(accessToken);
         await AsyncStorage.setItem('user_id', user.sub);
+        callback();
       } catch (erro) {
         console.log(
           'Erro ao salvar o token de acesso na memoria do dispositivo',
         );
       }
-      callback();
     })
     .catch(error => {
+      Alert.alert(email + ' ' + password);
       Alert.alert('Verifique a senha e/ou usuário informado(s). ' + error);
     });
 };
@@ -63,7 +64,7 @@ export const register = (
           .catch(error => {
             if (error.response.data == 'Email already exists') {
               Alert.alert('Já existe um registro com esse endereço de email!');
-            } else if (error.response.data == 'Password is too short'){
+            } else if (error.response.data == 'Password is too short') {
               Alert.alert('Entre com uma senha com no mínimo 4 caracteres.');
             } else {
               console.log(error.response.data);

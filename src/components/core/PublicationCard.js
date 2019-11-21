@@ -16,6 +16,7 @@ import pug from '../../assets/mike.jpg';
 const PublicationCard = ({publicacao, navigation}) => {
   const [iconLike, setIconLike] = useState('thumbs-o-up');
   const [idLike, setIdLike] = useState(null);
+  const [likes, setLikes] = useState(publicacao?.likes?.length);
 
   useEffect(() => {
     const userId = get_user_id();
@@ -24,7 +25,13 @@ const PublicationCard = ({publicacao, navigation}) => {
       setIconLike('thumbs-up');
       setIdLike(like.id);
     }
+    // setLikes(publicacao?.likes?.length);
   }, []);
+
+  useEffect(() => {
+    if (idLike == null) setLikes(likes - 1);
+    else setLikes(likes + 1);
+  }, [idLike]);
 
   return (
     <Container>
@@ -67,7 +74,7 @@ const PublicationCard = ({publicacao, navigation}) => {
               ? unlikeNew(idLike, setIconLike, setIdLike)
               : likeNew(publicacao.id, setIconLike, setIdLike)
           }>
-          <NumberOption>{publicacao?.likes?.length}</NumberOption>
+          <NumberOption>{likes}</NumberOption>
           <Icon name={iconLike} size={30} color={'#000'} />
         </Option>
       </Options>
