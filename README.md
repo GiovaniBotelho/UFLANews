@@ -26,6 +26,7 @@
 
 Você precisa seguir os seguintes passos para rodar o projeto:
 - Ambiente React Native:
+  - Possuir a versão [v10.16.3](https://nodejs.org/dist/v10.16.3/) do nodejs.
   - Possuir um ambiente React Native previamente configurado. [Leia mais](https://facebook.github.io/react-native/docs/getting-started.html).
 - Instalar dependências do projeto:
   ```
