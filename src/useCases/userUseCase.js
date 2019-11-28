@@ -22,7 +22,7 @@ export const signIn = async (email, password, callback = () => {}) => {
       try {
         await AsyncStorage.setItem('accessToken', accessToken);
         const user = jwt_decode(accessToken);
-        await AsyncStorage.setItem('user_id', user.sub);
+        await AsyncStorage.setItem('userId', user.sub);
         callback();
       } catch (erro) {
         console.log(

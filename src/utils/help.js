@@ -6,7 +6,7 @@ export function beautifulDate(date) {
   return dateText.startOf('hours').fromNow();
 }
 
-export async function get_user_id() {
-  const user_id = await AsyncStorage.getItem('user_id', undefined);
-  return user_id;
+export async function getUserId() {
+  const userId = await AsyncStorage.getItem('userId', undefined);
+  return userId;
 }

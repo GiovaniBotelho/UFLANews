@@ -2,6 +2,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 
 /* Constants */
+import COLORS from '../config/colors';
 import CONSTANTS from '../config/constants';
 
 export const getPublications = async (
@@ -52,11 +53,11 @@ export const likeNew = async (
   likes
 ) => {
   const token = await AsyncStorage.getItem('accessToken', undefined);
-  const user_id = await AsyncStorage.getItem('user_id', undefined);
+  const userId = await AsyncStorage.getItem('userId', undefined);
 
   const data = {
     newsId: publicationId,
-    userId: user_id,
+    userId: userId,
   };
 
   await axios({
@@ -70,7 +71,7 @@ export const likeNew = async (
     .then(response => {
       console.log(response);
       setIconLike('thumbs-up');
-      setColorLike('#4c4cff');
+      setColorLike(COLORS.like);
       setIdLike(response.data.id);
       setLikes(likes + 1);
     })
@@ -99,7 +100,7 @@ export const unlikeNew = async (
   })
     .then(response => {
       setIconLike('thumbs-o-up');
-      setColorLike('#000');
+      setColorLike(COLORS.none);
       setIdLike(null);
       setLikes(likes - 1);
     })
@@ -117,11 +118,11 @@ export const favoriteNew = async (
   favorites
 ) => {
   const token = await AsyncStorage.getItem('accessToken', undefined);
-  const user_id = await AsyncStorage.getItem('user_id', undefined);
+  const userId = await AsyncStorage.getItem('userId', undefined);
 
   const data = {
     newsId: publicationId,
-    userId: user_id,
+    userId: userId,
   };
 
   await axios({
@@ -134,7 +135,7 @@ export const favoriteNew = async (
   })
     .then(response => {
       setIconFavorite('star');
-      setColorFavorite('#ffd700');
+      setColorFavorite(COLORS.favorite);
       setIdFavorite(response.data.id);
       setFavorites(favorites + 1);
     })
@@ -163,7 +164,7 @@ export const unfavoriteNew = async (
   })
     .then(response => {
       setIconFavorite('star-o');
-      setColorFavorite('#000');
+      setColorFavorite(COLORS.none);
       setIdFavorite(null);
       setFavorites(favorites - 1);
     })

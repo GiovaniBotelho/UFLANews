@@ -5,40 +5,40 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {likeNew, unlikeNew, favoriteNew, unfavoriteNew} from '../../useCases/publicationUseCases';
 
 /* Config - imports */
-// import COLORS from '@config/colors';
+import COLORS from '../../config/colors';
 import SPACING from '../../config/spacing';
 
 /* Utils - import */
-import {beautifulDate, get_user_id} from '../../utils/help';
+import {beautifulDate, getUserId} from '../../utils/help';
 
 import pug from '../../assets/mike.jpg';
 
 const PublicationCard = ({publicacao, navigation}) => {
   const [iconLike, setIconLike] = useState('thumbs-o-up');
-  const [colorLike, setColorLike] = useState('#000');
+  const [colorLike, setColorLike] = useState(COLORS.none);
   const [idLike, setIdLike] = useState(null);
   const [likes, setLikes] = useState(publicacao?.likes?.length);
 
   const [iconFavorite, setIconFavorite] = useState('star-o');
-  const [colorFavorite, setColorFavorite] = useState('#000');
+  const [colorFavorite, setColorFavorite] = useState(COLORS.none);
   const [idFavorite, setIdFavorite] = useState(null);
   const [favorites, setFavorites] = useState(publicacao?.favorites?.length);
 
   useEffect(() => {
     async function setIcons() {
-      const userId = await get_user_id();
-      
+      const userId = await getUserId();
+
       const like = publicacao.likes.filter(like => userId == like.userId);
       if (like.length) {
         setIconLike('thumbs-up');
-        setColorLike('#4c4cff');
+        setColorLike(COLORS.like);
         setIdLike(like[0].id);
       }
 
       const favorite = publicacao.favorites.filter(favorite => userId == favorite.userId);
       if (favorite.length) {
         setIconFavorite('star');
-        setColorFavorite('#ffd700');
+        setColorFavorite(COLORS.favorite);
         setIdFavorite(favorite[0].id);
       }
     }
