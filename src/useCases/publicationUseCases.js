@@ -69,7 +69,6 @@ export const likeNew = async (
     data: data,
   })
     .then(response => {
-      console.log(response);
       setIconLike('thumbs-up');
       setColorLike(COLORS.like);
       setIdLike(response.data.id);
