@@ -97,3 +97,20 @@ export const unlikeNew = async (
       console.log(error);
     });
 };
+
+export const getCommentsByNews = async (newsId, callback = () => {}) => {
+  const token = await AsyncStorage.getItem('accessToken', undefined);
+
+  await axios({
+    method: 'GET',
+    url: `${CONSTANTS.HOST}/comments?newsId=${newsId}&_expand=user`,
+    headers: {
+      Authorization: 'Bearer ' + token,
+    },
+  })
+    .then(response => {
+      console.log(response);
+      callback(response.data);
+    })
+    .catch(error => {});
+};
