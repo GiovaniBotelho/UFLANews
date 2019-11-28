@@ -1,9 +1,8 @@
 import React from 'react';
 
-import Comments from '../components/presentational/Comments';
+import {getCommentsByNews} from '../useCases/publicationUseCases';
 
 const CommentsScreen = props => {
-  return <Comments navigation={props.navigation} />;
+  return <Comments navigation={props.navigation} getComments={getCommentsByNews}/>;
 };
-
 export default CommentsScreen;

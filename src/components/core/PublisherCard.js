@@ -66,7 +66,7 @@ const Info = styled.View`
   height: auto;
   position: absolute;
   bottom: 0;
-  opacity: 0.7;
+  opacity: 0.85;
   width: 100%;
   padding-top: ${SPACING.small};
   padding-bottom: ${SPACING.small};

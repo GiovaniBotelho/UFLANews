@@ -50,7 +50,7 @@ export const likeNew = async (
   setColorLike = () => {},
   setIdLike = () => {},
   setLikes = () => {},
-  likes
+  likes,
 ) => {
   const token = await AsyncStorage.getItem('accessToken', undefined);
   const userId = await AsyncStorage.getItem('userId', undefined);
@@ -87,7 +87,7 @@ export const unlikeNew = async (
   setColorLike = () => {},
   setIdLike = () => {},
   setLikes = () => {},
-  likes
+  likes,
 ) => {
   const token = await AsyncStorage.getItem('accessToken', undefined);
 
@@ -115,7 +115,7 @@ export const favoriteNew = async (
   setColorFavorite = () => {},
   setIdFavorite = () => {},
   setFavorites = () => {},
-  favorites
+  favorites,
 ) => {
   const token = await AsyncStorage.getItem('accessToken', undefined);
   const userId = await AsyncStorage.getItem('userId', undefined);
@@ -151,7 +151,7 @@ export const unfavoriteNew = async (
   setColorFavorite = () => {},
   setIdFavorite = () => {},
   setFavorites = () => {},
-  favorites
+  favorites,
 ) => {
   const token = await AsyncStorage.getItem('accessToken', undefined);
 
@@ -171,4 +171,20 @@ export const unfavoriteNew = async (
     .catch(error => {
       console.log(error);
     });
+};
+
+export const getCommentsByNews = async (newsId, callback = () => {}) => {
+  const token = await AsyncStorage.getItem('accessToken', undefined);
+
+  await axios({
+    method: 'GET',
+    url: `${CONSTANTS.HOST}/comments?newsId=${newsId}&_expand=user`,
+    headers: {
+      Authorization: 'Bearer ' + token,
+    },
+  })
+    .then(response => {
+      callback(response.data);
+    })
+    .catch(error => console.log(error));
 };
