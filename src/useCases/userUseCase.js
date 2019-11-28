@@ -22,7 +22,7 @@ export const signIn = async (email, password, callback = () => {}) => {
       try {
         await AsyncStorage.setItem('accessToken', accessToken);
         const user = jwt_decode(accessToken);
-        await AsyncStorage.setItem('user', user.sub);
+        await AsyncStorage.setItem('userId', user.sub);
         callback();
       } catch (erro) {
         console.log(
@@ -50,6 +50,7 @@ export const register = (
         dataFormRegister = {
           email: email,
           password: password,
+          name: name,
         };
 
         axios({
@@ -58,33 +59,16 @@ export const register = (
           data: dataFormRegister,
         })
           .then(response => {
-            const headers = {
-              Authorization: 'Bearer ' + response.data.access_token,
-            };
-
-            data = {
-              nome: name,
-              email: email,
-              foto: null,
-            };
-
-            axios({
-              method: 'POST',
-              url: `http://localhost:8000/usuarios`,
-              data: data,
-              headers: headers,
-            })
-              .then(response => {
-                callback();
-              })
-              .catch(e => {
-                Alert.alert('Erro ao cadastrar');
-              });
-
             callback();
           })
           .catch(error => {
-            console.error(error);
+            if (error.response.data == 'Email already exists') {
+              Alert.alert('Já existe um registro com esse endereço de email!');
+            } else if (error.response.data == 'Password is too short') {
+              Alert.alert('Entre com uma senha com no mínimo 4 caracteres.');
+            } else {
+              console.log(error.response.data);
+            }
           });
       } else {
         Alert.alert('As senhas informadas não conferem!');
