@@ -1,32 +1,44 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
 import {Text} from 'react-native';
 
+/* Utils - imports */
+import {beautifulDate, get_user_id} from '../../utils/help';
+
 /* Config - imports */
-//import COLORS from '@config/colors';
+import COLORS from '../../config/colors';
 import SPACING from '../../config/spacing';
 
 const CommentCard = ({comment}) => {
+  const [user, setUser] = useState(undefined);
+
+  useEffect(() => {
+    async function getUser() {
+      const user = await get_user_id();
+      setUser(user);
+    }
+    getUser();
+  }, []);
+
   return (
     <Container>
       <UserComment>
         <User>
           <IconName>
             <Icon name={'user'} size={15} />
-            <Text>&nbsp; {comment.usuario}</Text>
+            <Text>&nbsp; {comment?.user?.name}</Text>
           </IconName>
-          <Icon name={'times'} size={15} />
+          {comment.userId == user && <Icon name={'times'} size={15} />}
         </User>
         <Comment>
-          <TextComment>{comment.comentario}</TextComment>
+          <TextComment>{comment.comment}</TextComment>
         </Comment>
       </UserComment>
       <Infos>
-        <TextTime>{comment.tempoEnvio}</TextTime>
+        <TextTime>{beautifulDate(comment.date)}</TextTime>
         <LikeAll>
-          <TextLike>{comment.curtidas}</TextLike>
+          <TextLike>{comment.newsId}</TextLike>
           <Like>
             <Icon
               name="thumbs-o-up"
