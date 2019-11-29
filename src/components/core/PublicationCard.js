@@ -48,7 +48,7 @@ const PublicationCard = ({publicacao, navigation}) => {
 
   return (
     <Container>
-      <Capa onPress={() => navigation.navigate('Publication')}>
+      <Capa onPress={() => navigation.navigate('Publication', {'publication': publicacao})}>
         <Image
           source={
             typeof publicacao.cover != 'string'
