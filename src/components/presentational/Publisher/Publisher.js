@@ -3,6 +3,7 @@ import {ActivityIndicator, FlatList, Image} from 'react-native';
 import styled from 'styled-components/native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {subscribePublisher, unsubscribePublisher} from '../../../useCases/publisherUseCases';
 
 /* Core - imports */
 import Header from '../../core/Header';
@@ -12,6 +13,7 @@ import PublicationCard from '../../core/PublicationCard';
 /* Constants - imports */
 import COLORS from '../../../config/colors';
 import SPACING from '../../../config/spacing';
+import STRINGS from '../../../config/strings';
 
 /* Images - imports */
 import Logo from '../../../assets/logo.png';
@@ -19,13 +21,25 @@ import Logo from '../../../assets/logo.png';
 const _keyExtractor = publicacao => publicacao.id.toString();
 
 const Publisher = ({navigation, getNewsByPublisher}) => {
-  const [inscrito, setInscrito] = useState(true);
+  const [idSubscription, setIdSubscription] = useState(null);
+  const [subscribers, setSubscribers] = useState(null);
+  const [buttonText, setButtonText] = useState(STRINGS.SUBSCRIBE);
+  const [buttonColor, setButtonColor] = useState(undefined);
+
   const [loading, setLoading] = useState(false);
   const [news, setNews] = useState([]);
   const publisher = navigation.getParam('publisher', undefined);
 
   useEffect(() => {
     getNewsByPublisher(publisher.id, setNews);
+    setSubscribers(publisher?.subscriptions);
+
+    if (publisher?.userSubscribedId) {
+      setIdSubscription(publisher?.userSubscribedId);
+      setButtonText(STRINGS.UNSUBSCRIBE);
+      setButtonColor(COLORS.red);
+    }
+
   }, []);
 
   return (
@@ -50,18 +64,18 @@ const Publisher = ({navigation, getNewsByPublisher}) => {
         <PublisherName>{publisher?.nome}</PublisherName>
         <FooterInfo>
           <PublisherSubscribers>
-            {publisher?.subscriptions} inscritos
+            {subscribers} inscritos
           </PublisherSubscribers>
           {loading ? (
             <ActivityIndicator />
           ) : (
             <Button
-              title={inscrito ? 'INSCRITO' : 'INSCREVER-SE'}
-              color={inscrito ? COLORS.red : undefined}
+              title={buttonText}
+              color={buttonColor}
               onClick={() => {
-                setInscrito(!inscrito);
-                if (inscrito) publisher.subscriptions -= 1;
-                else publisher.subscriptions += 1;
+                idSubscription
+                  ? unsubscribePublisher(idSubscription, setIdSubscription, setButtonText, setButtonColor, setSubscribers, subscribers)
+                  : subscribePublisher(publisher.id, setIdSubscription, setButtonText, setButtonColor, setSubscribers, subscribers)
               }}
             />
           )}

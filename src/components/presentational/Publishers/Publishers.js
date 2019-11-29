@@ -13,44 +13,6 @@ import PublisherCard from '../../core/PublisherCard';
 import COLORS from '../../../config/colors';
 import SPACING from '../../../config/spacing';
 
-const Publishers = [
-  {
-    id: '1',
-    name: 'Antonio Maria',
-    publicacoes: 15,
-    inscritos: 123,
-  },
-  {
-    id: '2',
-    name: 'Paulo Afonso',
-    publicacoes: 15,
-    inscritos: 15,
-  },
-  {
-    id: '3',
-    name: 'Denilson Pereira',
-    publicacoes: 45,
-    inscritos: 10.938,
-  },
-  {
-    id: '4',
-    name: 'Sanderson',
-    publicacoes: 123,
-    inscritos: 1.234,
-  },
-  {
-    id: '5',
-    name: 'Juliana Galvani',
-    publicacoes: 99,
-    inscritos: 0,
-  },
-  {
-    id: '6',
-    name: 'Joaquim Uchoa',
-    publicacoes: 55,
-    inscritos: 1,
-  },
-];
 
 const _keyExtractor = publisher => publisher.id.toString();
 

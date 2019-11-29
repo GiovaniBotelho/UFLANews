@@ -29,7 +29,7 @@ const Favorites = props => {
           <StyledTouchableOpacity onPress={() => props.navigation.navigate('MyAccount')}>
             <Icon
               name={'user'}
-              size={25}              
+              size={25}
             />
           </StyledTouchableOpacity>
         }
@@ -52,7 +52,7 @@ const Favorites = props => {
           </FormRow>
           <FormRow>
             <StyledButtonRegistrations
-              onPress={() => props.navigation.navigate('Publishers')}>
+              onPress={() => props.navigation.navigate('Subscriptions')}>
               <StyledButtonText>Minhas Inscrições</StyledButtonText>
             </StyledButtonRegistrations>
           </FormRow>
