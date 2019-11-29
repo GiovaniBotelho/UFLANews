@@ -15,16 +15,18 @@ import SPACING from '../../../config/spacing';
 import Logo from '../../../assets/logo.png';
 
 /* Utils - imports */
-import {beautifulDate} from '../../../utils/help';
+import {beautifulDate, getUserId} from '../../../utils/help';
 
 const Publication = props => {
   const [publication, setPublication] = useState(undefined);
   const [sections, setSections] = useState(undefined);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const pub = props.navigation.getParam('publication', undefined);
     setPublication(pub);
     setSections(pub.sections);
+    setLoading(false);
   }, []);
 
   return (
@@ -44,45 +46,56 @@ const Publication = props => {
         }
       />
       <FullPublication showsVerticalScrollIndicator={false}>
-        <PublicationTitle>{publication?.title}</PublicationTitle>
-        <PublicationAuthor>{publication?.publisher?.nome}</PublicationAuthor>
-        <Content>
-          {sections && sections?.length > 0 && (
-            <SectionList
-              sections={sections}
-              keyExtractor={(item, index) => item + index}
-              renderItem={({item}) => <PublicationText>{item}</PublicationText>}
-              renderSectionHeader={({section: {title, icon}}) => (
-                <PublicationSectionHeader>
-                  <Icon name={icon} size={25} />
-                  <PublicationTitleSection>{title}</PublicationTitleSection>
-                </PublicationSectionHeader>
+        {!loading && (
+          <>
+            <PublicationTitle>{publication?.title}</PublicationTitle>
+            <PublicationAuthor>
+              {publication?.publisher?.nome}
+            </PublicationAuthor>
+            <Content>
+              {sections && sections?.length > 0 && (
+                <SectionList
+                  sections={sections}
+                  keyExtractor={(item, index) => item + index}
+                  renderItem={({item}) => (
+                    <PublicationText>{item}</PublicationText>
+                  )}
+                  renderSectionHeader={({section: {title, icon}}) => (
+                    <PublicationSectionHeader>
+                      <Icon name={icon} size={25} />
+                      <PublicationTitleSection>{title}</PublicationTitleSection>
+                    </PublicationSectionHeader>
+                  )}
+                />
               )}
-            />
-          )}
-        </Content>
-        <PublicationTime>{beautifulDate(publication?.date)}</PublicationTime>
-        <Options>
-          <Option>
-            <NumberOption>3</NumberOption>
-            <Icon
-              name="comments-o"
-              size={30}
-              color={'#000'}
-              onPress={() => props.navigation.navigate('Comments')}
-            />
-          </Option>
-          <Option>
-            <Icon name="star-o" size={30} color={'#000'} />
-          </Option>
-          <Option>
-            <NumberOption>2</NumberOption>
-            <Icon name="thumbs-o-up" size={30} color={'#000'} />
-          </Option>
-          <Option>
-            <Icon name="share-square-o" size={30} color={'#000'} />
-          </Option>
-        </Options>
+            </Content>
+            <PublicationTime>
+              {beautifulDate(publication?.date)}
+            </PublicationTime>
+            <Options>
+              <Option>
+                <NumberOption>{publication?.comments?.length}</NumberOption>
+                <Icon
+                  name="comments-o"
+                  size={30}
+                  color={'#000'}
+                  onPress={() => props.navigation.navigate('Comments')}
+                />
+              </Option>
+              <Option>
+                <NumberOption>{publication?.favorites?.length}</NumberOption>
+                <Icon name="star-o" size={30} color={'#000'} />
+              </Option>
+              <Option>
+                <NumberOption>{publication?.likes?.length}</NumberOption>
+                <Icon name="thumbs-o-up" size={30} color={'#000'} />
+              </Option>
+              <Option>
+                <Icon name="share-square-o" size={30} color={'#000'} />
+              </Option>
+            </Options>
+          </>
+        )}
       </FullPublication>
     </Container>
   );
