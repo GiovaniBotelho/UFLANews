@@ -21,6 +21,8 @@ const _keyExtractor = comment => comment.id.toString();
 
 const Comments = props => {
   const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState(undefined);
+
   useEffect(() => {
     const newsId = props.navigation.getParam('news', undefined);
     props.getComments(newsId, setComments);
@@ -30,6 +32,12 @@ const Comments = props => {
     props.deleteComment(idComment)
     setComments(comments.filter(comment => comment.id != idComment))
   }
+
+  const addComment = async (comment, newsId) => {
+    await props.addComment(comment, newsId, setNewComment)
+    //setComments([...comments, newComment])
+  }
+  console.log(newComment)
 
   return (
     <Container colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
@@ -59,7 +67,7 @@ const Comments = props => {
           </NotFound>
         }
       />
-      <CommentBar />
+      <CommentBar addComment={addComment} newsId={comments[0] ?.newsId} />
     </Container>
   );
 };

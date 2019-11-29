@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 export function beautifulDate(date) {
   const dateText = moment(date, 'DD-MM-YYYY hh:mm:ss', 'pt-BR');
-  return dateText.startOf('hours').fromNow();
+  return dateText.startOf('minutes').fromNow();
 }
 
 export async function getUserId() {
