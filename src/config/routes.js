@@ -11,6 +11,7 @@ import PublicationScreen from '../screens/PublicationScreen';
 import ForgotPasswordScreen from '../screens/ForgotPassowordScreen';
 import CommentsScreen from '../screens/CommentsScreen';
 import SubscriptionsScreen from '../screens/SubscriptionsScreen';
+import FavoritePublicationsScreen from '../screens/FavoritePublicationsScreen';
 
 const routes = {
   Home: HomeScreen,
@@ -26,6 +27,7 @@ const routes = {
   Publication: PublicationScreen,
   ForgotPassword: ForgotPasswordScreen,
   Subscriptions: SubscriptionsScreen,
+  FavoritePublications: FavoritePublicationsScreen,
 };
 
 export default routes;

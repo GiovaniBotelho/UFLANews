@@ -20,50 +20,6 @@ import Logo from '../../../assets/logo.png';
 import NewsPaper from '../../../assets/animations/353-newspaper-spinner.json';
 import News from '../../../assets/animations/952-news.json';
 
-// const Publicacoes = [
-//   {
-//     id: '1',
-//     titulo: 'Titulo A',
-//     autor: 'Autor A',
-//     data: 'Data A',
-//     capa: 'C:UsersMauricio VieiraDesktopUFLANewssrcassetsmike.jpg',
-//   },
-//   {
-//     id: '2',
-//     titulo: 'Titulo B',
-//     autor: 'Autor B',
-//     data: 'Data B',
-//     capa: 'C:UsersMauricio VieiraDesktopUFLANewssrcassetspug.jpg',
-//   },
-//   {
-//     id: '3',
-//     titulo: 'Titulo C',
-//     autor: 'Autor C',
-//     data: 'Data C',
-//     capa: 'C:UsersMauricio VieiraDesktopUFLANewssrcassetspug.jpg',
-//   },
-//   {
-//     id: '4',
-//     titulo: 'Titulo D',
-//     autor: 'Autor D',
-//     data: 'Data D',
-//     capa: 'C:UsersMauricio VieiraDesktopUFLANewssrcassetspug.jpg',
-//   },
-//   {
-//     id: '5',
-//     titulo: 'Titulo E',
-//     autor: 'Autor E',
-//     data: 'Data E',
-//     capa: 'C:UsersMauricio VieiraDesktopUFLANewssrcassetspug.jpg',
-//   },
-//   {
-//     id: '6',
-//     titulo: 'Titulo F',
-//     autor: 'Autor F',
-//     data: 'Data F',
-//     capa: 'C:UsersMauricio VieiraDesktopUFLANewssrcassetspug.jpg',
-//   },
-// ];
 
 const _keyExtractor = publicacao => publicacao.id.toString();
 
