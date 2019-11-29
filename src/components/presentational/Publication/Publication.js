@@ -1,5 +1,5 @@
-import React from 'react';
-import {Image, Text} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {Image, Text, SectionList} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styled from 'styled-components';
 import LinearGradient from 'react-native-linear-gradient';
@@ -14,95 +14,88 @@ import SPACING from '../../../config/spacing';
 /* Imagens - imports */
 import Logo from '../../../assets/logo.png';
 
+/* Utils - imports */
+import {beautifulDate, getUserId} from '../../../utils/help';
+
 const Publication = props => {
+  const [publication, setPublication] = useState(undefined);
+  const [sections, setSections] = useState(undefined);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const pub = props.navigation.getParam('publication', undefined);
+    setPublication(pub);
+    setSections(pub.sections);
+    setLoading(false);
+  }, []);
+
   return (
     <Container colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
       <Header
         title={'Publicação'}
         rightSide={
-          <StyledTouchableOpacity onPress={() => props.navigation.navigate('MyAccount')}>
-            <Icon
-              name={'user'}
-              size={25}
-              
-            />
+          <StyledTouchableOpacity
+            onPress={() => props.navigation.navigate('MyAccount')}>
+            <Icon name={'user'} size={25} />
           </StyledTouchableOpacity>
         }
         leftSide={
           <StyledTouchableOpacity onPress={() => props.navigation.pop()}>
-            <Icon
-              name={'chevron-left'}
-              size={25}
-              
-            />
+            <Icon name={'chevron-left'} size={25} />
           </StyledTouchableOpacity>
         }
       />
       <FullPublication showsVerticalScrollIndicator={false}>
-        <PublicationTitle>Titulo da Publicacao</PublicationTitle>
-        <PublicationAuthor>Autor da Publicacao</PublicationAuthor>
-        <Content>
-          <PublicationText>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum. It is a long
-            established fact that a reader will be distracted by the readable
-            content of a page when looking at its layout. The point of using
-            Lorem Ipsum is that it has a more-or-less normal distribution of
-            letters, as opposed to using 'Content here, content here', making it
-            look like readable English. Many desktop publishing packages and web
-            page editors now use Lorem Ipsum as their default model text, and a
-            search for 'lorem ipsum' will uncover many web sites still in their
-            infancy. Various versions have evolved over the years, sometimes by
-            accident, sometimes on purpose (injected humour and the like). Lorem
-            Ipsum is simply dummy text of the printing and typesetting industry.
-            Lorem Ipsum has been the industry's standard dummy text ever since
-            the 1500s, when an unknown printer took a galley of type and
-            scrambled it to make a type specimen book. It has survived not only
-            five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum. It is a long
-            established fact that a reader will be distracted by the readable
-            content of a page when looking at its layout. The point of using
-            Lorem Ipsum is that it has a more-or-less normal distribution of
-            letters, as opposed to using 'Content here, content here', making it
-            look like readable English. Many desktop publishing packages and web
-            page editors now use Lorem Ipsum as their default model text, and a
-            search for 'lorem ipsum' will uncover many web sites still in their
-            infancy. Various versions have evolved over the years, sometimes by
-            accident, sometimes on purpose (injected humour and the like).
-          </PublicationText>
-        </Content>
-        <PublicationTime>Data e hora da publicação</PublicationTime>
-        <Options>
-          <Option>
-            <NumberOption>3</NumberOption>
-            <Icon
-              name="comments-o"
-              size={30}
-              color={'#000'}
-              onPress={() => props.navigation.navigate('Comments')}
-            />
-          </Option>
-          <Option>
-            <Icon name="star-o" size={30} color={'#000'} />
-          </Option>
-          <Option>
-            <NumberOption>2</NumberOption>
-            <Icon name="thumbs-o-up" size={30} color={'#000'} />
-          </Option>
-          <Option>
-            <Icon name="share-square-o" size={30} color={'#000'} />
-          </Option>
-        </Options>
+        {!loading && (
+          <>
+            <PublicationTitle>{publication?.title}</PublicationTitle>
+            <PublicationAuthor>
+              {publication?.publisher?.nome}
+            </PublicationAuthor>
+            <Content>
+              {sections && sections?.length > 0 && (
+                <SectionList
+                  sections={sections}
+                  keyExtractor={(item, index) => item + index}
+                  renderItem={({item}) => (
+                    <PublicationText>{item}</PublicationText>
+                  )}
+                  renderSectionHeader={({section: {title, icon}}) => (
+                    <PublicationSectionHeader>
+                      <Icon name={icon} size={25} />
+                      <PublicationTitleSection>{title}</PublicationTitleSection>
+                    </PublicationSectionHeader>
+                  )}
+                />
+              )}
+            </Content>
+            <PublicationTime>
+              {beautifulDate(publication?.date)}
+            </PublicationTime>
+            <Options>
+              <Option>
+                <NumberOption>{publication?.comments?.length}</NumberOption>
+                <Icon
+                  name="comments-o"
+                  size={30}
+                  color={'#000'}
+                  onPress={() => props.navigation.navigate('Comments')}
+                />
+              </Option>
+              <Option>
+                <NumberOption>{publication?.favorites?.length}</NumberOption>
+                <Icon name="star-o" size={30} color={'#000'} />
+              </Option>
+              <Option>
+                <NumberOption>{publication?.likes?.length}</NumberOption>
+                <Icon name="thumbs-o-up" size={30} color={'#000'} />
+              </Option>
+              <Option>
+                <Icon name="share-square-o" size={30} color={'#000'} />
+              </Option>
+            </Options>
+          </>
+        )}
       </FullPublication>
     </Container>
   );
@@ -158,6 +151,19 @@ const Content = styled.View`
 
 const PublicationText = styled.Text`
   text-align: justify;
+`;
+
+const PublicationSectionHeader = styled.View`
+  min-height: 35;
+  flex-direction: row;
+  align-items: center;
+  margin-top: ${SPACING.medium};
+  margin-bottom: ${SPACING.medium};
+`;
+
+const PublicationTitleSection = styled.Text`
+  font-size: 20;
+  margin-left: ${SPACING.medium};
 `;
 
 const Options = styled.View`

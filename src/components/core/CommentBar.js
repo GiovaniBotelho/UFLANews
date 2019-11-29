@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -9,12 +9,15 @@ import Button from './Button';
 import SPACING from '../../config/spacing';
 import COLORS from '../../config/colors';
 
-const CommentBar = props => {
+const CommentBar = ({ addComment, newsId }) => {
+
+  const [textComment, setTextComment] = useState("")
+
   return (
     <Container>
-      <TextInput placeholder={'Adicione um comentário...'} multiline />
+      <TextInput value={textComment} placeholder={'Adicione um comentário...'} onChangeText={setTextComment} multiline />
       <ContainerButtom>
-        <Button width={'100%'} radius={0} title={'Publicar'} />
+        <Button width={'100%'} radius={0} title={'Publicar'} onClick={() => addComment(textComment, newsId)} />
       </ContainerButtom>
     </Container>
   );

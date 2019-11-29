@@ -8,8 +8,8 @@ import SPACING from '../../config/spacing';
 const SearchBar = props => {
   return (
     <Container>
-      <Icon name={'search'} size={25} style={{flex: 1}} />
-      <TextInput placeholder={'Buscar'} />
+      <Icon name={'search'} size={25} style={{ flex: 1 }} />
+      <TextInput placeholder={'Buscar'} value={props.value} onChangeText={props.setTextSearch}/>
     </Container>
   );
 };

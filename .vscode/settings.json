@@ -1,1 +1,13 @@
-{}
+{
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "editor.tabSize": 2,
+    "[javascript]": {
+        "editor.formatOnSave": true
+    },
+    "prettier.printWidth": 120,
+    "prettier.tabWidth": 2,
+    "prettier.singleQuote": true,
+    "python.pythonPath": "/Library/Frameworks/Python.framework/Versions/3.7/bin/python3",
+    "eslint.enable": false,
+    "javascript.validate.enable": false,
+}

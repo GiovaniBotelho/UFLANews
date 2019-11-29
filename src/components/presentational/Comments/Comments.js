@@ -1,104 +1,88 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {FlatList} from 'react-native';
+import { FlatList, View } from 'react-native';
+import Lottie from 'lottie-react-native';
 
 /* Core - imports */
 import Header from '../../core/Header';
 import CommentBar from '../../core/CommentBar';
 import CommentCard from '../../core/CommentCard';
 
-/* Constatns */
+/* Constants */
 import COLORS from '../../../config/colors';
 import SPACING from '../../../config/spacing';
 
-const Comentarios = [
-  {
-    usuario: 'Pedro Pereke 007',
-    comentario:
-      'aaaaaaaaaaa a dawda dwd aaaaaadadaa d a daw d awd a wd awdawd ad a wda wd aw da wd a wda d awd a wd awd a wdaad aaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-    tempoEnvio: '2 meses atrás',
-    curtidas: 280,
-    id: '1',
-  },
-  {
-    usuario: 'Vinicius Spinelli',
-    comentario:
-      'aaaaaaaaaaa a dawda dwd aaaaaadadaa d a daw d awd a wd awdawd ad a wda wd aw da wd a wda d awd a wd awd a wdaad aaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-    tempoEnvio: '2 minutos atrás',
-    curtidas: 1,
-    id: '2',
-  },
-  {
-    usuario: 'Giovani Botelho',
-    comentario:
-      'aaaaaaaaaaa a dawda dwd aaaaaadadaa d a daw d awd a wd awdawd ad a wda wd aw da wd a wda d awd a wd awd a wdaad aaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-    tempoEnvio: '2 dias atrás',
-    curtidas: 29,
-    id: '3',
-  },
-  {
-    usuario: 'Rodrigão',
-    comentario:
-      'aaaaaaaaaaa a dawda dwd aaaaaadadaa d a daw d awd a wd awdawd ad a wda wd aw da wd a wda d awd a wd awd a wdaad aaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-    tempoEnvio: 'poucos segundos',
-    curtidas: 0,
-    id: '4',
-  },
-  {
-    usuario: 'Brenex',
-    comentario:
-      'aaaaaaaaaaa a dawda dwd aaaaaadadaa d a daw d awd a wd awdawd ad a wda wd aw da wd a wda d awd a wd awd a wdaad aaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-    tempoEnvio: '1 hora atrás',
-    curtidas: 150,
-    id: '5',
-  },
-  {
-    usuario: 'Paulo Afonso',
-    comentario:
-      'aaaaaaaaaaa a dawda dwd aaaaaadadaa d a daw d awd a wd awdawd ad a wda wd aw da wd a wda d awd a wd awd a wdaad aaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-    tempoEnvio: '15 minutos atrás',
-    curtidas: 2,
-    id: '6',
-  },
-];
+/* Images - imports */
+import notFound from '../../../assets/animations/1725-not-found.json';
 
-const _keyExtractor = comment => comment.id;
+const _keyExtractor = comment => comment.id.toString();
 
 const Comments = props => {
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState(undefined);
+
+  useEffect(() => {
+    const newsId = props.navigation.getParam('news', undefined);
+    props.getComments(newsId, setComments);
+  }, []);
+
+  const deleteComments = (idComment) => {
+    props.deleteComment(idComment)
+    setComments(comments.filter(comment => comment.id != idComment))
+  }
+
+  const addComment = async (comment, newsId) => {
+    await props.addComment(comment, newsId, setNewComment)
+    //setComments([...comments, newComment])
+  }
+  console.log(newComment)
+
   return (
     <Container colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
       <Header
         leftSide={
-          <StyledTouchableOpacity onPress={() => props.navigation.pop()}>
+          <StyledTouchableOpacity onPress={() => props.navigation.navigate('Home')}>
             <Icon name={'chevron-left'} size={25} />
           </StyledTouchableOpacity>
         }
-        showLogo={<TextComment>Comentários</TextComment>}
+        title={'Comentários'}
       />
       <FlatList
-        data={Comentarios}
-        renderItem={({item, index}) => <CommentCard comment={item} />}
+        data={comments}
+        renderItem={({ item, index }) => <CommentCard deleteComment={deleteComments} comment={item} />}
         keyExtractor={_keyExtractor}
         ListFooterComponent={props => <FooterStyled />}
+        ListEmptyComponent={
+          <NotFound>
+            <Lottie
+              resizeMode="cover"
+              style={{ width: '50%' }}
+              source={notFound}
+              autoPlay
+              loop
+            />
+            <StyledText>Não existem comentários para serem exibidos.</StyledText>
+          </NotFound>
+        }
       />
-      <CommentBar />
+      <CommentBar addComment={addComment} newsId={comments[0] ?.newsId} />
     </Container>
   );
 };
-
-const TextComment = styled.Text`
-  font-size: 28}
-`;
 
 const Container = styled(LinearGradient)`
   flex: 1;
 `;
 
-const StyledView = styled.ScrollView`
-  width: 100%;
+const NotFound = styled.View`
+  justify-content: center;
+  align-items: center;
+  align-self: center;
 `;
+
+const StyledText = styled.Text``;
 
 const FooterStyled = styled.View`
   padding-bottom: ${SPACING.medium};

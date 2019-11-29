@@ -1,29 +1,28 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import {Image} from 'react-native';
+import { Image } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {likeNew, unlikeNew, favoriteNew, unfavoriteNew} from '../../useCases/publicationUseCases';
+import { likeNew, unlikeNew, favoriteNew, unfavoriteNew } from '../../useCases/publicationUseCases';
 
 /* Config - imports */
 import COLORS from '../../config/colors';
 import SPACING from '../../config/spacing';
 
 /* Utils - import */
-import {beautifulDate, getUserId} from '../../utils/help';
+import { beautifulDate, getUserId } from '../../utils/help';
 
 import pug from '../../assets/mike.jpg';
 
-const PublicationCard = ({publicacao, navigation}) => {
+const PublicationCard = ({ publicacao, navigation }) => {
   const [iconLike, setIconLike] = useState('thumbs-o-up');
   const [colorLike, setColorLike] = useState(COLORS.none);
   const [idLike, setIdLike] = useState(null);
-  const [likes, setLikes] = useState(publicacao?.likes?.length);
+  const [likes, setLikes] = useState(publicacao ?.likes ?.length);
 
   const [iconFavorite, setIconFavorite] = useState('star-o');
   const [colorFavorite, setColorFavorite] = useState(COLORS.none);
   const [idFavorite, setIdFavorite] = useState(null);
-  const [favorites, setFavorites] = useState(publicacao?.favorites?.length);
-
+  const [favorites, setFavorites] = useState(publicacao ?.favorites ?.length);
   useEffect(() => {
     async function setIcons() {
       const userId = await getUserId();
@@ -42,28 +41,28 @@ const PublicationCard = ({publicacao, navigation}) => {
         setIdFavorite(favorite[0].id);
       }
     }
-  
+
     setIcons();
   }, []);
 
   return (
     <Container>
-      <Capa onPress={() => navigation.navigate('Publication')}>
+      <Capa onPress={() => navigation.navigate('Publication', { 'publication': publicacao })}>
         <Image
           source={
             typeof publicacao.cover != 'string'
               ? pug
               : {
-                  uri: publicacao.cover,
-                }
+                uri: publicacao.cover,
+              }
           }
           aspectRation={1}
           resizeMode={'cover'}
-          style={{height: '100%', width: '100%'}}
+          style={{ height: '100%', width: '100%' }}
         />
         <Info>
           <Titulo>{publicacao.title}</Titulo>
-          {publicacao?.publisher?.nome ? (
+          {publicacao ?.publisher ?.nome ? (
             <Autor>{publicacao.publisher.nome}</Autor>
           ) : null}
           <DataHora>{beautifulDate(publicacao.date)}</DataHora>
@@ -84,9 +83,8 @@ const PublicationCard = ({publicacao, navigation}) => {
           <NumberOption>{favorites}</NumberOption>
           <Icon name={iconFavorite} size={30} color={colorFavorite} />
         </Option>
-
-        <Option onPress={() => navigation.navigate('Comments')}>
-          <NumberOption>{publicacao?.comments?.length}</NumberOption>
+        <Option onPress={() => navigation.navigate('Comments', { news: publicacao.id })}>
+          <NumberOption>{publicacao ?.comments ?.length}</NumberOption>
           <Icon name="comments-o" size={30} color={'#000'} />
         </Option>
 
