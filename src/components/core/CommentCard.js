@@ -1,21 +1,21 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Text} from 'react-native';
+import { Text } from 'react-native';
 
 /* Utils - imports */
-import {beautifulDate, get_user_id} from '../../utils/help';
+import { beautifulDate, getUserId } from '../../utils/help';
 
 /* Config - imports */
 import COLORS from '../../config/colors';
 import SPACING from '../../config/spacing';
 
-const CommentCard = ({comment}) => {
+const CommentCard = ({ deleteComment, comment, setComments }) => {
   const [user, setUser] = useState(undefined);
 
   useEffect(() => {
     async function getUser() {
-      const user = await get_user_id();
+      const user = await getUserId();
       setUser(user);
     }
     getUser();
@@ -27,9 +27,9 @@ const CommentCard = ({comment}) => {
         <User>
           <IconName>
             <Icon name={'user'} size={15} />
-            <Text>&nbsp; {comment?.user?.name}</Text>
+            <Text>&nbsp; {comment ?.user ?.name}</Text>
           </IconName>
-          {comment.userId == user && <Icon name={'times'} size={15} />}
+          {comment ?.userId == user && <Icon name={'times'} size={15} onPress={() => deleteComment(comment.id, setComments)} />}
         </User>
         <Comment>
           <TextComment>{comment.comment}</TextComment>

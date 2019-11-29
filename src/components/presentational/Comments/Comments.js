@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {FlatList, View} from 'react-native';
+import { FlatList, View } from 'react-native';
 import Lottie from 'lottie-react-native';
 
 /* Core - imports */
@@ -26,11 +26,16 @@ const Comments = props => {
     props.getComments(newsId, setComments);
   }, []);
 
+  const deleteComments = (idComment) => {
+    props.deleteComment(idComment)
+    setComments(comments.filter(comment => comment.id != idComment))
+  }
+
   return (
     <Container colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
       <Header
         leftSide={
-          <StyledTouchableOpacity onPress={() => props.navigation.pop()}>
+          <StyledTouchableOpacity onPress={() => props.navigation.navigate('Home')}>
             <Icon name={'chevron-left'} size={25} />
           </StyledTouchableOpacity>
         }
@@ -38,14 +43,14 @@ const Comments = props => {
       />
       <FlatList
         data={comments}
-        renderItem={({item, index}) => <CommentCard comment={item} />}
+        renderItem={({ item, index }) => <CommentCard deleteComment={deleteComments} comment={item} />}
         keyExtractor={_keyExtractor}
         ListFooterComponent={props => <FooterStyled />}
         ListEmptyComponent={
           <NotFound>
             <Lottie
               resizeMode="cover"
-              style={{width: '50%'}}
+              style={{ width: '50%' }}
               source={notFound}
               autoPlay
               loop
