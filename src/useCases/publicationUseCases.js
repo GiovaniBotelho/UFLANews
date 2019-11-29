@@ -27,6 +27,31 @@ export const getPublications = async (
     });
 };
 
+export const getFavoritePublications = async (
+  callback = () => {},
+  loading = () => {},
+) => {
+  const token = await AsyncStorage.getItem('accessToken', undefined);
+  const userId = await AsyncStorage.getItem('userId', undefined);
+
+  await axios({
+    method: 'GET',
+    url: `${CONSTANTS.HOST}/news?_expand=publisher&_embed=likes&_embed=comments&_embed=favorites`,
+    headers: {
+      Authorization: 'Bearer ' + token,
+    },
+  })
+    .then(response => {
+      let favoriteNews = response.data.filter(news => news.favorites.filter(fav => fav.userId == userId).length);
+
+      callback(favoriteNews);
+      loading(false);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+};
+
 export const getNewsByPublisher = async (publisher, callback = () => {}) => {
   const token = await AsyncStorage.getItem('accessToken', undefined);
   await axios({

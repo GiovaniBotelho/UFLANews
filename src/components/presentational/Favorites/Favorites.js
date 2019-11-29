@@ -46,7 +46,8 @@ const Favorites = props => {
       <StyledView>
         <StyledContainer>
           <FormRow>
-            <StyledButtonFavoritePublications>
+            <StyledButtonFavoritePublications
+              onPress={() => props.navigation.navigate('FavoritePublications')}>
               <StyledButtonText>Publicações Favoritas</StyledButtonText>
             </StyledButtonFavoritePublications>
           </FormRow>
