@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {FlatList, Image} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { FlatList, Image } from 'react-native';
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
@@ -11,6 +11,9 @@ import SearchBar from '../../core/SearchBar';
 import Button from '../../core/Button';
 import PublicationCard from '../../core/PublicationCard';
 
+/* Utils - import */
+import { removeAccents } from '../../../utils/help'
+
 /* Constants - imports */
 import COLORS from '../../../config/colors';
 import SPACING from '../../../config/spacing';
@@ -18,17 +21,24 @@ import SPACING from '../../../config/spacing';
 
 const _keyExtractor = publicacao => publicacao.id.toString();
 
-const _renderItem = ({item, index}) => (
+const _renderItem = ({ item, index }) => (
   <PublicationCard publicacao={item} navigation={props.navigation} />
 );
 
-const FavoritePublications = ({navigation, getFavoritePublications}) => {
+const FavoritePublications = ({ navigation, getFavoritePublications }) => {
   const [loading, setLoading] = useState(false);
   const [publications, setPublications] = useState([]);
+  const [textSearch, setTextSearch] = useState("")
 
   useEffect(() => {
     getFavoritePublications(setPublications, setLoading);
   }, []);
+
+  const handleSearch = () => {
+    return removeAccents(textSearch.toUpperCase()).split(' ').reduce((acc, keyWord) => {
+      return acc.filter(pub => removeAccents(pub.title.toUpperCase()).includes(keyWord))
+    }, publications)
+  }
 
   return (
     <Container colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
@@ -52,25 +62,25 @@ const FavoritePublications = ({navigation, getFavoritePublications}) => {
         }
       />
 
-      <SearchBar />
+      <SearchBar value={textSearch} setTextSearch={setTextSearch} />
 
       {loading ? (
         <LottieView
           source={require('../../../assets/animations/353-newspaper-spinner.json')}
-          style={{height: 100, width: 100, flex: 1}}
+          style={{ height: 100, width: 100, flex: 1 }}
           autoPlay
           loop
         />
       ) : (
-        <FlatList
-          data={publications}
-          renderItem={({item, index}) => (
-            <PublicationCard publicacao={item} navigation={navigation} />
-          )}
-          keyExtractor={_keyExtractor}
-          ListFooterComponent={props => <FooterStyled />}
-        />
-      )}
+          <FlatList
+            data={handleSearch()}
+            renderItem={({ item, index }) => (
+              <PublicationCard publicacao={item} navigation={navigation} />
+            )}
+            keyExtractor={_keyExtractor}
+            ListFooterComponent={props => <FooterStyled />}
+          />
+        )}
     </Container>
   );
 };

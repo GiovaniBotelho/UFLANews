@@ -22,7 +22,7 @@ export const getPublishers = async (callback = () => { }) => {
       response.data.map((item, index) => {
         item.userSubscribedId = null;
         let sub = item.subscriptions.filter(subscription => userId == subscription.userId);
-        if (sub.length){
+        if (sub.length) {
           item.userSubscribedId = sub[0].id;
         }
       });
@@ -41,7 +41,7 @@ export const getPublishers = async (callback = () => { }) => {
 export const getPublishersSubscriptions = async (callback = () => { }) => {
   const userId = await AsyncStorage.getItem('user_id', undefined);
 
-  var publishers = await getPublisherInfo(0);
+  var publishers = await getPublisherInfo();
 
   publishers = publishers.filter(
     publisher => publisher.subscriptions.filter(
@@ -51,7 +51,7 @@ export const getPublishersSubscriptions = async (callback = () => { }) => {
   publishers.map((item, index) => {
     item.userSubscribedId = null;
     let sub = item.subscriptions.filter(subscription => userId == subscription.userId);
-    if (sub.length){
+    if (sub.length) {
       item.userSubscribedId = sub[0].id;
     }
   });
@@ -63,7 +63,7 @@ export const getPublishersSubscriptions = async (callback = () => { }) => {
   callback(publishers);
 };
 
-async function getPublisherInfo(idPublisher) {
+async function getPublisherInfo() {
   const token = await AsyncStorage.getItem('accessToken', undefined);
   publishers = null;
   await axios({
@@ -84,10 +84,10 @@ async function getPublisherInfo(idPublisher) {
 
 export const subscribePublisher = async (
   publisherId,
-  setIdSubscription = () => {},
-  setButtonText = () => {},
-  setButtonColor = () => {},
-  setSubscribers = () => {},
+  setIdSubscription = () => { },
+  setButtonText = () => { },
+  setButtonColor = () => { },
+  setSubscribers = () => { },
   subscribers
 ) => {
   const token = await AsyncStorage.getItem('accessToken', undefined);
@@ -120,10 +120,10 @@ export const subscribePublisher = async (
 
 export const unsubscribePublisher = async (
   idSubscription,
-  setIdSubscription = () => {},
-  setButtonText = () => {},
-  setButtonColor = () => {},
-  setSubscribers = () => {},
+  setIdSubscription = () => { },
+  setButtonText = () => { },
+  setButtonColor = () => { },
+  setSubscribers = () => { },
   subscribers
 ) => {
   const token = await AsyncStorage.getItem('accessToken', undefined);

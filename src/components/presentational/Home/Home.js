@@ -33,8 +33,8 @@ const _renderItem = ({ item, index }) => (
 const Home = ({ navigation, getPublications }) => {
   const [loading, setLoading] = useState(true);
   const [publications, setPublications] = useState([]);
-  const [textSearch, setTextSearch] = useState("")
-  const reducer = (accumulator, currentValue) => accumulator + currentValue;
+  const [textSearch, setTextSearch] = useState("");
+
   useEffect(() => {
     getPublications(setPublications, setLoading);
   }, []);
