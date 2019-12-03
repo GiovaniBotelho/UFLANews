@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Image} from 'react-native';
+import React, { useState } from 'react';
+import { Image } from 'react-native';
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
@@ -16,11 +16,17 @@ import Button from '../../core/Button';
 import COLORS from '../../../config/colors';
 import SPACING from '../../../config/spacing';
 
-const Edit = ({navigation}) => {
+const Edit = ({ navigation, edit }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
+
+  const handlerEdit = () => {
+    edit(name, email, password, passwordConfirm, () =>
+      navigation.replace('MyAccount'),
+    );
+  };
 
   return (
     <>
@@ -76,9 +82,7 @@ const Edit = ({navigation}) => {
           <StyledButtonContainer>
             <Button
               title={'SALVAR'}
-              onClick={() => {
-                submit();
-              }}
+              onClick={() => handlerEdit()}
             />
           </StyledButtonContainer>
         </StyledView>
