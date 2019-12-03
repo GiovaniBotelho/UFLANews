@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import {Image} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
-  likeNew,
-  unlikeNew,
+  likeNews,
+  unlikeNews,
   favoriteNews,
   unfavoriteNews,
 } from '../../useCases/publicationUseCases';
@@ -22,52 +22,55 @@ import {beautifulDate, getUserId} from '../../utils/help';
 import pug from '../../assets/mike.jpg';
 
 const PublicationCard = ({publicacao, navigation}) => {
-  const [iconLike, setIconLike] = useState('thumbs-o-up');
-  const [colorLike, setColorLike] = useState(COLORS.none);
-  const [idLike, setIdLike] = useState(null);
-  const [likes, setLikes] = useState(publicacao?.likes?.length);
-
   const [idFavorite, setIdFavorite] = useState(-1);
-  const [favorites, setFavorites] = useState(publicacao?.favorites?.length);
   const [isFavorite, setFavorite] = useState(false);
+
+  const [idLike, setIdLike] = useState(-1);
+  const [isLiked, setLiked] = useState(false);
 
   const dispatch = useDispatch();
 
   const user = useSelector(({user}) => user.user.userInfo);
+  const publication = useSelector(
+    ({news}) => news.news.filter(pub => pub.id == publicacao.id)[0],
+  );
 
   useEffect(() => {
-    async function setIcons() {
-      const like = publicacao.likes.filter(like => user?.sub == like.userId);
-      if (like.length) {
-        setIconLike('thumbs-up');
-        setColorLike(COLORS.like);
-        setIdLike(like[0].id);
-      }
-    }
+    // Setando as variaveis de favoritos
+    const indexFavorite = publication.favorites.findIndex(
+      favorite => favorite.userId == user?.sub,
+    );
+    if (indexFavorite != -1) setFavorite(true);
+    else setFavorite(false);
+    setIdFavorite(indexFavorite);
 
-    setIcons();
+    // Setando as variaveis de curtidas
+    let indexLike = publication.likes.findIndex(
+      like => like.userId == user?.sub,
+    );
+
+    if (indexLike != -1) setLiked(true);
+    else setLiked(false);
+    setIdLike(indexLike);
   }, []);
-
-  useEffect(() => {
-    async function setFavorites() {
-      const index = publicacao.favorites.findIndex(
-        favorite => favorite.userId == user?.sub,
-      );
-      console.log(index);
-      if (index != -1) setFavorite(true);
-      else setFavorite(false);
-      setIdFavorite(index);
-    }
-    setFavorites();
-  }, [isFavorite]);
 
   const handlerFavorites = () => {
     if (isFavorite) {
       setFavorite(false);
-      // dispatch(unfavoriteNews(idFavorite));
+      dispatch(unfavoriteNews(publication.favorites[idFavorite]));
     } else {
-      dispatch(favoriteNews(publicacao.id, user.sub));
+      dispatch(favoriteNews(publication.id, user.sub));
       setFavorite(true);
+    }
+  };
+
+  const handlerLike = () => {
+    if (isLiked) {
+      setLiked(false);
+      dispatch(unlikeNews(publication.likes[idLike]));
+    } else {
+      dispatch(likeNews(publication.id, user.sub));
+      setLiked(true);
     }
   };
 
@@ -75,70 +78,45 @@ const PublicationCard = ({publicacao, navigation}) => {
     <Container>
       <Capa
         onPress={() =>
-          navigation.navigate('Publication', {publication: publicacao})
+          navigation.navigate('Publication', {newsId: publicacao.id})
         }>
         <Image
-          source={
-            typeof publicacao.cover != 'string'
-              ? pug
-              : {
-                  uri: publicacao.cover,
-                }
-          }
+          source={{
+            uri: publication.cover,
+          }}
           aspectRation={1}
           resizeMode={'cover'}
           style={{height: '100%', width: '100%'}}
         />
         <Info>
-          <Titulo>{publicacao.title}</Titulo>
-          {publicacao?.publisher?.nome ? (
-            <Autor>{publicacao.publisher.nome}</Autor>
+          <Titulo>{publication.title}</Titulo>
+          {publication?.publisher?.nome ? (
+            <Autor>{publication.publisher.nome}</Autor>
           ) : null}
-          <DataHora>{beautifulDate(publicacao.date)}</DataHora>
+          <DataHora>{beautifulDate(publication.date)}</DataHora>
         </Info>
       </Capa>
       <Options>
-        <Option2 first>
-          <Icon name="share-square-o" size={25} color={'#000'} />
-        </Option2>
-
+        <Option type="share" first/>
         <Option
           type="favorite"
           favorite={isFavorite}
-          value={favorites}
+          value={publication?.favorites?.length}
           handlerFunction={handlerFavorites}
         />
-        <Option2
-          onPress={() =>
-            navigation.navigate('Comments', {news: publicacao.id})
-          }>
-          <NumberOption>{publicacao?.comments?.length}</NumberOption>
-          <Icon name="comments-o" size={30} color={'#000'} />
-        </Option2>
-
-        <Option2
-          onPress={() =>
-            idLike
-              ? unlikeNew(
-                  idLike,
-                  setIconLike,
-                  setColorLike,
-                  setIdLike,
-                  setLikes,
-                  likes,
-                )
-              : likeNew(
-                  publicacao.id,
-                  setIconLike,
-                  setColorLike,
-                  setIdLike,
-                  setLikes,
-                  likes,
-                )
-          }>
-          <NumberOption>{likes}</NumberOption>
-          <Icon name={iconLike} size={30} color={colorLike} />
-        </Option2>
+        <Option
+          type="comments"
+          value={publication?.comments?.length}
+          handlerFunction={() =>
+            navigation.navigate('Comments', {news: publication.id})
+          }
+        />  
+        <Option
+          type="like"
+          liked={isLiked}
+          value={publication?.likes?.length}
+          handlerFunction={handlerLike}
+        />
       </Options>
     </Container>
   );

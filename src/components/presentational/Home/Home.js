@@ -37,12 +37,13 @@ const Home = ({navigation, getPublications}) => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getPublications());
-  }, []);
-
   const publications = useSelector(({news}) => news.news);
   const isLoading = useSelector(({news}) => news.isLoading);
+  const comments = useSelector(({comments}) => comments.comments);
+  
+  useEffect(() => {
+    dispatch(getPublications());
+  }, [comments]);
 
   const handleSearch = () => {
     return removeAccents(textSearch.toUpperCase())

@@ -15,7 +15,16 @@ const Option = ({
   const renderOption = () => {
     switch (type) {
       case 'like':
-        return <StyledOption onPress={() => favorite}></StyledOption>;
+        return (
+          <StyledOption onPress={handlerFunction}>
+            <NumberOption>{value}</NumberOption>
+            <Icon
+              name={liked ? 'thumbs-up' : 'thumbs-o-up'}
+              size={30}
+              color={liked ? COLORS.like : COLORS.none}
+            />
+          </StyledOption>
+        );
       case 'favorite':
         return (
           <StyledOption onPress={handlerFunction}>
@@ -27,10 +36,19 @@ const Option = ({
             />
           </StyledOption>
         );
-      case 'comment':
-        return <StyledOption></StyledOption>;
+      case 'comments':
+        return (
+          <StyledOption onPress={handlerFunction}>
+            <NumberOption>{value}</NumberOption>
+            <Icon name="comments-o" size={30} color={COLORS.none} />
+          </StyledOption>
+        );
       case 'share':
-        return <StyledOption></StyledOption>;
+        return (
+          <StyledOption first>
+            <Icon name="share-square-o" size={30} color={COLORS.none} />
+          </StyledOption>
+        );
       default:
         return <StyledOption></StyledOption>;
     }

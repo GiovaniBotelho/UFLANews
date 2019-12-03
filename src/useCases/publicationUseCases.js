@@ -77,72 +77,61 @@ export const getNewsByPublisher = async (publisher, callback = () => {}) => {
     });
 };
 
-export const likeNews = async (
-  publicationId,
-  setIconLike = () => {},
-  setColorLike = () => {},
-  setIdLike = () => {},
-  setLikes = () => {},
-  likes,
-) => {
-  const token = await AsyncStorage.getItem('accessToken', undefined);
-  const userId = await AsyncStorage.getItem('userId', undefined);
+export const likeNews = (newsId, userId) => {
+  return async dispatch => {
+    dispatch(NewsAction.setLikeNews());
+    const token = await AsyncStorage.getItem('accessToken', undefined);
+    //const userId = await AsyncStorage.getItem('userId', undefined);
 
-  const data = {
-    newsId: publicationId,
-    userId: userId,
-  };
+    const data = {
+      newsId,
+      userId,
+    };
 
-  await axios({
-    method: 'POST',
-    url: `${CONSTANTS.HOST}/likes`,
-    headers: {
-      Authorization: 'Bearer ' + token,
-    },
-    data: data,
-  })
-    .then(response => {
-      setIconLike('thumbs-up');
-      setColorLike(COLORS.like);
-      setIdLike(response.data.id);
-      setLikes(likes + 1);
+    await axios({
+      method: 'POST',
+      url: `${CONSTANTS.HOST}/likes`,
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+      data: data,
     })
-    .catch(error => {
-      console.log(error);
-      console.log(error.response.data);
-    });
+      .then(response => {
+        dispatch(NewsAction.setLikeNewsSuccess(response.data));
+      })
+      .catch(error => {
+        dispatch(NewsAction.setLikeNewsFailure(error));
+      });
+  };
 };
 
-export const unlikeNews = async (
-  idLike,
-  setIconLike = () => {},
-  setColorLike = () => {},
-  setIdLike = () => {},
-  setLikes = () => {},
-  likes,
-) => {
-  const token = await AsyncStorage.getItem('accessToken', undefined);
+export const unlikeNews = like => {
+  return async dispatch => {
+    dispatch(NewsAction.removeLikeNews());
+    const token = await AsyncStorage.getItem('accessToken', undefined);
 
-  await axios({
-    method: 'DELETE',
-    url: `${CONSTANTS.HOST}/likes/${idLike}`,
-    headers: {
-      Authorization: 'Bearer ' + token,
-    },
-  })
-    .then(response => {
-      setIconLike('thumbs-o-up');
-      setColorLike(COLORS.none);
-      setIdLike(null);
-      setLikes(likes - 1);
+    await axios({
+      method: 'DELETE',
+      url: `${CONSTANTS.HOST}/likes/${like?.id}`,
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
     })
-    .catch(error => {
-      console.log(error);
-    });
+      .then(response => {
+        dispatch(
+          NewsAction.removeLikeNewsSuccess({
+            likeId: like?.id,
+            newsId: like?.newsId,
+          }),
+        );
+      })
+      .catch(error => {
+        dispatch(NewsAction.removeLikeNewsFailure(error));
+      });
+  };
 };
 
 export const favoriteNews = (newsId, userId) => {
-  console.log(userId);
   return async dispatch => {
     dispatch(NewsAction.setFavoriteNews());
     const token = await AsyncStorage.getItem('accessToken', undefined);
@@ -162,7 +151,7 @@ export const favoriteNews = (newsId, userId) => {
       data: data,
     })
       .then(response => {
-        console.log(response.data)
+        //console.log(response.data);
         dispatch(NewsAction.setFavoriteNewsSuccess(response.data));
       })
       .catch(error => {
@@ -171,32 +160,31 @@ export const favoriteNews = (newsId, userId) => {
   };
 };
 
-export const unfavoriteNews = async (
-  idFavorite,
-  setIconFavorite = () => {},
-  setColorFavorite = () => {},
-  setIdFavorite = () => {},
-  setFavorites = () => {},
-  favorites,
-) => {
-  const token = await AsyncStorage.getItem('accessToken', undefined);
+export const unfavoriteNews = favorite => {
+  return async (dispatch, getState) => {
+    dispatch(NewsAction.removeFavoriteNews());
+    const token = await AsyncStorage.getItem('accessToken', undefined);
 
-  await axios({
-    method: 'DELETE',
-    url: `${CONSTANTS.HOST}/favorites/${idFavorite}`,
-    headers: {
-      Authorization: 'Bearer ' + token,
-    },
-  })
-    .then(response => {
-      setIconFavorite('star-o');
-      setColorFavorite(COLORS.none);
-      setIdFavorite(null);
-      setFavorites(favorites - 1);
+    await axios({
+      method: 'DELETE',
+      url: `${CONSTANTS.HOST}/favorites/${favorite?.id}`,
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
     })
-    .catch(error => {
-      console.log(error);
-    });
+      .then(response => {
+        dispatch(
+          NewsAction.removeFavoriteNewsSuccess({
+            favoriteId: favorite?.id,
+            newsId: favorite?.newsId,
+          }),
+        );
+      })
+      .catch(error => {
+        //console.log(error);
+        dispatch(NewsAction.removeFavoriteNewsFailure(error));
+      });
+  };
 };
 
 export const getCommentsByNews = async (newsId, callback = () => {}) => {
@@ -213,4 +201,23 @@ export const getCommentsByNews = async (newsId, callback = () => {}) => {
       callback(response.data);
     })
     .catch(error => console.log(error));
+};
+
+export const getNewsDetails = newsId => {
+  return async dispatch => {
+    dispatch(NewsAction.getNewsDetails());
+    const token = await AsyncStorage.getItem('accessToken', undefined);
+
+    await axios({
+      method: 'GET',
+      url: `${CONSTANTS.HOST}/news/${newsId}?_expand=publisher`,
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    })
+      .then(response => {
+        dispatch(NewsAction.getNewsDetailsSuccess(response.data));
+      })
+      .catch(error => dispatch(NewsAction.getNewsDetailsFailure(error)));
+  };
 };

@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Text } from 'react-native';
+import {Text} from 'react-native';
 
 /* Utils - imports */
-import { beautifulDate, getUserId } from '../../utils/help';
+import {beautifulDate, getUserId} from '../../utils/help';
 
 /* Config - imports */
 import COLORS from '../../config/colors';
 import SPACING from '../../config/spacing';
 
-const CommentCard = ({ deleteComment, comment, setComments }) => {
+const CommentCard = ({deleteComment, comment, setComments}) => {
   const [user, setUser] = useState(undefined);
 
   useEffect(() => {
@@ -27,9 +27,14 @@ const CommentCard = ({ deleteComment, comment, setComments }) => {
         <User>
           <IconName>
             <Icon name={'user'} size={15} />
-            <Text>&nbsp; {comment ?.user ?.name}</Text>
+            <Text>&nbsp; {comment?.user?.name}</Text>
           </IconName>
-          {comment ?.userId == user && <Icon name={'times'} size={15} onPress={() => deleteComment(comment.id, setComments)} />}
+          {comment?.userId == user && (
+            <StyledTouchableArea
+              onPress={() => deleteComment(comment.id, setComments)}>
+              <Icon name={'times'} size={15} />
+            </StyledTouchableArea>
+          )}
         </User>
         <Comment>
           <TextComment>{comment.comment}</TextComment>
@@ -109,6 +114,14 @@ const Infos = styled.View`
   padding-bottom: ${SPACING.medium};
   padding-top: ${SPACING.small};
   padding-left: ${SPACING.large};
+`;
+
+const StyledTouchableArea = styled.TouchableOpacity`
+  border-radius: 50;
+  padding-left: ${SPACING.default};
+  padding-right: ${SPACING.default};
+  padding-top: ${SPACING.default};
+  padding-bottom: ${SPACING.default};
 `;
 
 export default CommentCard;
