@@ -3,37 +3,50 @@ import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 
+/* Actions */
+import {Creators as UserActions} from '../store/ducks/user';
+
 /* Constants */
 import CONSTANTS from '../config/constants';
 
-export const signIn = async (email, password, callback = () => {}) => {
-  if (!email || !password)
-    return Alert.alert('Por favor, preencha todos os campos do formulário!');
-  await axios({
-    method: 'POST',
-    url: `${CONSTANTS.HOST}/login`,
-    data: {
-      email: email,
-      password: password,
-    },
-  })
-    .then(async response => {
-      const {accessToken} = response.data;
-      try {
-        await AsyncStorage.setItem('accessToken', accessToken);
-        const user = jwt_decode(accessToken);
-        await AsyncStorage.setItem('userId', user.sub);
-        callback();
-      } catch (erro) {
-        console.log(
-          'Erro ao salvar o token de acesso na memoria do dispositivo',
-        );
-      }
+export const signIn = (email, password, callback = () => {}) => {
+  return async dispatch => {
+    dispatch(UserActions.login());
+    if (!email || !password)
+      return Alert.alert('Por favor, preencha todos os campos do formulário!');
+    await axios({
+      method: 'POST',
+      url: `${CONSTANTS.HOST}/login`,
+      data: {
+        email: email,
+        password: password,
+      },
     })
-    .catch(error => {
-      Alert.alert(email + ' ' + password);
-      Alert.alert('Verifique a senha e/ou usuário informado(s). ' + error);
-    });
+      .then(async response => {
+        const {accessToken} = response.data;
+        try {
+          await AsyncStorage.setItem('accessToken', accessToken);
+          const userInfo = jwt_decode(accessToken);
+          await AsyncStorage.setItem('userId', userInfo.sub);
+          dispatch(
+            UserActions.loginSuccess({
+              accessToken,
+              userInfo,
+            }),
+          );
+          callback();
+        } catch (error) {
+          console.log(
+            'Erro ao salvar o token de acesso na memoria do dispositivo',
+          );
+          dispatch(UserActions.loginFailure(error));
+        }
+      })
+      .catch(error => {
+        Alert.alert(email + ' ' + password);
+        Alert.alert('Verifique a senha e/ou usuário informado(s). ' + error);
+      });
+  };
 };
 
 export const register = (

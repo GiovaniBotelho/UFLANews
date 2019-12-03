@@ -1,103 +1,144 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
-import { Image } from 'react-native';
+import {Image} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { likeNew, unlikeNew, favoriteNew, unfavoriteNew } from '../../useCases/publicationUseCases';
+import {
+  likeNew,
+  unlikeNew,
+  favoriteNews,
+  unfavoriteNews,
+} from '../../useCases/publicationUseCases';
+
+import Option from '../core/Option';
 
 /* Config - imports */
 import COLORS from '../../config/colors';
 import SPACING from '../../config/spacing';
 
 /* Utils - import */
-import { beautifulDate, getUserId } from '../../utils/help';
+import {beautifulDate, getUserId} from '../../utils/help';
 
 import pug from '../../assets/mike.jpg';
 
-const PublicationCard = ({ publicacao, navigation }) => {
+const PublicationCard = ({publicacao, navigation}) => {
   const [iconLike, setIconLike] = useState('thumbs-o-up');
   const [colorLike, setColorLike] = useState(COLORS.none);
   const [idLike, setIdLike] = useState(null);
-  const [likes, setLikes] = useState(publicacao ?.likes ?.length);
+  const [likes, setLikes] = useState(publicacao?.likes?.length);
 
-  const [iconFavorite, setIconFavorite] = useState('star-o');
-  const [colorFavorite, setColorFavorite] = useState(COLORS.none);
-  const [idFavorite, setIdFavorite] = useState(null);
-  const [favorites, setFavorites] = useState(publicacao ?.favorites ?.length);
+  const [idFavorite, setIdFavorite] = useState(-1);
+  const [favorites, setFavorites] = useState(publicacao?.favorites?.length);
+  const [isFavorite, setFavorite] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const user = useSelector(({user}) => user.user.userInfo);
+
   useEffect(() => {
     async function setIcons() {
-      const userId = await getUserId();
-
-      const like = publicacao.likes.filter(like => userId == like.userId);
+      const like = publicacao.likes.filter(like => user?.sub == like.userId);
       if (like.length) {
         setIconLike('thumbs-up');
         setColorLike(COLORS.like);
         setIdLike(like[0].id);
-      }
-
-      const favorite = publicacao.favorites.filter(favorite => userId == favorite.userId);
-      if (favorite.length) {
-        setIconFavorite('star');
-        setColorFavorite(COLORS.favorite);
-        setIdFavorite(favorite[0].id);
       }
     }
 
     setIcons();
   }, []);
 
+  useEffect(() => {
+    async function setFavorites() {
+      const index = publicacao.favorites.findIndex(
+        favorite => favorite.userId == user?.sub,
+      );
+      console.log(index);
+      if (index != -1) setFavorite(true);
+      else setFavorite(false);
+      setIdFavorite(index);
+    }
+    setFavorites();
+  }, [isFavorite]);
+
+  const handlerFavorites = () => {
+    if (isFavorite) {
+      setFavorite(false);
+      // dispatch(unfavoriteNews(idFavorite));
+    } else {
+      dispatch(favoriteNews(publicacao.id, user.sub));
+      setFavorite(true);
+    }
+  };
+
   return (
     <Container>
-      <Capa onPress={() => navigation.navigate('Publication', { 'publication': publicacao })}>
+      <Capa
+        onPress={() =>
+          navigation.navigate('Publication', {publication: publicacao})
+        }>
         <Image
           source={
             typeof publicacao.cover != 'string'
               ? pug
               : {
-                uri: publicacao.cover,
-              }
+                  uri: publicacao.cover,
+                }
           }
           aspectRation={1}
           resizeMode={'cover'}
-          style={{ height: '100%', width: '100%' }}
+          style={{height: '100%', width: '100%'}}
         />
         <Info>
           <Titulo>{publicacao.title}</Titulo>
-          {publicacao ?.publisher ?.nome ? (
+          {publicacao?.publisher?.nome ? (
             <Autor>{publicacao.publisher.nome}</Autor>
           ) : null}
           <DataHora>{beautifulDate(publicacao.date)}</DataHora>
         </Info>
       </Capa>
       <Options>
-
-        <Option first>
+        <Option2 first>
           <Icon name="share-square-o" size={25} color={'#000'} />
-        </Option>
+        </Option2>
 
         <Option
+          type="favorite"
+          favorite={isFavorite}
+          value={favorites}
+          handlerFunction={handlerFavorites}
+        />
+        <Option2
           onPress={() =>
-            idFavorite
-              ? unfavoriteNew(idFavorite, setIconFavorite, setColorFavorite, setIdFavorite, setFavorites, favorites)
-              : favoriteNew(publicacao.id, setIconFavorite, setColorFavorite, setIdFavorite, setFavorites, favorites)
+            navigation.navigate('Comments', {news: publicacao.id})
           }>
-          <NumberOption>{favorites}</NumberOption>
-          <Icon name={iconFavorite} size={30} color={colorFavorite} />
-        </Option>
-        <Option onPress={() => navigation.navigate('Comments', { news: publicacao.id })}>
-          <NumberOption>{publicacao ?.comments ?.length}</NumberOption>
+          <NumberOption>{publicacao?.comments?.length}</NumberOption>
           <Icon name="comments-o" size={30} color={'#000'} />
-        </Option>
+        </Option2>
 
-        <Option
+        <Option2
           onPress={() =>
             idLike
-              ? unlikeNew(idLike, setIconLike, setColorLike, setIdLike, setLikes, likes)
-              : likeNew(publicacao.id, setIconLike, setColorLike, setIdLike, setLikes, likes)
+              ? unlikeNew(
+                  idLike,
+                  setIconLike,
+                  setColorLike,
+                  setIdLike,
+                  setLikes,
+                  likes,
+                )
+              : likeNew(
+                  publicacao.id,
+                  setIconLike,
+                  setColorLike,
+                  setIdLike,
+                  setLikes,
+                  likes,
+                )
           }>
           <NumberOption>{likes}</NumberOption>
           <Icon name={iconLike} size={30} color={colorLike} />
-        </Option>
-
+        </Option2>
       </Options>
     </Container>
   );
@@ -145,7 +186,7 @@ const Options = styled.View`
   align-items: center;
 `;
 
-const Option = styled.TouchableOpacity`
+const Option2 = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   height: 25%;

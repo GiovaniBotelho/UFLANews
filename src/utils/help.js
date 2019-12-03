@@ -11,6 +11,11 @@ export async function getUserId() {
   return userId;
 }
 
+export async function getAccesToken() {
+  const token = await AsyncStorage.getItem('accessToken', undefined);
+  return token;
+}
+
 export const removeAccents = value =>
   value
     .toLowerCase()

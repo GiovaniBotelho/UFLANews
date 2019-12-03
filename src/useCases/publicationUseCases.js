@@ -1,30 +1,36 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 
+/* Actions */
+import {Creators as NewsAction} from '../store/ducks/news';
+
 /* Constants */
 import COLORS from '../config/colors';
 import CONSTANTS from '../config/constants';
 
-export const getPublications = async (
-  callback = () => {},
-  loading = () => {},
-) => {
-  const token = await AsyncStorage.getItem('accessToken', undefined);
+/* Utils */
+import {getAccesToken} from '../utils/help';
 
-  await axios({
-    method: 'GET',
-    url: `${CONSTANTS.HOST}/news?_expand=publisher&_embed=likes&_embed=comments&_embed=favorites`,
-    headers: {
-      Authorization: 'Bearer ' + token,
-    },
-  })
-    .then(response => {
-      callback(response.data);
-      loading(false);
+export const getPublications = () => {
+  return async dispatch => {
+    dispatch(NewsAction.getNews());
+    const token = await AsyncStorage.getItem('accessToken', undefined);
+    // const token = getAccesToken();
+    axios({
+      method: 'GET',
+      url: `${CONSTANTS.HOST}/news?_expand=publisher&_embed=likes&_embed=comments&_embed=favorites`,
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
     })
-    .catch(error => {
-      console.log(error);
-    });
+      .then(response => {
+        dispatch(NewsAction.getNewsSuccess(response.data));
+      })
+      .catch(error => {
+        console.log(error);
+        dispatch(NewsAction.getNewsFailure(error));
+      });
+  };
 };
 
 export const getFavoritePublications = async (
@@ -42,7 +48,9 @@ export const getFavoritePublications = async (
     },
   })
     .then(response => {
-      let favoriteNews = response.data.filter(news => news.favorites.filter(fav => fav.userId == userId).length);
+      let favoriteNews = response.data.filter(
+        news => news.favorites.filter(fav => fav.userId == userId).length,
+      );
 
       callback(favoriteNews);
       loading(false);
@@ -69,7 +77,7 @@ export const getNewsByPublisher = async (publisher, callback = () => {}) => {
     });
 };
 
-export const likeNew = async (
+export const likeNews = async (
   publicationId,
   setIconLike = () => {},
   setColorLike = () => {},
@@ -105,7 +113,7 @@ export const likeNew = async (
     });
 };
 
-export const unlikeNew = async (
+export const unlikeNews = async (
   idLike,
   setIconLike = () => {},
   setColorLike = () => {},
@@ -133,43 +141,37 @@ export const unlikeNew = async (
     });
 };
 
-export const favoriteNew = async (
-  publicationId,
-  setIconFavorite = () => {},
-  setColorFavorite = () => {},
-  setIdFavorite = () => {},
-  setFavorites = () => {},
-  favorites,
-) => {
-  const token = await AsyncStorage.getItem('accessToken', undefined);
-  const userId = await AsyncStorage.getItem('userId', undefined);
+export const favoriteNews = (newsId, userId) => {
+  console.log(userId);
+  return async dispatch => {
+    dispatch(NewsAction.setFavoriteNews());
+    const token = await AsyncStorage.getItem('accessToken', undefined);
+    // const userId = await AsyncStorage.getItem('userId', undefined);
 
-  const data = {
-    newsId: publicationId,
-    userId: userId,
-  };
+    const data = {
+      newsId: newsId,
+      userId: userId,
+    };
 
-  await axios({
-    method: 'POST',
-    url: `${CONSTANTS.HOST}/favorites`,
-    headers: {
-      Authorization: 'Bearer ' + token,
-    },
-    data: data,
-  })
-    .then(response => {
-      setIconFavorite('star');
-      setColorFavorite(COLORS.favorite);
-      setIdFavorite(response.data.id);
-      setFavorites(favorites + 1);
+    await axios({
+      method: 'POST',
+      url: `${CONSTANTS.HOST}/favorites`,
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+      data: data,
     })
-    .catch(error => {
-      console.log(error);
-      console.log(error.response.data);
-    });
+      .then(response => {
+        console.log(response.data)
+        dispatch(NewsAction.setFavoriteNewsSuccess(response.data));
+      })
+      .catch(error => {
+        dispatch(NewsAction.setFavoriteNewsFailure(error));
+      });
+  };
 };
 
-export const unfavoriteNew = async (
+export const unfavoriteNews = async (
   idFavorite,
   setIconFavorite = () => {},
   setColorFavorite = () => {},

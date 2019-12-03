@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { FlatList, Image } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {FlatList, Image} from 'react-native';
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
 import Lottie from 'lottie-react-native';
 
 /* Utils - import */
-import { removeAccents } from '../../../utils/help'
+import {removeAccents} from '../../../utils/help';
 
 /* Core - imports */
 import Header from '../../core/Header';
@@ -23,40 +24,46 @@ import Logo from '../../../assets/logo.png';
 import NewsPaper from '../../../assets/animations/353-newspaper-spinner.json';
 import News from '../../../assets/animations/952-news.json';
 
-
 const _keyExtractor = publicacao => publicacao.id.toString();
 
-const _renderItem = ({ item, index }) => (
+const _renderItem = ({item, index}) => (
   <PublicationCard publicacao={item} navigation={props.navigation} />
 );
 
-const Home = ({ navigation, getPublications }) => {
-  const [loading, setLoading] = useState(true);
-  const [publications, setPublications] = useState([]);
-  const [textSearch, setTextSearch] = useState("");
+const Home = ({navigation, getPublications}) => {
+  // const [loading, setLoading] = useState(true);
+  // const [publications, setPublications] = useState([]);
+  const [textSearch, setTextSearch] = useState('');
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    getPublications(setPublications, setLoading);
+    dispatch(getPublications());
   }, []);
 
+  const publications = useSelector(({news}) => news.news);
+  const isLoading = useSelector(({news}) => news.isLoading);
+
   const handleSearch = () => {
-    return removeAccents(textSearch.toUpperCase()).split(' ').reduce((acc, keyWord) => {
-      return acc.filter(pub => removeAccents(pub.title.toUpperCase()).includes(keyWord))
-    }, publications)
-  }
+    return removeAccents(textSearch.toUpperCase())
+      .split(' ')
+      .reduce((acc, keyWord) => {
+        return acc.filter(pub =>
+          removeAccents(pub.title.toUpperCase()).includes(keyWord),
+        );
+      }, publications);
+  };
 
   return (
     <Container colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
       <Header
         showLogo={
-          <Image source={Logo} resizeMode={'contain'} style={{ height: 60 }} />
+          <Image source={Logo} resizeMode={'contain'} style={{height: 60}} />
         }
         rightSide={
-          <StyledTouchableOpacity onPress={() => navigation.navigate('MyAccount')}>
-            <Icon
-              name={'user'}
-              size={25}
-            />
+          <StyledTouchableOpacity
+            onPress={() => navigation.navigate('MyAccount')}>
+            <Icon name={'user'} size={25} />
           </StyledTouchableOpacity>
         }
       />
@@ -73,27 +80,26 @@ const Home = ({ navigation, getPublications }) => {
           onClick={() => navigation.navigate('Publishers')}
         />
       </OptionsBar>
-      {loading ? (
+      {isLoading ? (
         <StyledView>
           <Lottie
             resizeMode="cover"
-            style={{ width: '100%' }}
+            style={{width: '100%'}}
             source={NewsPaper}
             autoPlay
             loop
           />
         </StyledView>
       ) : (
-          <FlatList
-
-            data={handleSearch()}
-            renderItem={({ item, index }) => (
-              <PublicationCard publicacao={item} navigation={navigation} />
-            )}
-            keyExtractor={_keyExtractor}
-            ListFooterComponent={props => <FooterStyled />}
-          />
-        )}
+        <FlatList
+          data={handleSearch()}
+          renderItem={({item, index}) => (
+            <PublicationCard publicacao={item} navigation={navigation} />
+          )}
+          keyExtractor={_keyExtractor}
+          ListFooterComponent={props => <FooterStyled />}
+        />
+      )}
     </Container>
   );
 };

@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Image} from 'react-native';
 import styled from 'styled-components';
 import LinearGradient from 'react-native-linear-gradient';
+import {useDispatch} from 'react-redux';
 
 /* Images */
 import Logo from '../../../assets/header-login.png';
@@ -17,9 +18,11 @@ const Login = props => {
   const [password, setPassword] = useState('mauricio');
   const [loading, setLoading] = useState(true);
 
+  const dispatch = useDispatch();
+
   handleLogin = () => {
     const {signIn} = props;
-    signIn(email, password, () => props.navigation.replace('Home'));
+    dispatch(signIn(email, password, () => props.navigation.replace('Home')));
     // props.navigation.navigate('Home');
   };
 
