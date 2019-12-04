@@ -2,6 +2,7 @@ import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
+import bcrypt from 'react-native-bcrypt'
 
 /* Constants */
 import CONSTANTS from '../config/constants';
@@ -45,6 +46,9 @@ export const edit = async (
 ) => {
   const token = await AsyncStorage.getItem('accessToken', undefined);
   const userId = await AsyncStorage.getItem('userId', undefined);
+  const hash = bcrypt.hashSync(password, 10)
+
+  console.log(password)
 
   if (name && email && password && passwordConfirm) {
     let reg = /^[a-zA-Z0-9_.]+@[a-zA-Z0-9]+\.[a-zA-Z0-9.]+$/;
@@ -52,7 +56,7 @@ export const edit = async (
       if (password == passwordConfirm) {
         dataFormRegister = {
           email: email,
-          password: password,
+          password: hash,
           name: name,
         };
 
