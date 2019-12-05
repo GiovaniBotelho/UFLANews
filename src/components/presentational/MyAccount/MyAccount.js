@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Image} from 'react-native';
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
 import {StackActions, NavigationActions} from 'react-navigation';
 import AsyncStorage from '@react-native-community/async-storage';
+import {useDispatch} from 'react-redux';
 
 /* Images */
 import Logo from '../../../assets/logo.png';
@@ -18,9 +19,12 @@ import Button from '../../core/Button';
 import COLORS from '../../../config/colors';
 import SPACING from '../../../config/spacing';
 
-const MyAccount = props => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+const MyAccount = ({navigation, getUserInfo}) => {
+  const [user, setUser] = useState([]);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getUserInfo(setUser));
+  }, []);
 
   const resetAction = StackActions.reset({
     index: 0,
@@ -33,7 +37,7 @@ const MyAccount = props => {
         <StyledView>
           <Header
             leftSide={
-              <StyledTouchableOpacity onPress={() => props.navigation.pop()}>
+              <StyledTouchableOpacity onPress={() => navigation.pop()}>
                 <Icon name={'chevron-left'} size={25} />
               </StyledTouchableOpacity>
             }
@@ -42,7 +46,7 @@ const MyAccount = props => {
               <StyledTouchableOpacity
                 onPress={() => {
                   console.log(AsyncStorage.getItem('access-token'));
-                  props.navigation.dispatch(resetAction);
+                  navigation.dispatch(resetAction);
                 }}>
                 <Icon name={'sign-out'} size={25} />
               </StyledTouchableOpacity>
@@ -57,7 +61,7 @@ const MyAccount = props => {
               iconSize={25}
               iconColor={'#000'}
               placeholder={'Nome'}
-              value={name}
+              value={user.name}
               editable={false}
             />
             <TextInput
@@ -65,7 +69,7 @@ const MyAccount = props => {
               iconSize={25}
               iconColor={'#000'}
               placeholder={'E-mail'}
-              value={email}
+              value={user.email}
               editable={false}
             />
           </FormRow>
@@ -73,7 +77,7 @@ const MyAccount = props => {
             <Button
               title={'EDITAR'}
               onClick={() => {
-                props.navigation.navigate('Edit');
+                navigation.navigate('Edit');
               }}
             />
           </StyledButtonContainer>

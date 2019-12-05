@@ -93,3 +93,26 @@ export const register = (
     Alert.alert('Por favor, preencha todos os campos do formulário!');
   }
 };
+
+export const getUserInfo = (callback = () => {}) => {
+  return async dispatch => {
+    dispatch(UserActions.getInfo());
+    const token = await AsyncStorage.getItem('accessToken', undefined);
+    const userId = await AsyncStorage.getItem('userId', undefined);
+
+    await axios({
+      method: 'GET',
+      url: `${CONSTANTS.HOST}/users/${userId}`,
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    })
+      .then(response => {
+        dispatch(UserActions.getInfoSuccess(response.data));
+        callback(response.data);
+      })
+      .catch(error => {
+        dispatch(UserActions.getInfoFailure(error));
+      });
+  };
+};
