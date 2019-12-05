@@ -1,13 +1,13 @@
-import { Alert } from 'react-native';
+import {Alert} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
-import bcrypt from 'react-native-bcrypt'
+import bcrypt from 'react-native-bcrypt';
 
 /* Constants */
 import CONSTANTS from '../config/constants';
 
-export const signIn = async (email, password, callback = () => { }) => {
+export const signIn = async (email, password, callback = () => {}) => {
   if (!email || !password)
     return Alert.alert('Por favor, preencha todos os campos do formulário!');
   await axios({
@@ -19,7 +19,7 @@ export const signIn = async (email, password, callback = () => { }) => {
     },
   })
     .then(async response => {
-      const { accessToken } = response.data;
+      const {accessToken} = response.data;
       try {
         await AsyncStorage.setItem('accessToken', accessToken);
         const user = jwt_decode(accessToken);
@@ -42,13 +42,13 @@ export const edit = async (
   email,
   password,
   passwordConfirm,
-  callback = () => { },
+  callback = () => {},
 ) => {
   const token = await AsyncStorage.getItem('accessToken', undefined);
   const userId = await AsyncStorage.getItem('userId', undefined);
-  const hash = bcrypt.hashSync(password, 10)
+  const hash = bcrypt.hashSync(password, 10);
 
-  console.log(password)
+  console.log(password);
 
   if (name && email && password && passwordConfirm) {
     let reg = /^[a-zA-Z0-9_.]+@[a-zA-Z0-9]+\.[a-zA-Z0-9.]+$/;
@@ -96,7 +96,7 @@ export const register = (
   email,
   password,
   passwordConfirm,
-  callback = () => { },
+  callback = () => {},
 ) => {
   if (name && email && password && passwordConfirm) {
     let reg = /^[a-zA-Z0-9_.]+@[a-zA-Z0-9]+\.[a-zA-Z0-9.]+$/;
@@ -134,4 +134,24 @@ export const register = (
   } else {
     Alert.alert('Por favor, preencha todos os campos do formulário!');
   }
+};
+
+export const getUserInfo = async (callback = () => {}) => {
+  const token = await AsyncStorage.getItem('accessToken', undefined);
+  const userId = await AsyncStorage.getItem('userId', undefined);
+
+  await axios({
+    method: 'GET',
+    url: `${CONSTANTS.HOST}/users/${userId}`,
+    headers: {
+      Authorization: 'Bearer ' + token,
+    },
+  })
+    .then(response => {
+      response.data;
+      callback(response.data);
+    })
+    .catch(error => {
+      console.log(error);
+    });
 };
