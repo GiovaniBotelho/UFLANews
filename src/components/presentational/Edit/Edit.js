@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Image } from 'react-native';
+import React, {useState} from 'react';
+import {Image} from 'react-native';
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
@@ -16,7 +16,7 @@ import Button from '../../core/Button';
 import COLORS from '../../../config/colors';
 import SPACING from '../../../config/spacing';
 
-const Edit = ({ navigation, edit }) => {
+const Edit = ({navigation, edit}) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -40,9 +40,9 @@ const Edit = ({ navigation, edit }) => {
             }
             title={'Editar Perfil'}
           />
-          <StyledPicture>
+          <StyledImages>
             <Icon name="user-circle" size={150} color="#000000" />
-          </StyledPicture>
+          </StyledImages>
           <FormRow>
             <TextInput
               iconName={'user'}
@@ -80,10 +80,7 @@ const Edit = ({ navigation, edit }) => {
             />
           </FormRow>
           <StyledButtonContainer>
-            <Button
-              title={'SALVAR'}
-              onClick={() => handlerEdit()}
-            />
+            <Button title={'SALVAR'} onClick={() => handlerEdit()} />
           </StyledButtonContainer>
         </StyledView>
       </FormContainer>
@@ -122,13 +119,6 @@ const StyledText = styled.Text`
   fontsize: 30px;
   padding: 20px;
   color: grey;
-`;
-
-const StyledPicture = styled.TouchableOpacity`
-  padding: 20px;
-  align-items: center;
-  justify-content: center;
-  align-self: center;
 `;
 
 const StyledTouchableOpacity = styled.TouchableOpacity`
