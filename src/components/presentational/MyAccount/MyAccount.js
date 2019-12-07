@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
 import {StackActions, NavigationActions} from 'react-navigation';
 import AsyncStorage from '@react-native-community/async-storage';
+import {useDispatch} from 'react-redux';
 
 /* Images */
 import Logo from '../../../assets/logo.png';
@@ -20,9 +21,11 @@ import SPACING from '../../../config/spacing';
 
 const MyAccount = ({navigation, getUserInfo}) => {
   const [user, setUser] = useState([]);
-
+  
+  const dispatch = useDispatch();
+  
   useEffect(() => {
-    getUserInfo(setUser);
+    dispatch(getUserInfo(setUser));
   }, []);
 
   const resetAction = StackActions.reset({

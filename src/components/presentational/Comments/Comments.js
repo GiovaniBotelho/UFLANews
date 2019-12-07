@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { FlatList, View } from 'react-native';
+import {FlatList, View} from 'react-native';
 import Lottie from 'lottie-react-native';
+import {useDispatch, useSelector} from 'react-redux';
 
 /* Core - imports */
 import Header from '../../core/Header';
@@ -20,30 +21,33 @@ import notFound from '../../../assets/animations/1725-not-found.json';
 const _keyExtractor = comment => comment.id.toString();
 
 const Comments = props => {
-  const [comments, setComments] = useState([]);
+  // const [comments, setComments] = useState([]);
+  const [newsId, setNewsId] = useState(-1);
   const [newComment, setNewComment] = useState(undefined);
+
+  const comments = useSelector(({comments}) => comments.comments);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const newsId = props.navigation.getParam('news', undefined);
-    props.getComments(newsId, setComments);
+    setNewsId(newsId);
+    dispatch(props.getComments(newsId));
   }, []);
 
-  const deleteComments = (idComment) => {
-    props.deleteComment(idComment)
-    setComments(comments.filter(comment => comment.id != idComment))
-  }
+  const deleteComments = idComment => {
+    dispatch(props.deleteComment(idComment));
+  };
 
-  const addComment = async (comment, newsId) => {
-    await props.addComment(comment, newsId, setNewComment)
-    //setComments([...comments, newComment])
-  }
-  console.log(newComment)
+  const addComment = comment => {
+    dispatch(props.addComment(comment, newsId));
+  };
 
   return (
     <Container colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
       <Header
         leftSide={
-          <StyledTouchableOpacity onPress={() => props.navigation.navigate('Home')}>
+          <StyledTouchableOpacity
+            onPress={() => props.navigation.navigate('Home')}>
             <Icon name={'chevron-left'} size={25} />
           </StyledTouchableOpacity>
         }
@@ -51,23 +55,29 @@ const Comments = props => {
       />
       <FlatList
         data={comments}
-        renderItem={({ item, index }) => <CommentCard deleteComment={deleteComments} comment={item} />}
+        renderItem={({item, index}) => (
+          <CommentCard deleteComment={deleteComments} comment={item} />
+        )}
         keyExtractor={_keyExtractor}
         ListFooterComponent={props => <FooterStyled />}
         ListEmptyComponent={
           <NotFound>
             <Lottie
               resizeMode="cover"
-              style={{ width: '50%' }}
+              style={{width: '50%'}}
               source={notFound}
               autoPlay
               loop
             />
-            <StyledText>Não existem comentários para serem exibidos.</StyledText>
+            {comments?.length == 0 && (
+              <StyledText>
+                Não existem comentários para serem exibidos.
+              </StyledText>
+            )}
           </NotFound>
         }
       />
-      <CommentBar addComment={addComment} newsId={comments[0] ?.newsId} />
+      <CommentBar addComment={addComment} newsId={newsId} />
     </Container>
   );
 };

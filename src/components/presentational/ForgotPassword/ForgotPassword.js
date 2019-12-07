@@ -22,7 +22,7 @@ const Login = ({navigation}) => {
 
   handleLogin = () => {
     // Aqui manipulamos o login
-    setLoading(!loading);
+    //setLoading(!loading);
   };
 
   return (

@@ -3,6 +3,8 @@ import {Image, Text, SectionList} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styled from 'styled-components';
 import LinearGradient from 'react-native-linear-gradient';
+import {useSelector, useDispatch} from 'react-redux';
+import HTML from 'react-native-render-html';
 
 /* Core - imports */
 import Header from '../../core/Header';
@@ -18,15 +20,16 @@ import Logo from '../../../assets/logo.png';
 import {beautifulDate, getUserId} from '../../../utils/help';
 
 const Publication = props => {
-  const [publication, setPublication] = useState(undefined);
-  const [sections, setSections] = useState(undefined);
-  const [loading, setLoading] = useState(true);
+  const [newsId, setNewsId] = useState(-1);
+
+  const dispatch = useDispatch();
+  const publication = useSelector(({news}) => news.newsDetails);
+  const isLoading = useSelector(({news}) => news.isLoading);
 
   useEffect(() => {
-    const pub = props.navigation.getParam('publication', undefined);
-    setPublication(pub);
-    setSections(pub.sections);
-    setLoading(false);
+    const pub = props.navigation.getParam('newsId', undefined);
+    setNewsId(pub);
+    dispatch(props.getPublication(pub));
   }, []);
 
   return (
@@ -46,19 +49,20 @@ const Publication = props => {
         }
       />
       <FullPublication showsVerticalScrollIndicator={false}>
-        {!loading && (
+        {!isLoading && (
           <>
             <PublicationTitle>{publication?.title}</PublicationTitle>
             <PublicationAuthor>
               {publication?.publisher?.nome}
             </PublicationAuthor>
             <Content>
-              {sections && sections?.length > 0 && (
+              {publication?.sections && publication?.sections?.length > 0 && (
                 <SectionList
-                  sections={sections}
+                  sections={publication?.sections}
                   keyExtractor={(item, index) => item + index}
                   renderItem={({item}) => (
-                    <PublicationText>{item}</PublicationText>
+                    <HTML html={item} />
+                    // <PublicationText>{item}</PublicationText>
                   )}
                   renderSectionHeader={({section: {title, icon}}) => (
                     <PublicationSectionHeader>
