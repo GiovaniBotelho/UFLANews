@@ -35,6 +35,7 @@ export const signIn = (email, password, callback = () => {}) => {
               userInfo,
             }),
           );
+          dispatch(getUserInfo());
           callback();
         } catch (error) {
           console.log(
@@ -148,7 +149,6 @@ export const register = (
     Alert.alert('Por favor, preencha todos os campos do formulário!');
   }
 };
-
 
 export const getUserInfo = (callback = () => {}) => {
   return async dispatch => {

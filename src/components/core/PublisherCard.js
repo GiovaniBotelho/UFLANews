@@ -9,17 +9,12 @@ import SPACING from '../../config/spacing';
 import pug from '../../assets/pug.jpg';
 
 const PublisherCard = ({publisher, navigation}) => {
-  checkQuantitySubs = () => {
-    if (publisher.subscriptions > 1) return true;
-    return false;
-  };
-
   return (
     <Container>
       <Capa
         onPress={() =>
           navigation.navigate('Publisher', {
-            publisher: publisher,
+            publisherId: publisher.id,
           })
         }>
         <Image
@@ -34,12 +29,14 @@ const PublisherCard = ({publisher, navigation}) => {
           <PublisherName>{publisher.nome}</PublisherName>
           <Footer>
             <PublicationsNumber>
-              {publisher.news.length} publicações
+              {publisher?.news?.length ? publisher?.news?.length : 0}
+              {publisher?.news?.length > 1 ? ' publicações' : ' publicação'}
             </PublicationsNumber>
             <Subscribers>
-              {checkQuantitySubs()
-                ? `${publisher.subscriptions} incritos`
-                : `${publisher.subscriptions} inscrito`}
+              {publisher?.subscriptions?.length
+                ? publisher?.subscriptions?.length
+                : 0}
+              {publisher?.subscriptions?.length > 1 ? ' incritos' : ' inscrito'}
             </Subscribers>
           </Footer>
         </Info>

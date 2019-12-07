@@ -1,6 +1,6 @@
 const STRINGS = {
-    SUBSCRIBE: 'INSCREVER-SE',
-    UNSUBSCRIBE: 'INSCRITO',
+    subscribe: 'INSCREVER-SE',
+    unsubscribe: 'INSCRITO',
 };
 
 export default STRINGS;

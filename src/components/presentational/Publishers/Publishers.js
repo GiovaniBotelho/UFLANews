@@ -3,6 +3,7 @@ import {FlatList} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
 
 /* Core - imports */
 import Header from '../../core/Header';
@@ -17,9 +18,12 @@ import SPACING from '../../../config/spacing';
 const _keyExtractor = publisher => publisher.id.toString();
 
 const Publisher = ({navigation, getPublishers}) => {
-  const [publishers, setPublishers] = useState([]);
+
+  const dispatch = useDispatch();
+  const { publishers } = useSelector(({publishers}) => publishers);
+
   useEffect(() => {
-    getPublishers(setPublishers);
+    dispatch(getPublishers());
   }, []);
 
   return (

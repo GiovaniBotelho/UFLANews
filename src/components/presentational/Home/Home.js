@@ -31,19 +31,16 @@ const _renderItem = ({item, index}) => (
 );
 
 const Home = ({navigation, getPublications}) => {
-  // const [loading, setLoading] = useState(true);
-  // const [publications, setPublications] = useState([]);
   const [textSearch, setTextSearch] = useState('');
 
   const dispatch = useDispatch();
 
-  const publications = useSelector(({news}) => news.news);
-  const isLoading = useSelector(({news}) => news.isLoading);
+  const {news: publications, isLoading} = useSelector(({news}) => news);
   const comments = useSelector(({comments}) => comments.comments);
-  
+
   useEffect(() => {
     dispatch(getPublications());
-  }, [comments]);
+  }, []);
 
   const handleSearch = () => {
     return removeAccents(textSearch.toUpperCase())
@@ -53,6 +50,12 @@ const Home = ({navigation, getPublications}) => {
           removeAccents(pub.title.toUpperCase()).includes(keyWord),
         );
       }, publications);
+  };
+
+  const refreshNews = () => {
+    setRefreshing(!refreshing);
+    dispatch(getPublications());
+    setRefreshing(!refreshing);
   };
 
   return (
@@ -97,6 +100,8 @@ const Home = ({navigation, getPublications}) => {
           renderItem={({item, index}) => (
             <PublicationCard publicacao={item} navigation={navigation} />
           )}
+          refreshing={isLoading}
+          onRefresh={() => dispatch(getPublications())}
           keyExtractor={_keyExtractor}
           ListFooterComponent={props => <FooterStyled />}
         />

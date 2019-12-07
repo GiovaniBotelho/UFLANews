@@ -42,11 +42,14 @@ const INITIAL_STATE = {
 const getPublication = (state = INITIAL_STATE, action) => ({
   ...state,
   isLoading: true,
+  newsDetails: {},
+  refreshing: true,
 });
 
 const getPublicationSuccess = (state = INITIAL_STATE, action) => ({
   ...state,
   isLoading: false,
+  newsDetails: {},
   news: action.news,
 });
 
