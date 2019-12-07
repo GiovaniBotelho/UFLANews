@@ -16,11 +16,17 @@ import Button from '../../core/Button';
 import COLORS from '../../../config/colors';
 import SPACING from '../../../config/spacing';
 
-const Edit = ({navigation}) => {
+const Edit = ({navigation, edit}) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
+
+  const handlerEdit = () => {
+    edit(name, email, password, passwordConfirm, () =>
+      navigation.replace('MyAccount'),
+    );
+  };
 
   return (
     <>
@@ -34,9 +40,9 @@ const Edit = ({navigation}) => {
             }
             title={'Editar Perfil'}
           />
-          <StyledPicture>
+          <StyledImages>
             <Icon name="user-circle" size={150} color="#000000" />
-          </StyledPicture>
+          </StyledImages>
           <FormRow>
             <TextInput
               iconName={'user'}
@@ -74,12 +80,7 @@ const Edit = ({navigation}) => {
             />
           </FormRow>
           <StyledButtonContainer>
-            <Button
-              title={'SALVAR'}
-              onClick={() => {
-                submit();
-              }}
-            />
+            <Button title={'SALVAR'} onClick={() => handlerEdit()} />
           </StyledButtonContainer>
         </StyledView>
       </FormContainer>
@@ -118,13 +119,6 @@ const StyledText = styled.Text`
   fontsize: 30px;
   padding: 20px;
   color: grey;
-`;
-
-const StyledPicture = styled.TouchableOpacity`
-  padding: 20px;
-  align-items: center;
-  justify-content: center;
-  align-self: center;
 `;
 
 const StyledTouchableOpacity = styled.TouchableOpacity`

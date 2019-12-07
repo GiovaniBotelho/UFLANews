@@ -21,7 +21,9 @@ import SPACING from '../../../config/spacing';
 
 const MyAccount = ({navigation, getUserInfo}) => {
   const [user, setUser] = useState([]);
+  
   const dispatch = useDispatch();
+  
   useEffect(() => {
     dispatch(getUserInfo(setUser));
   }, []);

@@ -41,9 +41,9 @@ const Register = props => {
             }
             title={'Cadastrar'}
           />
-          <StyledPicture>
+          <StyledImages>
             <Icon name="user-circle" size={150} color="#000000" />
-          </StyledPicture>
+          </StyledImages>
           <FormRow>
             <TextInput
               iconName={'user'}
@@ -99,12 +99,6 @@ const FormContainer = styled(LinearGradient)`
   flex: 1;
 `;
 
-const StyledImages = styled.View`
-  width: 100%;
-  align-items: center;
-  padding-top: 15;
-`;
-
 const StyledButtonContainer = styled.View`
   align-items: center;
   justify-content: space-around;
@@ -117,11 +111,10 @@ const FormRow = styled.View`
   padding-bottom: 20;
 `;
 
-const StyledPicture = styled.TouchableOpacity`
-  padding: 20px;
+const StyledImages = styled.View`
+  width: 100%;
   align-items: center;
-  justify-content: center;
-  align-self: center;
+  padding-top: 15;
 `;
 
 const StyledTouchableOpacity = styled.TouchableOpacity`
