@@ -44,7 +44,7 @@ const Publisher = ({
   const handleSubscribe = () => {
     if (idSub) {
       //significa que o usuario está inscrito
-      dispatch(unsubscribe(idSub.id));
+      dispatch(unsubscribe(idSub.id, publisher?.id));
     } else {
       // usuario não inscrito
       dispatch(subscribe(publisher?.id, user?.id));

@@ -2,7 +2,7 @@ import React from 'react';
 
 import FavoritePublications from '../components/presentational/FavoritePublications';
 
-/* Constants */
+/* useCases */
 import {getFavoritePublications} from '../useCases/publicationUseCases';
 
 const FavoritePublicationsScreen = props => {

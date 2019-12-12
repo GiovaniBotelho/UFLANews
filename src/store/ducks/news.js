@@ -8,6 +8,10 @@ export const {Types, Creators} = createActions({
   getNewsSuccess: ['news'],
   getNewsFailure: ['error'],
 
+  getFavoriteNews: [],
+  getFavoriteNewsSuccess: ['news'],
+  getFavoriteNewsFailure: ['error'],
+
   setFavoriteNews: [],
   setFavoriteNewsSuccess: ['favorite'],
   setFavoriteNewsFailure: ['error'],
@@ -37,6 +41,7 @@ const INITIAL_STATE = {
   isLoading: false,
   error: '',
   newsDetails: {},
+  favoriteNews: [],
 };
 
 const getPublication = (state = INITIAL_STATE, action) => ({
@@ -54,6 +59,26 @@ const getPublicationSuccess = (state = INITIAL_STATE, action) => ({
 });
 
 const getPublicationFailure = (state = INITIAL_STATE, action) => ({
+  ...state,
+  isLoading: false,
+  error: action.error,
+});
+
+const getFavoritePublications = (state = INITIAL_STATE, action) => ({
+  ...state,
+  isLoading: true,
+  newsDetails: {},
+  refreshing: true,
+});
+
+const getFavoritePublicationsSuccess = (state = INITIAL_STATE, action) => ({
+  ...state,
+  isLoading: false,
+  newsDetails: {},
+  favoriteNews: action.news,
+});
+
+const getFavoritePublicationsFailure = (state = INITIAL_STATE, action) => ({
   ...state,
   isLoading: false,
   error: action.error,
@@ -183,6 +208,10 @@ export default createReducer(INITIAL_STATE, {
   [Types.GET_NEWS]: getPublication,
   [Types.GET_NEWS_SUCCESS]: getPublicationSuccess,
   [Types.GET_NEWS_FAILURE]: getPublicationFailure,
+
+  [Types.GET_FAVORITE_NEWS]: getFavoritePublications,
+  [Types.GET_FAVORITE_NEWS_SUCCESS]: getFavoritePublicationsSuccess,
+  [Types.GET_FAVORITE_NEWS_FAILURE]: getFavoritePublicationsFailure,
 
   [Types.SET_FAVORITE_NEWS]: setFavorite,
   [Types.SET_FAVORITE_NEWS_SUCCESS]: setFavoriteSuccess,

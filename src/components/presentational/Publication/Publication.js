@@ -8,6 +8,7 @@ import HTML from 'react-native-render-html';
 
 /* Core - imports */
 import Header from '../../core/Header';
+import Option from '../../core/Option';
 
 /* Constants - imports */
 import COLORS from '../../../config/colors';
@@ -20,17 +21,63 @@ import Logo from '../../../assets/logo.png';
 import {beautifulDate, getUserId} from '../../../utils/help';
 
 const Publication = props => {
-  const [newsId, setNewsId] = useState(-1);
+  const [idFavorite, setIdFavorite] = useState(-1);
+  const [isFavorite, setFavorite] = useState(false);
+
+  const [idLike, setIdLike] = useState(-1);
+  const [isLiked, setLiked] = useState(false);
+
+  // const [newsId, setNewsId] = useState(-1);
 
   const dispatch = useDispatch();
+
   const publication = useSelector(({news}) => news.newsDetails);
   const isLoading = useSelector(({news}) => news.isLoading);
 
   useEffect(() => {
     const pub = props.navigation.getParam('newsId', undefined);
-    setNewsId(pub);
+    // setNewsId(pub);
     dispatch(props.getPublication(pub));
   }, []);
+
+  useEffect(() => {
+    // Setando as variaveis de favoritos
+    const indexFavorite = publication?.favorites?.findIndex(
+      favorite => favorite.userId == user?.sub,
+    );
+    if (indexFavorite != -1) setFavorite(true);
+    else setFavorite(false);
+    setIdFavorite(indexFavorite);
+
+    // Setando as variaveis de curtidas
+    let indexLike = publication?.likes?.findIndex(
+      like => like.userId == user?.sub,
+    );
+
+    if (indexLike != -1) setLiked(true);
+    else setLiked(false);
+    setIdLike(indexLike);
+  }, [publication]);
+
+  const handlerFavorites = () => {
+    if (isFavorite) {
+      setFavorite(false);
+      dispatch(unfavoriteNews(publication?.favorites[idFavorite]));
+    } else {
+      dispatch(favoriteNews(publication?.id, user?.sub));
+      setFavorite(true);
+    }
+  };
+
+  const handlerLike = () => {
+    if (isLiked) {
+      setLiked(false);
+      dispatch(unlikeNews(publication.likes[idLike]));
+    } else {
+      dispatch(likeNews(publication.id, user.sub));
+      setLiked(true);
+    }
+  };
 
   return (
     <Container colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
@@ -77,26 +124,29 @@ const Publication = props => {
               {beautifulDate(publication?.date)}
             </PublicationTime>
             <Options>
-              <Option>
-                <NumberOption>{publication?.comments?.length}</NumberOption>
-                <Icon
-                  name="comments-o"
-                  size={30}
-                  color={'#000'}
-                  onPress={() => props.navigation.navigate('Comments')}
-                />
-              </Option>
-              <Option>
-                <NumberOption>{publication?.favorites?.length}</NumberOption>
-                <Icon name="star-o" size={30} color={'#000'} />
-              </Option>
-              <Option>
-                <NumberOption>{publication?.likes?.length}</NumberOption>
-                <Icon name="thumbs-o-up" size={30} color={'#000'} />
-              </Option>
-              <Option>
-                <Icon name="share-square-o" size={30} color={'#000'} />
-              </Option>
+              <Option
+                type="comments"
+                value={publication?.comments?.length}
+                handlerFunction={() =>
+                  navigation.navigate('Comments', {news: publication.id})
+                }
+                width="auto"
+              />
+              <Option
+                type="favorite"
+                favorite={isFavorite}
+                value={publication?.favorites?.length}
+                handlerFunction={handlerFavorites}
+                width="auto"
+              />
+              <Option
+                type="like"
+                liked={isLiked}
+                value={publication?.likes?.length}
+                handlerFunction={handlerLike}
+                width="auto"
+              />
+              <Option type="share" first width="auto" />
             </Options>
           </>
         )}
@@ -172,23 +222,20 @@ const PublicationTitleSection = styled.Text`
 
 const Options = styled.View`
   flex-direction: row;
-  justify-content: flex-end;
-  margin-right: ${SPACING.medium};
-  margin-bottom: ${SPACING.medium};
 `;
 
-const Option = styled.TouchableOpacity`
-  width: auto;
-  justify-content: space-between;
-  align-items: center
-  flex-direction: row;
-  margin-right: ${SPACING.small};
-  margin-left: ${SPACING.small};
-`;
+// const Option = styled.TouchableOpacity`
+//   width: auto;
+//   justify-content: space-between;
+//   align-items: center
+//   flex-direction: row;
+//   margin-right: ${SPACING.small};
+//   margin-left: ${SPACING.small};
+// `;
 
-const NumberOption = styled.Text`
-  padding-right: ${SPACING.small};
-`;
+// const NumberOption = styled.Text`
+//   padding-right: ${SPACING.small};
+// `;
 
 const StyledTouchableOpacity = styled.TouchableOpacity`
   border-radius: 80;

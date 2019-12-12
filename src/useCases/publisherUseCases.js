@@ -38,35 +38,39 @@ export const getPublishers = () => {
   };
 };
 
-export const getPublishersSubscriptions = async (callback = () => {}) => {
-  const userId = await AsyncStorage.getItem('user_id', undefined);
+//mexer nessa função
+export const getPublishersSubscriptions = (callback = () => {}) => {
+  return async dispatch => {
+    const userId = await AsyncStorage.getItem('user_id', undefined);
 
-  var publishers = await getPublisherInfo();
+    var publishers = await getPublisherInfo();
 
-  publishers = publishers.filter(
-    publisher =>
-      publisher.subscriptions.filter(
-        subscription => userId == subscription.userId,
-      ).length,
-  );
-
-  publishers.map((item, index) => {
-    item.userSubscribedId = null;
-    let sub = item.subscriptions.filter(
-      subscription => userId == subscription.userId,
+    publishers = publishers.filter(
+      publisher =>
+        publisher.subscriptions.filter(
+          subscription => userId == subscription.userId,
+        ).length,
     );
-    if (sub.length) {
-      item.userSubscribedId = sub[0].id;
-    }
-  });
 
-  publishers.map((item, index) => {
-    item.subscriptions = item.subscriptions.length;
-  });
+    publishers.map((item, index) => {
+      item.userSubscribedId = null;
+      let sub = item.subscriptions.filter(
+        subscription => userId == subscription.userId,
+      );
+      if (sub.length) {
+        item.userSubscribedId = sub[0].id;
+      }
+    });
 
-  callback(publishers);
+    publishers.map((item, index) => {
+      item.subscriptions = item.subscriptions.length;
+    });
+    console.log(publishers);
+    callback(publishers);
+  };
 };
 
+//acho que vai precisar excluir essa
 async function getPublisherInfo() {
   const token = await AsyncStorage.getItem('accessToken', undefined);
   publishers = null;
@@ -87,8 +91,6 @@ async function getPublisherInfo() {
 }
 
 export const subscribePublisher = (publisherId, userId) => {
-  console.log('cheguei');
-  console.log(publisherId, userId);
   return (dispatch, getState) => {
     dispatch(PublishersActions.subscribePublisher());
     const {
@@ -109,17 +111,15 @@ export const subscribePublisher = (publisherId, userId) => {
       },
     })
       .then(response => {
-        console.log(response);
         dispatch(PublishersActions.subscribePublisherSuccess(response.data));
       })
       .catch(error => {
         dispatch(PublishersActions.subscribePublisherFailure(error));
-        console.log(error);
       });
   };
 };
 
-export const unsubscribePublisher = idSubscription => {
+export const unsubscribePublisher = (idSubscription, publisherId) => {
   return (dispatch, getState) => {
     dispatch(PublishersActions.unsubscribePublisher());
     const {
@@ -136,10 +136,16 @@ export const unsubscribePublisher = idSubscription => {
       },
     })
       .then(response => {
-        dispatch(PublishersActions.unsubscribePublisherSuccess());
+        console.log(response);
+        dispatch(
+          PublishersActions.unsubscribePublisherSuccess({
+            publisherId,
+            subscriptionId: idSubscription,
+          }),
+        );
       })
       .catch(error => {
-        dispatch(PublishersActions.unsubscribePublisherFailure());
+        dispatch(PublishersActions.unsubscribePublisherFailure(error));
       });
   };
 };

@@ -10,13 +10,14 @@ const Option = ({
   liked = false,
   favorite = false,
   value = 0,
+  width,
   handlerFunction = () => {},
 }) => {
   const renderOption = () => {
     switch (type) {
       case 'like':
         return (
-          <StyledOption onPress={handlerFunction}>
+          <StyledOption onPress={handlerFunction} width={width}>
             <NumberOption>{value}</NumberOption>
             <Icon
               name={liked ? 'thumbs-up' : 'thumbs-o-up'}
@@ -27,7 +28,7 @@ const Option = ({
         );
       case 'favorite':
         return (
-          <StyledOption onPress={handlerFunction}>
+          <StyledOption onPress={handlerFunction} width={width}>
             <NumberOption>{value}</NumberOption>
             <Icon
               name={favorite ? 'star' : 'star-o'}
@@ -38,14 +39,14 @@ const Option = ({
         );
       case 'comments':
         return (
-          <StyledOption onPress={handlerFunction}>
+          <StyledOption onPress={handlerFunction} width={width}>
             <NumberOption>{value}</NumberOption>
             <Icon name="comments-o" size={30} color={COLORS.none} />
           </StyledOption>
         );
       case 'share':
         return (
-          <StyledOption first>
+          <StyledOption first width={width}>
             <Icon name="share-square-o" size={30} color={COLORS.none} />
           </StyledOption>
         );
@@ -61,7 +62,7 @@ const StyledOption = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   height: 25%;
-  width: 100%
+  width: ${props => (props.width ? props.width : '100%')}
   border-top-width: ${props => (props.first ? 0 : 1)};
   flex-direction: row;
 `;
