@@ -45,8 +45,9 @@ export const signIn = (email, password, callback = () => {}) => {
         }
       })
       .catch(error => {
-        Alert.alert(email + ' ' + password);
+        // Alert.alert(email + ' ' + password);
         Alert.alert('Verifique a senha e/ou usuário informado(s). ' + error);
+        dispatch(UserActions.loginFailure(error));
       });
   };
 };
@@ -87,16 +88,16 @@ export const edit = (
             url: `${CONSTANTS.HOST}/users/${userId}`,
             data: dataFormRegister,
             headers: {
-              Authorization: 'Bearer ' + token,
+              Authorization: 'Bearer ' + accessToken,
             },
           })
             .then(response => {
               console.log(response);
-              dispatch(UserAction.updateUserInfoSuccess());
+              dispatch(UserActions.updateUserInfoSuccess());
               callback();
             })
             .catch(error => {
-              dispatch(UserAction.updateUserInfoSuccess(error));
+              dispatch(UserActions.updateUserInfoFailure(error));
               if (error.response.data == 'Email already exists') {
                 Alert.alert(
                   'Já existe um registro com esse endereço de email!',
@@ -108,12 +109,27 @@ export const edit = (
               }
             });
         } else {
+          dispatch(
+            UserActions.updateUserInfoFailure(
+              'As senhas informadas não conferem!',
+            ),
+          );
           Alert.alert('As senhas informadas não conferem!');
         }
       } else {
+        dispatch(
+          UserActions.updateUserInfoFailure(
+            'Por favor, informe um endereço de email válido!',
+          ),
+        );
         Alert.alert('Por favor, informe um endereço de email válido!');
       }
     } else {
+      dispatch(
+        UserActions.updateUserInfoFailure(
+          'Por favor, preencha todos os campos do formulário!',
+        ),
+      );
       Alert.alert('Por favor, preencha todos os campos do formulário!');
     }
   };

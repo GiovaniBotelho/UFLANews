@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
-import {Image} from 'react-native';
+import {Image, ActivityIndicator} from 'react-native';
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
+import {useDispatch, useSelector} from 'react-redux';
 
 /* Images */
 import Logo from '../../../assets/logo.png';
@@ -22,9 +23,14 @@ const Edit = ({navigation, edit}) => {
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
 
+  const dispatch = useDispatch();
+  const {isLoading} = useSelector(({user}) => user);
+
   const handlerEdit = () => {
-    edit(name, email, password, passwordConfirm, () =>
-      navigation.replace('MyAccount'),
+    dispatch(
+      edit(name, email, password, passwordConfirm, () =>
+        navigation.replace('MyAccount'),
+      ),
     );
   };
 
@@ -59,6 +65,8 @@ const Edit = ({navigation, edit}) => {
               placeholder={'E-mail'}
               value={email}
               onChangeText={setEmail}
+              keyboardType={'email-address'}
+              autoCapitalize={'none'}
             />
             <TextInput
               iconName={'lock'}
@@ -80,7 +88,13 @@ const Edit = ({navigation, edit}) => {
             />
           </FormRow>
           <StyledButtonContainer>
-            <Button title={'SALVAR'} onClick={() => handlerEdit()} />
+            {isLoading ? (
+              <Loading>
+                <ActivityIndicator size="large" color={COLORS.blueButton} />
+              </Loading>
+            ) : (
+              <Button title={'SALVAR'} onClick={() => handlerEdit()} />
+            )}
           </StyledButtonContainer>
         </StyledView>
       </FormContainer>
@@ -127,6 +141,19 @@ const StyledTouchableOpacity = styled.TouchableOpacity`
   padding-right: ${SPACING.default};
   padding-top: ${SPACING.default};
   padding-bottom: ${SPACING.default};
+`;
+
+const Loading = styled.View`
+  height: 40;
+  width: ${props => (props.width ? props.width : '50%')};
+  align-items: center;
+  justify-content: center;
+  border-width: 0.5;
+  border-color: ${COLORS.transparent};
+  margin-top: ${SPACING.medium};
+  margin-bottom: ${SPACING.medium};
+  padding-top: ${SPACING.huge};
+  padding-bottom: ${SPACING.huge};
 `;
 
 export default Edit;

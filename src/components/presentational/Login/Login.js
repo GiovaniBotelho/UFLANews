@@ -3,7 +3,6 @@ import {Image, ActivityIndicator} from 'react-native';
 import styled from 'styled-components';
 import LinearGradient from 'react-native-linear-gradient';
 import {useDispatch, useSelector} from 'react-redux';
-import Lottie from 'lottie-react-native';
 
 /* Images */
 import Logo from '../../../assets/header-login.png';
@@ -17,7 +16,6 @@ import TouchableTextWithIcon from '../../core/TouchableTextWithIcon';
 /* Constants - import */
 import COLORS from '../../../config/colors';
 import SPACING from '../../../config/spacing';
-
 
 const Login = props => {
   const [email, setEmail] = useState('vsg@ufla.br');

@@ -2,7 +2,7 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styled from 'styled-components';
 
-const Button = ({
+const TextInput = ({
   iconName,
   iconSize,
   iconColor,
@@ -58,4 +58,4 @@ const StyledInputText = styled.TextInput`
   height: 50;
 `;
 
-export default Button;
+export default TextInput;

@@ -73,7 +73,7 @@ const updateUser = (state = INITIAL_STATE, action) => ({
 const updateUserSuccess = (state = INITIAL_STATE, action) => ({
   ...state,
   isLoading: false,
-  error: ''
+  error: '',
 });
 
 const updateUserFailure = (state = INITIAL_STATE, action) => ({
@@ -96,5 +96,5 @@ export default createReducer(INITIAL_STATE, {
 
   [Types.UPDATE_USER_INFO]: updateUser,
   [Types.UPDATE_USER_INFO_SUCCESS]: updateUserSuccess,
-  [Types.UPDATE_USER_INFO_FAILURE]: updateUserFailure,,
+  [Types.UPDATE_USER_INFO_FAILURE]: updateUserFailure,
 });
