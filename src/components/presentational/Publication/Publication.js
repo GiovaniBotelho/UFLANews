@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Image, Text, SectionList} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useSelector, useDispatch} from 'react-redux';
 import HTML from 'react-native-render-html';
@@ -20,7 +20,14 @@ import Logo from '../../../assets/logo.png';
 /* Utils - imports */
 import {beautifulDate, getUserId} from '../../../utils/help';
 
-const Publication = props => {
+const Publication = ({
+  getPublication,
+  likeNews,
+  unlikeNews,
+  favoriteNews,
+  unfavoriteNews,
+  navigation,
+}) => {
   const [idFavorite, setIdFavorite] = useState(-1);
   const [isFavorite, setFavorite] = useState(false);
 
@@ -31,15 +38,13 @@ const Publication = props => {
 
   const dispatch = useDispatch();
 
-  const publication = useSelector(({news}) => news.newsDetails);
+  const pub = navigation.getParam('newsId', undefined);  
+  const publication = useSelector(({news}) =>
+    news.news.find(p => p.id === pub),
+  );
   const isLoading = useSelector(({news}) => news.isLoading);
-
-  useEffect(() => {
-    const pub = props.navigation.getParam('newsId', undefined);
-    // setNewsId(pub);
-    dispatch(props.getPublication(pub));
-  }, []);
-
+  const user = useSelector(({user}) => user.user.userInfo);
+  
   useEffect(() => {
     // Setando as variaveis de favoritos
     const indexFavorite = publication?.favorites?.findIndex(
@@ -72,7 +77,7 @@ const Publication = props => {
   const handlerLike = () => {
     if (isLiked) {
       setLiked(false);
-      dispatch(unlikeNews(publication.likes[idLike]));
+      dispatch(unlikeNews(publication?.likes[idLike]));
     } else {
       dispatch(likeNews(publication.id, user.sub));
       setLiked(true);
@@ -85,12 +90,12 @@ const Publication = props => {
         title={'Publicação'}
         rightSide={
           <StyledTouchableOpacity
-            onPress={() => props.navigation.navigate('MyAccount')}>
+            onPress={() => navigation.navigate('MyAccount')}>
             <Icon name={'user'} size={25} />
           </StyledTouchableOpacity>
         }
         leftSide={
-          <StyledTouchableOpacity onPress={() => props.navigation.pop()}>
+          <StyledTouchableOpacity onPress={() => navigation.pop()}>
             <Icon name={'chevron-left'} size={25} />
           </StyledTouchableOpacity>
         }
@@ -130,23 +135,26 @@ const Publication = props => {
                 handlerFunction={() =>
                   navigation.navigate('Comments', {news: publication.id})
                 }
-                width="auto"
+                width="15%"
+                first
               />
               <Option
                 type="favorite"
                 favorite={isFavorite}
                 value={publication?.favorites?.length}
                 handlerFunction={handlerFavorites}
-                width="auto"
+                width="15%"
+                first
               />
               <Option
                 type="like"
                 liked={isLiked}
                 value={publication?.likes?.length}
                 handlerFunction={handlerLike}
-                width="auto"
+                width="15%"
+                first
               />
-              <Option type="share" first width="auto" />
+              <Option type="share" first width="15%" />
             </Options>
           </>
         )}
@@ -222,20 +230,10 @@ const PublicationTitleSection = styled.Text`
 
 const Options = styled.View`
   flex-direction: row;
+  flex: 1;
+  justify-content: flex-end;
+  padding-right: ${SPACING.medium};
 `;
-
-// const Option = styled.TouchableOpacity`
-//   width: auto;
-//   justify-content: space-between;
-//   align-items: center
-//   flex-direction: row;
-//   margin-right: ${SPACING.small};
-//   margin-left: ${SPACING.small};
-// `;
-
-// const NumberOption = styled.Text`
-//   padding-right: ${SPACING.small};
-// `;
 
 const StyledTouchableOpacity = styled.TouchableOpacity`
   border-radius: 80;

@@ -52,7 +52,7 @@ const PublicationCard = ({publicacao, navigation}) => {
     if (indexLike != -1) setLiked(true);
     else setLiked(false);
     setIdLike(indexLike);
-  }, []);
+  }, [publication]);
 
   const handlerFavorites = () => {
     if (isFavorite) {
@@ -97,7 +97,7 @@ const PublicationCard = ({publicacao, navigation}) => {
         </Info>
       </Capa>
       <Options>
-        <Option type="share" first/>
+        <Option type="share" first />
         <Option
           type="favorite"
           favorite={isFavorite}
@@ -110,7 +110,7 @@ const PublicationCard = ({publicacao, navigation}) => {
           handlerFunction={() =>
             navigation.navigate('Comments', {news: publication.id})
           }
-        />  
+        />
         <Option
           type="like"
           liked={isLiked}

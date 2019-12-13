@@ -46,8 +46,7 @@ const Comments = props => {
     <Container colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
       <Header
         leftSide={
-          <StyledTouchableOpacity
-            onPress={() => props.navigation.navigate('Home')}>
+          <StyledTouchableOpacity onPress={() => props.navigation.pop()}>
             <Icon name={'chevron-left'} size={25} />
           </StyledTouchableOpacity>
         }

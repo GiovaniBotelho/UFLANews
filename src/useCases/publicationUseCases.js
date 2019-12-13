@@ -172,7 +172,7 @@ export const unfavoriteNews = favorite => {
 
     await axios({
       method: 'DELETE',
-      url: `${CONSTANTS.HOST}/favorites/${favorite?.id}`,
+      url: `${CONSTANTS.HOST}/favorites/${favorite.id}`,
       headers: {
         Authorization: 'Bearer ' + token,
       },
@@ -215,7 +215,7 @@ export const getNewsDetails = newsId => {
 
     await axios({
       method: 'GET',
-      url: `${CONSTANTS.HOST}/news/${newsId}?_expand=publisher`,
+      url: `${CONSTANTS.HOST}/news/${newsId}?_expand=publisher&_embed=likes&_embed=comments&_embed=favorites`,
       headers: {
         Authorization: 'Bearer ' + token,
       },

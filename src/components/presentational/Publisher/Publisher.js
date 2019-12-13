@@ -30,7 +30,9 @@ const Publisher = ({
 
   const dispatch = useDispatch();
 
-  const {newsByPublisher} = useSelector(({publishers}) => publishers);
+  const {newsByPublisher, isLoading} = useSelector(
+    ({publishers}) => publishers,
+  );
   const {user} = useSelector(({user}) => user);
   const publisher = useSelector(({publishers}) =>
     publishers.publishers.find(p => p.id === publisherId),
@@ -76,7 +78,9 @@ const Publisher = ({
             {publisher.subscriptions?.length} inscritos
           </PublisherSubscribers>
           {newsByPublisher.isLoading ? (
-            <ActivityIndicator />
+            <Loading>
+              <ActivityIndicator size="large" color={COLORS.blueButton} />
+            </Loading>
           ) : (
             <Button
               title={idSub ? STRINGS.unsubscribe : STRINGS.subscribe}
@@ -92,6 +96,8 @@ const Publisher = ({
         renderItem={({item, index}) => (
           <PublicationCard publicacao={item} navigation={navigation} />
         )}
+        refreshing={isLoading}
+        onRefresh={() => dispatch(getNewsByPublisher(publisherId))}
         keyExtractor={_keyExtractor}
         ListFooterComponent={props => <FooterStyled />}
       />
@@ -150,6 +156,23 @@ margin-left: ${SPACING.medium}
 
 const FooterStyled = styled.View`
   padding-bottom: ${SPACING.medium};
+`;
+
+const Loading = styled.View`
+  height: 40;
+  width: ${props => (props.width ? props.width : '50%')};
+  align-items: center;
+  justify-content: center;
+  border-width: 0.5;
+  border-color: ${COLORS.white};
+  margin-top: ${SPACING.medium};
+  margin-bottom: ${SPACING.medium};
+  border-radius: ${props =>
+    props.borderRadius
+      ? props.borderRadius
+      : props.borderRadius === 0
+      ? 0
+      : SPACING.medium * 3};
 `;
 
 export default Publisher;

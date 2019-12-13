@@ -39,34 +39,35 @@ export const getPublishers = () => {
 };
 
 //mexer nessa função
-export const getPublishersSubscriptions = (callback = () => {}) => {
-  return async dispatch => {
-    const userId = await AsyncStorage.getItem('user_id', undefined);
+export const getPublishersSubscriptions = () => {
+  return (dispatch, getState) => {
+    dispatch(PublishersActions.getFavoritePublishers());
+    const {
+      user: {user},
+    } = getState();
 
-    var publishers = await getPublisherInfo();
+    const {
+      accessToken,
+      userInfo: {sub: userId},
+    } = user;
 
-    publishers = publishers.filter(
-      publisher =>
-        publisher.subscriptions.filter(
-          subscription => userId == subscription.userId,
-        ).length,
-    );
-
-    publishers.map((item, index) => {
-      item.userSubscribedId = null;
-      let sub = item.subscriptions.filter(
-        subscription => userId == subscription.userId,
-      );
-      if (sub.length) {
-        item.userSubscribedId = sub[0].id;
-      }
-    });
-
-    publishers.map((item, index) => {
-      item.subscriptions = item.subscriptions.length;
-    });
-    console.log(publishers);
-    callback(publishers);
+    axios({
+      method: 'GET',
+      url: `${CONSTANTS.HOST}/publishers?_embed=subscriptions&_embed=news`,
+      headers: {
+        Authorization: 'Bearer ' + accessToken,
+      },
+    })
+      .then(response => {
+        const publishers = response.data.filter(
+          publisher =>
+            publisher.subscriptions.findIndex(sub => sub.userId == userId) > -1,
+        );
+        dispatch(PublishersActions.getFavoritePublishersSuccess(publishers));
+      })
+      .catch(error => {
+        dispatch(PublishersActions.getFavoritePublishersFailure(error));
+      });
   };
 };
 

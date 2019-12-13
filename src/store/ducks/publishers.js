@@ -8,6 +8,10 @@ export const {Types, Creators} = createActions({
   getPublishersSuccess: ['publishers'],
   getPublishersFailure: ['error'],
 
+  getFavoritePublishers: [],
+  getFavoritePublishersSuccess: ['publishers'],
+  getFavoritePublishersFailure: ['error'],
+
   getNewsByPublisher: [],
   getNewsByPublisherSuccess: ['news'],
   getNewsByPublisherFailure: ['error'],
@@ -26,6 +30,7 @@ export const {Types, Creators} = createActions({
  */
 const INITIAL_STATE = {
   publishers: [],
+  favoritePublishers: [],
   isLoading: false,
   error: undefined,
   loadingSubscribe: false,
@@ -38,6 +43,7 @@ const INITIAL_STATE = {
 const getPublishers = (state = INITIAL_STATE, action) => ({
   ...state,
   isLoading: true,
+  publishers: [],
 });
 
 const getPublishersSuccess = (state = INITIAL_STATE, action) => ({
@@ -50,6 +56,26 @@ const getPublishersFailure = (state = INITIAL_STATE, action) => ({
   ...state,
   isLoading: false,
   error: action.error,
+  publishers: [],
+});
+
+const getFavoritePublishers = (state = INITIAL_STATE, action) => ({
+  ...state,
+  isLoading: true,
+  publishers: [],
+});
+
+const getFavoritePublishersSuccess = (state = INITIAL_STATE, action) => ({
+  ...state,
+  isLoading: false,
+  publishers: action.publishers,
+});
+
+const getFavoritePublishersFailure = (state = INITIAL_STATE, action) => ({
+  ...state,
+  isLoading: false,
+  error: action.error,
+  publishers: [],
 });
 
 const getNewsByPublisher = (state = INITIAL_STATE, action) => ({
@@ -162,6 +188,10 @@ export default createReducer(INITIAL_STATE, {
   [Types.GET_PUBLISHERS]: getPublishers,
   [Types.GET_PUBLISHERS_SUCCESS]: getPublishersSuccess,
   [Types.GET_PUBLISHERS_FAILURE]: getPublishersFailure,
+
+  [Types.GET_FAVORITE_PUBLISHERS]: getFavoritePublishers,
+  [Types.GET_FAVORITE_PUBLISHERS_SUCCESS]: getFavoritePublishersSuccess,
+  [Types.GET_FAVORITE_PUBLISHERS_FAILURE]: getFavoritePublishersFailure,
 
   [Types.GET_NEWS_BY_PUBLISHER]: getNewsByPublisher,
   [Types.GET_NEWS_BY_PUBLISHER_SUCCESS]: getNewsByPublisherSuccess,
