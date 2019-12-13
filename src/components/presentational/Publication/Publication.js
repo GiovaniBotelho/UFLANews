@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Image, Text, SectionList} from 'react-native';
+import {Image, Text, SectionList, YellowBox} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styled from 'styled-components/native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -28,6 +28,11 @@ const Publication = ({
   unfavoriteNews,
   navigation,
 }) => {
+  YellowBox.ignoreWarnings([
+    'Warning: componentWillReceiveProps is deprecated and will be removed in the next major version',
+    'Warning: componentWillMount is deprecated and will be removed in the next major version',
+  ]);
+
   const [idFavorite, setIdFavorite] = useState(-1);
   const [isFavorite, setFavorite] = useState(false);
 
@@ -38,13 +43,13 @@ const Publication = ({
 
   const dispatch = useDispatch();
 
-  const pub = navigation.getParam('newsId', undefined);  
+  const pub = navigation.getParam('newsId', undefined);
   const publication = useSelector(({news}) =>
     news.news.find(p => p.id === pub),
   );
   const isLoading = useSelector(({news}) => news.isLoading);
   const user = useSelector(({user}) => user.user.userInfo);
-  
+
   useEffect(() => {
     // Setando as variaveis de favoritos
     const indexFavorite = publication?.favorites?.findIndex(
