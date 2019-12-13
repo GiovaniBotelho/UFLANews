@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
-import {Image} from 'react-native';
+import {Image, ActivityIndicator} from 'react-native';
 import styled from 'styled-components';
 import LinearGradient from 'react-native-linear-gradient';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import Lottie from 'lottie-react-native';
 
 /* Images */
 import Logo from '../../../assets/header-login.png';
@@ -13,12 +14,18 @@ import Button from '../../core/Button';
 import TextInput from '../../core/TextInput';
 import TouchableTextWithIcon from '../../core/TouchableTextWithIcon';
 
+/* Constants - import */
+import COLORS from '../../../config/colors';
+import SPACING from '../../../config/spacing';
+
+
 const Login = props => {
   const [email, setEmail] = useState('vsg@ufla.br');
   const [password, setPassword] = useState('1234');
   const [loading, setLoading] = useState(true);
 
   const dispatch = useDispatch();
+  const {isLoading} = useSelector(({user}) => user);
 
   handleLogin = () => {
     const {signIn} = props;
@@ -71,12 +78,18 @@ const Login = props => {
           />
         </FormRow>
         <StyledButtonContainer>
-          <Button
-            title={'ENTRAR'}
-            onClick={() => {
-              handleLogin();
-            }}
-          />
+          {isLoading ? (
+            <Loading>
+              <ActivityIndicator size="large" color={COLORS.blueButton} />
+            </Loading>
+          ) : (
+            <Button
+              title={'ENTRAR'}
+              onClick={() => {
+                handleLogin();
+              }}
+            />
+          )}
           <Button
             title={'CADASTRAR'}
             onClick={() => {
@@ -110,6 +123,19 @@ const StyledButtonContainer = styled.View`
   align-items: center;
   justify-content: space-around;
   height: 100;
+`;
+
+const Loading = styled.View`
+  height: 40;
+  width: ${props => (props.width ? props.width : '50%')};
+  align-items: center;
+  justify-content: center;
+  border-width: 0.5;
+  border-color: ${COLORS.transparent};
+  margin-top: ${SPACING.medium};
+  margin-bottom: ${SPACING.medium};
+  padding-top: ${SPACING.huge};
+  padding-bottom: ${SPACING.huge};
 `;
 
 export default Login;

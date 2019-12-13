@@ -42,17 +42,6 @@ const CommentCard = ({deleteComment, comment, setComments}) => {
       </UserComment>
       <Infos>
         <TextTime>{beautifulDate(comment.date)}</TextTime>
-        <LikeAll>
-          <TextLike>{comment.newsId}</TextLike>
-          <Like>
-            <Icon
-              name="thumbs-o-up"
-              size={30}
-              color={'#000000'}
-              type="regular"
-            />
-          </Like>
-        </LikeAll>
       </Infos>
     </Container>
   );
@@ -117,11 +106,8 @@ const Infos = styled.View`
 `;
 
 const StyledTouchableArea = styled.TouchableOpacity`
-  border-radius: 50;
   padding-left: ${SPACING.default};
   padding-right: ${SPACING.default};
-  padding-top: ${SPACING.default};
-  padding-bottom: ${SPACING.default};
 `;
 
 export default CommentCard;

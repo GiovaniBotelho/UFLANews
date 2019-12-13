@@ -3,6 +3,10 @@ import {FlatList} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
 import styled from 'styled-components';
+import {useDispatch, useSelector} from 'react-redux';
+
+/* Utils - import */
+import {removeAccents} from '../../../utils/help';
 
 /* Core - imports */
 import Header from '../../core/Header';
@@ -13,14 +17,26 @@ import PublisherCard from '../../core/PublisherCard';
 import COLORS from '../../../config/colors';
 import SPACING from '../../../config/spacing';
 
-
 const _keyExtractor = publisher => publisher.id.toString();
 
 const Publisher = ({navigation, getPublishers}) => {
-  const [publishers, setPublishers] = useState([]);
+  const [textSearch, setTextSearch] = useState('');
+  const dispatch = useDispatch();
+  const {publishers, isLoading} = useSelector(({publishers}) => publishers);
+
   useEffect(() => {
-    getPublishers(setPublishers);
+    dispatch(getPublishers());
   }, []);
+
+  const handleSearch = () => {
+    return removeAccents(textSearch.toUpperCase())
+      .split(' ')
+      .reduce((acc, keyWord) => {
+        return acc.filter(pub =>
+          removeAccents(pub.nome.toUpperCase()).includes(keyWord),
+        );
+      }, publishers);
+  };
 
   return (
     <Container colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
@@ -38,13 +54,15 @@ const Publisher = ({navigation, getPublishers}) => {
           </StyledTouchableOpacity>
         }
       />
-      <SearchBar />
+      <SearchBar value={textSearch} setTextSearch={setTextSearch} />
       <FlatList
         style={{marginTop: SPACING.medium}}
-        data={publishers}
+        data={handleSearch()}
         renderItem={({item, index}) => (
           <PublisherCard publisher={item} navigation={navigation} />
         )}
+        refreshing={isLoading}
+        onRefresh={() => dispatch(getPublishers())}
         keyExtractor={_keyExtractor}
         ListFooterComponent={props => <FooterStyled />}
       />

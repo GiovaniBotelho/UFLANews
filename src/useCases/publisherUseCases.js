@@ -5,64 +5,73 @@ import AsyncStorage from '@react-native-community/async-storage';
 import CONSTANTS from '../config/constants';
 import STRINGS from '../config/strings';
 import COLORS from '../config/colors';
+import {dispatch} from 'rxjs/internal/observable/range';
 
-export const getPublishers = async (callback = () => { }) => {
-  const token = await AsyncStorage.getItem('accessToken', undefined);
-  const userId = await AsyncStorage.getItem('userId', undefined);
+/* Actions */
+import {Creators as PublishersActions} from '../store/ducks/publishers';
 
-  await axios({
-    method: 'GET',
-    url: `${CONSTANTS.HOST}/publishers?_embed=subscriptions&_embed=news`,
-    headers: {
-      Authorization: 'Bearer ' + token,
-    },
-  })
-    .then(response => {
+export const getPublishers = () => {
+  return (dispatch, getState) => {
+    dispatch(PublishersActions.getPublishers());
+    const {
+      user: {user},
+    } = getState();
 
-      response.data.map((item, index) => {
-        item.userSubscribedId = null;
-        let sub = item.subscriptions.filter(subscription => userId == subscription.userId);
-        if (sub.length) {
-          item.userSubscribedId = sub[0].id;
-        }
-      });
+    const {
+      accessToken,
+      userInfo: {sub: userId},
+    } = user;
 
-      response.data.map((item, index) => {
-        item.subscriptions = item.subscriptions.length;
-      });
-
-      callback(response.data);
+    axios({
+      method: 'GET',
+      url: `${CONSTANTS.HOST}/publishers?_embed=subscriptions&_embed=news`,
+      headers: {
+        Authorization: 'Bearer ' + accessToken,
+      },
     })
-    .catch(error => {
-      console.log(error);
-    });
+      .then(response => {
+        dispatch(PublishersActions.getPublishersSuccess(response.data));
+      })
+      .catch(error => {
+        dispatch(PublishersActions.getPublishersFailure(error));
+      });
+  };
 };
 
-export const getPublishersSubscriptions = async (callback = () => { }) => {
-  const userId = await AsyncStorage.getItem('user_id', undefined);
+//mexer nessa função
+export const getPublishersSubscriptions = () => {
+  return (dispatch, getState) => {
+    dispatch(PublishersActions.getFavoritePublishers());
+    const {
+      user: {user},
+    } = getState();
 
-  var publishers = await getPublisherInfo();
+    const {
+      accessToken,
+      userInfo: {sub: userId},
+    } = user;
 
-  publishers = publishers.filter(
-    publisher => publisher.subscriptions.filter(
-      subscription => userId == subscription.userId).length
-  );
-
-  publishers.map((item, index) => {
-    item.userSubscribedId = null;
-    let sub = item.subscriptions.filter(subscription => userId == subscription.userId);
-    if (sub.length) {
-      item.userSubscribedId = sub[0].id;
-    }
-  });
-
-  publishers.map((item, index) => {
-    item.subscriptions = item.subscriptions.length;
-  });
-
-  callback(publishers);
+    axios({
+      method: 'GET',
+      url: `${CONSTANTS.HOST}/publishers?_embed=subscriptions&_embed=news`,
+      headers: {
+        Authorization: 'Bearer ' + accessToken,
+      },
+    })
+      .then(response => {
+        const publishers = response.data.filter(
+          publisher =>
+            publisher.subscriptions.findIndex(sub => sub.userId == userId) > -1,
+        );
+        dispatch(PublishersActions.getFavoritePublishersSuccess(publishers));
+      })
+      .catch(error => {
+        dispatch(PublishersActions.getFavoritePublishersFailure(error));
+      });
+  };
 };
 
+//acho que vai precisar excluir essa
 async function getPublisherInfo() {
   const token = await AsyncStorage.getItem('accessToken', undefined);
   publishers = null;
@@ -80,68 +89,90 @@ async function getPublisherInfo() {
       console.log(error);
     });
   return publishers;
-};
+}
 
-export const subscribePublisher = async (
-  publisherId,
-  setIdSubscription = () => { },
-  setButtonText = () => { },
-  setButtonColor = () => { },
-  setSubscribers = () => { },
-  subscribers
-) => {
-  const token = await AsyncStorage.getItem('accessToken', undefined);
-  const userId = await AsyncStorage.getItem('userId', undefined);
+export const subscribePublisher = (publisherId, userId) => {
+  return (dispatch, getState) => {
+    dispatch(PublishersActions.subscribePublisher());
+    const {
+      user: {user},
+    } = getState();
 
-  const data = {
-    publisherId: publisherId,
-    userId: userId,
+    const {accessToken} = user;
+
+    axios({
+      method: 'POST',
+      url: `${CONSTANTS.HOST}/subscriptions`,
+      headers: {
+        Authorization: 'Bearer ' + accessToken,
+      },
+      data: {
+        publisherId,
+        userId,
+      },
+    })
+      .then(response => {
+        dispatch(PublishersActions.subscribePublisherSuccess(response.data));
+      })
+      .catch(error => {
+        dispatch(PublishersActions.subscribePublisherFailure(error));
+      });
   };
-
-  await axios({
-    method: 'POST',
-    url: `${CONSTANTS.HOST}/subscriptions`,
-    headers: {
-      Authorization: 'Bearer ' + token,
-    },
-    data: data,
-  })
-    .then(response => {
-      setIdSubscription(response.data.id);
-      setButtonText(STRINGS.UNSUBSCRIBE);
-      setButtonColor(COLORS.red);
-      setSubscribers(subscribers + 1);
-    })
-    .catch(error => {
-      console.log(error);
-      console.log(error.response.data);
-    });
 };
 
-export const unsubscribePublisher = async (
-  idSubscription,
-  setIdSubscription = () => { },
-  setButtonText = () => { },
-  setButtonColor = () => { },
-  setSubscribers = () => { },
-  subscribers
-) => {
-  const token = await AsyncStorage.getItem('accessToken', undefined);
+export const unsubscribePublisher = (idSubscription, publisherId) => {
+  return (dispatch, getState) => {
+    dispatch(PublishersActions.unsubscribePublisher());
+    const {
+      user: {user},
+    } = getState();
 
-  await axios({
-    method: 'DELETE',
-    url: `${CONSTANTS.HOST}/subscriptions/${idSubscription}`,
-    headers: {
-      Authorization: 'Bearer ' + token,
-    },
-  })
-    .then(response => {
-      setIdSubscription(null);
-      setButtonText(STRINGS.SUBSCRIBE);
-      setButtonColor(undefined);
-      setSubscribers(subscribers - 1);
+    const {accessToken} = user;
+
+    axios({
+      method: 'DELETE',
+      url: `${CONSTANTS.HOST}/subscriptions/${idSubscription}`,
+      headers: {
+        Authorization: 'Bearer ' + accessToken,
+      },
     })
-    .catch(error => {
-      console.log(error);
-    });
+      .then(response => {
+        console.log(response);
+        dispatch(
+          PublishersActions.unsubscribePublisherSuccess({
+            publisherId,
+            subscriptionId: idSubscription,
+          }),
+        );
+      })
+      .catch(error => {
+        dispatch(PublishersActions.unsubscribePublisherFailure(error));
+      });
+  };
+};
+
+export const getNewsByPublisher = (publisher, callback = () => {}) => {
+  return (dispatch, getState) => {
+    dispatch(PublishersActions.getNewsByPublisher());
+    const {
+      user: {user},
+    } = getState();
+
+    const {accessToken} = user;
+
+    axios({
+      method: 'GET',
+      url: `${CONSTANTS.HOST}/news?publisherId=${publisher}&_embed=likes&_embed=comments&_embed=favorites`,
+      headers: {
+        Authorization: 'Bearer ' + accessToken,
+      },
+    })
+      .then(response => {
+        callback(response.data);
+        dispatch(PublishersActions.getNewsByPublisherSuccess(response.data));
+      })
+      .catch(error => {
+        dispatch(PublishersActions.getNewsByPublisherFailure(error));
+      });
+  };
 };

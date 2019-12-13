@@ -7,7 +7,8 @@ const COLORS = {
   blueButton: '#1abef2',
   favorite: '#ffd700',
   like: '#4c4cff',
-  none: '#000'
+  none: '#000',
+  transparent: 'transparent',
 };
 
 export default COLORS;

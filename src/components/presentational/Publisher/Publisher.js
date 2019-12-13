@@ -3,7 +3,7 @@ import {ActivityIndicator, FlatList, Image} from 'react-native';
 import styled from 'styled-components/native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {subscribePublisher, unsubscribePublisher} from '../../../useCases/publisherUseCases';
+import {useDispatch, useSelector} from 'react-redux';
 
 /* Core - imports */
 import Header from '../../core/Header';
@@ -20,27 +20,38 @@ import Logo from '../../../assets/logo.png';
 
 const _keyExtractor = publicacao => publicacao.id.toString();
 
-const Publisher = ({navigation, getNewsByPublisher}) => {
-  const [idSubscription, setIdSubscription] = useState(null);
-  const [subscribers, setSubscribers] = useState(null);
-  const [buttonText, setButtonText] = useState(STRINGS.SUBSCRIBE);
-  const [buttonColor, setButtonColor] = useState(undefined);
+const Publisher = ({
+  navigation,
+  getNewsByPublisher,
+  subscribe,
+  unsubscribe,
+}) => {
+  const publisherId = navigation.getParam('publisherId', undefined);
 
-  const [loading, setLoading] = useState(false);
-  const [news, setNews] = useState([]);
-  const publisher = navigation.getParam('publisher', undefined);
+  const dispatch = useDispatch();
+
+  const {newsByPublisher, isLoading} = useSelector(
+    ({publishers}) => publishers,
+  );
+  const {user} = useSelector(({user}) => user);
+  const publisher = useSelector(({publishers}) =>
+    publishers.publishers.find(p => p.id === publisherId),
+  );
+  const idSub = publisher?.subscriptions.find(sub => sub.userId == user.id);
 
   useEffect(() => {
-    getNewsByPublisher(publisher.id, setNews);
-    setSubscribers(publisher?.subscriptions);
-
-    if (publisher?.userSubscribedId) {
-      setIdSubscription(publisher?.userSubscribedId);
-      setButtonText(STRINGS.UNSUBSCRIBE);
-      setButtonColor(COLORS.red);
-    }
-
+    dispatch(getNewsByPublisher(publisherId));
   }, []);
+
+  const handleSubscribe = () => {
+    if (idSub) {
+      //significa que o usuario está inscrito
+      dispatch(unsubscribe(idSub.id, publisher?.id));
+    } else {
+      // usuario não inscrito
+      dispatch(subscribe(publisher?.id, user?.id));
+    }
+  };
 
   return (
     <Container colors={[COLORS.gradientTop, COLORS.gradientBottom]}>
@@ -64,29 +75,29 @@ const Publisher = ({navigation, getNewsByPublisher}) => {
         <PublisherName>{publisher?.nome}</PublisherName>
         <FooterInfo>
           <PublisherSubscribers>
-            {subscribers} inscritos
+            {publisher.subscriptions?.length} inscritos
           </PublisherSubscribers>
-          {loading ? (
-            <ActivityIndicator />
+          {newsByPublisher.isLoading ? (
+            <Loading>
+              <ActivityIndicator size="large" color={COLORS.blueButton} />
+            </Loading>
           ) : (
             <Button
-              title={buttonText}
-              color={buttonColor}
-              onClick={() => {
-                idSubscription
-                  ? unsubscribePublisher(idSubscription, setIdSubscription, setButtonText, setButtonColor, setSubscribers, subscribers)
-                  : subscribePublisher(publisher.id, setIdSubscription, setButtonText, setButtonColor, setSubscribers, subscribers)
-              }}
+              title={idSub ? STRINGS.unsubscribe : STRINGS.subscribe}
+              color={idSub ? COLORS.red : undefined}
+              onClick={handleSubscribe}
             />
           )}
         </FooterInfo>
       </Info>
       <Label>Publicações</Label>
       <FlatList
-        data={news}
+        data={newsByPublisher.news}
         renderItem={({item, index}) => (
           <PublicationCard publicacao={item} navigation={navigation} />
         )}
+        refreshing={isLoading}
+        onRefresh={() => dispatch(getNewsByPublisher(publisherId))}
         keyExtractor={_keyExtractor}
         ListFooterComponent={props => <FooterStyled />}
       />
@@ -145,6 +156,23 @@ margin-left: ${SPACING.medium}
 
 const FooterStyled = styled.View`
   padding-bottom: ${SPACING.medium};
+`;
+
+const Loading = styled.View`
+  height: 40;
+  width: ${props => (props.width ? props.width : '50%')};
+  align-items: center;
+  justify-content: center;
+  border-width: 0.5;
+  border-color: ${COLORS.white};
+  margin-top: ${SPACING.medium};
+  margin-bottom: ${SPACING.medium};
+  border-radius: ${props =>
+    props.borderRadius
+      ? props.borderRadius
+      : props.borderRadius === 0
+      ? 0
+      : SPACING.medium * 3};
 `;
 
 export default Publisher;
