@@ -11,6 +11,10 @@ export const {Types, Creators} = createActions({
   getInfo: [],
   getInfoSuccess: ['user'],
   getInfoFailure: ['error'],
+
+  updateUserInfo: [],
+  updateUserInfoSuccess: [],
+  updateUserInfoFailure: ['error'],
 });
 
 /**
@@ -61,6 +65,23 @@ const userGetInfoFailure = (state = INITIAL_STATE, action) => ({
   error: action.error,
 });
 
+const updateUser = (state = INITIAL_STATE, action) => ({
+  ...state,
+  isLoading: true,
+});
+
+const updateUserSuccess = (state = INITIAL_STATE, action) => ({
+  ...state,
+  isLoading: false,
+  error: ''
+});
+
+const updateUserFailure = (state = INITIAL_STATE, action) => ({
+  ...state,
+  isLoading: false,
+  error: action.error,
+});
+
 /**
  * Criando o nosso proprio reducer
  */
@@ -72,4 +93,8 @@ export default createReducer(INITIAL_STATE, {
   [Types.GET_INFO]: userGetInfo,
   [Types.GET_INFO_SUCCESS]: userGetInfoSuccess,
   [Types.GET_INFO_FAILURE]: userGetInfoFailure,
+
+  [Types.UPDATE_USER_INFO]: updateUser,
+  [Types.UPDATE_USER_INFO_SUCCESS]: updateUserSuccess,
+  [Types.UPDATE_USER_INFO_FAILURE]: updateUserFailure,,
 });

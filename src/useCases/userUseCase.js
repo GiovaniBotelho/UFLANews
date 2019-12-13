@@ -51,58 +51,72 @@ export const signIn = (email, password, callback = () => {}) => {
   };
 };
 
-export const edit = async (
+export const edit = (
   name,
   email,
   password,
   passwordConfirm,
   callback = () => {},
 ) => {
-  const token = await AsyncStorage.getItem('accessToken', undefined);
-  const userId = await AsyncStorage.getItem('userId', undefined);
-  const hash = bcrypt.hashSync(password, 10);
+  return (dispatch, getState) => {
+    dispatch(UserActions.updateUserInfo());
+    const {
+      user: {user},
+    } = getState();
 
-  console.log(password);
+    const {
+      accessToken,
+      userInfo: {sub: userId},
+    } = user;
 
-  if (name && email && password && passwordConfirm) {
-    let reg = /^[a-zA-Z0-9_.]+@[a-zA-Z0-9]+\.[a-zA-Z0-9.]+$/;
-    if (reg.test(email) === true) {
-      if (password == passwordConfirm) {
-        dataFormRegister = {
-          email: email,
-          password: hash,
-          name: name,
-        };
+    const hash = bcrypt.hashSync(password, 10);
+    console.log(password);
 
-        await axios({
-          method: 'PATCH',
-          url: `${CONSTANTS.HOST}/users/${userId}`,
-          data: dataFormRegister,
-          headers: {
-            Authorization: 'Bearer ' + token,
-          },
-        })
-          .then(response => {
-            callback();
+    if (name && email && password && passwordConfirm) {
+      let reg = /^[a-zA-Z0-9_.]+@[a-zA-Z0-9]+\.[a-zA-Z0-9.]+$/;
+      if (reg.test(email) === true) {
+        if (password == passwordConfirm) {
+          dataFormRegister = {
+            email: email,
+            password: hash,
+            name: name,
+          };
+
+          axios({
+            method: 'PATCH',
+            url: `${CONSTANTS.HOST}/users/${userId}`,
+            data: dataFormRegister,
+            headers: {
+              Authorization: 'Bearer ' + token,
+            },
           })
-          .catch(error => {
-            if (error.response.data == 'Email already exists') {
-              Alert.alert('Já existe um registro com esse endereço de email!');
-            } else if (error.response.data == 'Password is too short') {
-              Alert.alert('Entre com uma senha com no mínimo 4 caracteres.');
-            } else {
-              console.log(error.response.data);
-            }
-          });
+            .then(response => {
+              console.log(response);
+              dispatch(UserAction.updateUserInfoSuccess());
+              callback();
+            })
+            .catch(error => {
+              dispatch(UserAction.updateUserInfoSuccess(error));
+              if (error.response.data == 'Email already exists') {
+                Alert.alert(
+                  'Já existe um registro com esse endereço de email!',
+                );
+              } else if (error.response.data == 'Password is too short') {
+                Alert.alert('Entre com uma senha com no mínimo 4 caracteres.');
+              } else {
+                console.log(error.response.data);
+              }
+            });
+        } else {
+          Alert.alert('As senhas informadas não conferem!');
+        }
       } else {
-        Alert.alert('As senhas informadas não conferem!');
+        Alert.alert('Por favor, informe um endereço de email válido!');
       }
     } else {
-      Alert.alert('Por favor, informe um endereço de email válido!');
+      Alert.alert('Por favor, preencha todos os campos do formulário!');
     }
-  } else {
-    Alert.alert('Por favor, preencha todos os campos do formulário!');
-  }
+  };
 };
 
 export const register = (
